@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LaptopRisk.ai - Forensic Risk Database</title>
+    <title>LaptopDetective - Forensic Risk Database</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -15,14 +15,13 @@
         .highlight-column { transform: scale(1.03) translateY(-10px); z-index: 20; border-width: 4px !important; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
         .fade-in { animation: fadeIn 0.5s ease-in; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        /* 风险条动画 */
         .risk-bar { transition: width 1s ease-out; }
     </style>
 </head>
 <body class="p-4 md:p-8 text-gray-800">
 
     <div class="max-w-4xl mx-auto mb-10 text-center">
-        <h1 class="text-3xl font-black mb-2 text-gray-900"><i class="fa-solid fa-magnifying-glass-chart text-red-600 mr-2"></i>Laptop Risk Forensics</h1>
+        <h1 class="text-3xl font-black mb-2 text-gray-900"><i class="fa-solid fa-magnifying-glass-chart text-red-600 mr-2"></i>LaptopDetective</h1>
         <p class="text-gray-500 mb-6">Don't buy until you check the "Deal-Breakers".</p>
         
         <div class="bg-white p-4 rounded-2xl shadow-lg border border-gray-200 text-left">
@@ -31,8 +30,13 @@
                 <option value="dell-xps-13-plus">Dell XPS 13 Plus (9320)</option>
                 <option value="lenovo-legion-5">Lenovo Legion 5 (Gen 8)</option>
                 <option value="razer-blade-15">Razer Blade 15 (2024)</option>
-                <option value="hp-spectre-x360">HP Spectre x360</option>
+                <option value="hp-spectre-x360">HP Spectre x360 (14-inch)</option>
                 <option value="asus-tuf-a15">ASUS TUF Gaming A15</option>
+                <option value="msi-katana-gf63">MSI Katana / GF63</option>
+                <option value="surface-laptop-5">Microsoft Surface Laptop 5</option>
+                <option value="acer-swift-go-14">Acer Swift Go 14</option>
+                <option value="samsung-galaxy-book3">Samsung Galaxy Book 3</option>
+                <option value="macbook-pro-13-m2">MacBook Pro 13 (M2 Old Chassis)</option>
             </select>
         </div>
         
@@ -45,92 +49,222 @@
         </div>
 
     <div id="antidote-modal" class="fixed inset-0 bg-black bg-opacity-80 hidden flex items-center justify-center z-50 p-4 backdrop-blur-sm">
-        <div class="bg-white rounded-2xl max-w-lg w-full p-6 text-center relative shadow-2xl transform transition-all scale-100">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 text-center relative shadow-2xl">
             <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600"><i class="fa-solid fa-xmark fa-xl"></i></button>
             <div class="bg-red-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-red-100">
                 <i class="fa-solid fa-shield-virus text-3xl text-red-500"></i>
             </div>
             <h2 class="text-2xl font-bold text-gray-900 mb-2">Wait! Risk Mitigation Required</h2>
             <p id="modal-text" class="text-gray-600 mb-6 text-sm"></p>
-            
             <div id="antidote-list" class="space-y-3 text-left"></div>
-            
             <button class="w-full mt-6 py-4 bg-yellow-400 text-black font-black rounded-xl hover:bg-yellow-500 shadow-md text-lg transition-colors uppercase tracking-wide">
                 View Solutions on Amazon <i class="fa-solid fa-arrow-up-right-from-square ml-2"></i>
             </button>
-            <p class="text-xs text-gray-400 mt-3">We may earn a commission if you buy through our links.</p>
+            <p class="text-xs text-gray-400 mt-3">Commission may be earned via links.</p>
         </div>
     </div>
 
     <script>
-        // 数据库：为了演示 v4.0 特性，我完善了前 3 款的数据结构
-        // 你需要按照这个格式，把剩下的 7 款填进去
+        // 10款完整机型数据 (使用占位图确保显示)
         const laptopData = {
             "dell-xps-13-plus": {
-                name: "Dell XPS 13 Plus", price: "$1,399", img: "https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/xps-notebooks/xps-13-plus-9320/media-gallery/notebook-xps-13-plus-9320-nt-bk-gallery-3.psd?fmt=png-alpha&pscan=auto&hei=400&wid=400&qlt=100,1",
-                riskScore: 84, reviewCount: "1,240+", // 新增：风险分 + 评论数
+                name: "Dell XPS 13 Plus", price: "$1,399", 
+                img: "https://placehold.co/400x300/e2e8f0/1e293b?text=Dell+XPS+13+Plus",
+                riskScore: 84, reviewCount: "1,240+",
                 db1: "Invisible Touch Bar", p1: "No haptic feedback. Can't find 'Esc' by touch. Freezes constantly.", 
                 db2: "Battery Anxiety", p2: "Lasts only 5 hours. You will be hugged to the wall outlet.", 
-                // 新增：底部参数对比
-                specWeight: "1.27 kg", specBat: "5-6 Hrs", specScreen: "OLED (PWM Flicker)",
+                specWeight: "1.27 kg", specBat: "5-6 Hrs", specScreen: "OLED (PWM)",
                 
-                solver: "MacBook Air M2", sPrice: "$1,099", sImg: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/macbook-air-midnight-select-20220606?wid=400&hei=400&fmt=jpeg&qlt=90&.v=1653084303665",
-                s1: "Physical Keys", s2: "15h+ Battery",
-                sWeight: "1.24 kg", sBat: "15-18 Hrs", sScreen: "Liquid Retina", // 竞品参数
+                solver: "MacBook Air M2", sPrice: "$1,099", 
+                sImg: "https://placehold.co/400x300/dcfce7/166534?text=MacBook+Air+M2",
+                s1: "Physical Keys", s2: "15h+ Battery", sWeight: "1.24 kg", sBat: "15-18 Hrs", sScreen: "Liquid Retina",
 
-                value: "Dell XPS 13 (9315)", vPrice: "$999", vImg: "https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/xps-notebooks/xps-13-9315/media-gallery/notebook-xps-13-9315-nt-blue-gallery-1.psd?fmt=png-alpha&pscan=auto&hei=400&wid=400&qlt=100,1",
-                vReason: "Real keys, saves $400.",
-                vWeight: "1.17 kg", vBat: "8-9 Hrs", vScreen: "IPS (No PWM)", // 性价比参数
+                value: "Dell XPS 13 (9315)", vPrice: "$999", 
+                vImg: "https://placehold.co/400x300/fef3c7/92400e?text=Dell+XPS+9315",
+                vReason: "Real keys, saves $400.", vWeight: "1.17 kg", vBat: "8-9 Hrs", vScreen: "IPS (No PWM)",
 
                 a1: "Logitech MX Keys Mini", a1Desc: "Bypass the touch bar",
                 a2: "Anker 737 Power Bank", a2Desc: "Fixes battery anxiety"
             },
             "lenovo-legion-5": {
-                name: "Lenovo Legion 5", price: "$1,199", img: "https://p2-ofp.static.pub/fes/cms/2023/02/10/i6700548170258286938.png",
+                name: "Lenovo Legion 5", price: "$1,199", 
+                img: "https://placehold.co/400x300/e2e8f0/1e293b?text=Legion+5",
                 riskScore: 78, reviewCount: "3,500+",
                 db1: "WiFi Card Lottery", p1: "Cheap Realtek card causes massive lag spikes in gaming.", 
                 db2: "The 300W Brick", p2: "Charger weighs 1kg. Impossible to carry to class.", 
-                specWeight: "2.4 kg (+1kg Brick)", specBat: "3-4 Hrs", specScreen: "IPS 165Hz",
+                specWeight: "2.4 kg (+1kg)", specBat: "3-4 Hrs", specScreen: "IPS 165Hz",
 
-                solver: "ASUS Zephyrus G14", sPrice: "$1,399", sImg: "https://dlcdnwebimgs.asus.com/gain/49d47938-04d3-45aa-95c5-2b083b06385d/w800",
-                s1: "Intel WiFi 6E", s2: "Super Portable",
-                sWeight: "1.65 kg", sBat: "8-9 Hrs", sScreen: "Mini-LED",
+                solver: "ASUS Zephyrus G14", sPrice: "$1,399", 
+                sImg: "https://placehold.co/400x300/dcfce7/166534?text=Zephyrus+G14",
+                s1: "Intel WiFi 6E", s2: "Super Portable", sWeight: "1.65 kg", sBat: "8-9 Hrs", sScreen: "Mini-LED",
 
-                value: "Legion 5 (Gen 7)", vPrice: "$899", vImg: "https://p2-ofp.static.pub/fes/cms/2023/02/10/i6700548170258286938.png",
-                vReason: "Same GPU performance.",
-                vWeight: "2.4 kg", vBat: "3-4 Hrs", vScreen: "IPS 144Hz",
+                value: "Legion 5 (Gen 7)", vPrice: "$899", 
+                vImg: "https://placehold.co/400x300/fef3c7/92400e?text=Legion+5+(Old)",
+                vReason: "Same GPU performance.", vWeight: "2.4 kg", vBat: "3-4 Hrs", vScreen: "IPS 144Hz",
 
                 a1: "Intel AX210 WiFi Card", a1Desc: "Fixes lag spikes ($25)",
                 a2: "Slim GaN Charger", a2Desc: "Cut weight by 60%"
             },
             "razer-blade-15": {
-                name: "Razer Blade 15", price: "$2,499", img: "https://assets3.razerzone.com/1B9E77F7-4147-4979-992F-1C82404D5F8C/razer-blade-15-2022-base-fhd-144hz-rtx3060-black-hero.png",
+                name: "Razer Blade 15", price: "$2,499", 
+                img: "https://placehold.co/400x300/e2e8f0/1e293b?text=Razer+Blade+15",
                 riskScore: 92, reviewCount: "850+ (r/Razer)",
                 db1: "Spicy Pillow (Bloat)", p1: "Heat cooks the battery. Swells and bends trackpad.", 
                 db2: "Surface Lava", p2: "Chassis hits 55°C. Too hot to touch while gaming.", 
                 specWeight: "2.01 kg", specBat: "2-3 Hrs", specScreen: "QHD 240Hz",
 
-                solver: "ASUS Zephyrus G16", sPrice: "$2,299", sImg: "https://dlcdnwebimgs.asus.com/gain/49d47938-04d3-45aa-95c5-2b083b06385d/w800",
-                s1: "Cooler Thermals", s2: "Battery Care",
-                sWeight: "1.85 kg", sBat: "6-7 Hrs", sScreen: "Nebula HDR",
+                solver: "ASUS Zephyrus G16", sPrice: "$2,299", 
+                sImg: "https://placehold.co/400x300/dcfce7/166534?text=Zephyrus+G16",
+                s1: "Cooler Thermals", s2: "Battery Care", sWeight: "1.85 kg", sBat: "6-7 Hrs", sScreen: "Nebula HDR",
 
-                value: "Razer Blade 14 (AMD)", vPrice: "$1,899", vImg: "https://assets3.razerzone.com/1B9E77F7-4147-4979-992F-1C82404D5F8C/razer-blade-15-2022-base-fhd-144hz-rtx3060-black-hero.png",
-                vReason: "AMD runs much cooler.",
-                vWeight: "1.78 kg", vBat: "8-9 Hrs", vScreen: "QHD 165Hz",
+                value: "Razer Blade 14 (AMD)", vPrice: "$1,899", 
+                vImg: "https://placehold.co/400x300/fef3c7/92400e?text=Razer+Blade+14",
+                vReason: "AMD runs much cooler.", vWeight: "1.78 kg", vBat: "8-9 Hrs", vScreen: "QHD 165Hz",
 
                 a1: "IETS GT500 Cooler", a1Desc: "Force air into chassis",
                 a2: "Razer Huntsman Mini", a2Desc: "Don't touch the hot laptop"
+            },
+            "hp-spectre-x360": {
+                name: "HP Spectre x360", price: "$1,599",
+                img: "https://placehold.co/400x300/e2e8f0/1e293b?text=HP+Spectre",
+                riskScore: 65, reviewCount: "420+",
+                db1: "Hinge-Gate Anxiety", p1: "Fragile convertible hinges often misalign after 12 months.",
+                db2: "Bloatware City", p2: "15+ pre-installed apps draining your battery.",
+                specWeight: "1.36 kg", specBat: "7-8 Hrs", specScreen: "OLED Touch",
+
+                solver: "Dell XPS 13 Plus", sPrice: "$1,399",
+                sImg: "https://placehold.co/400x300/dcfce7/166534?text=Dell+XPS+Plus",
+                s1: "Solid Hinge", s2: "Cleaner OS", sWeight: "1.23 kg", sBat: "6-7 Hrs", sScreen: "OLED",
+
+                value: "Lenovo Yoga 9i", vPrice: "$1,299",
+                vImg: "https://placehold.co/400x300/fef3c7/92400e?text=Yoga+9i",
+                vReason: "Soundbar hinge is durable.", vWeight: "1.4 kg", vBat: "8-9 Hrs", vScreen: "OLED 4K",
+
+                a1: "HP Care Pack", a1Desc: "Extended Warranty",
+                a2: "Samsung T7 SSD", a2Desc: "Clean Install Backup"
+            },
+            "asus-tuf-a15": {
+                name: "ASUS TUF A15", price: "$999",
+                img: "https://placehold.co/400x300/e2e8f0/1e293b?text=ASUS+TUF+A15",
+                riskScore: 72, reviewCount: "1,100+",
+                db1: "Jet Engine Fans", p1: "Cheap fans hit 55dB. Annoying for everyone.",
+                db2: "Ghosting Screen", p2: "25ms+ response time causes smeary blur.",
+                specWeight: "2.2 kg", specBat: "4-5 Hrs", specScreen: "144Hz (Dim)",
+
+                solver: "Lenovo Legion 5", sPrice: "$1,199",
+                sImg: "https://placehold.co/400x300/dcfce7/166534?text=Legion+5",
+                s1: "Quiet Cooling", s2: "Fast Response", sWeight: "2.4 kg", sBat: "4 Hrs", sScreen: "165Hz (Bright)",
+
+                value: "Acer Nitro 5", vPrice: "$899",
+                vImg: "https://placehold.co/400x300/fef3c7/92400e?text=Acer+Nitro+5",
+                vReason: "Cheaper plastic build.", vWeight: "2.5 kg", vBat: "3 Hrs", vScreen: "144Hz",
+
+                a1: "Razer BlackShark V2", a1Desc: "Noise Cancelling",
+                a2: "BenQ Mobiuz Monitor", a2Desc: "Fixes ghosting"
+            },
+            "msi-katana-gf63": {
+                name: "MSI Katana / GF63", price: "$899",
+                img: "https://placehold.co/400x300/e2e8f0/1e293b?text=MSI+Katana",
+                riskScore: 88, reviewCount: "950+",
+                db1: "Snap-Crackle Hinge", p1: "Plastic hinge snaps the chassis open eventually.",
+                db2: "Thermonuclear Heat", p2: "Single fan cannot handle GPU. CPU hits 95°C.",
+                specWeight: "2.25 kg", specBat: "2-3 Hrs", specScreen: "IPS 144Hz",
+
+                solver: "Acer Nitro 16", sPrice: "$1,099",
+                sImg: "https://placehold.co/400x300/dcfce7/166534?text=Acer+Nitro+16",
+                s1: "Dual-Fan Cooling", s2: "Better Hinge", sWeight: "2.6 kg", sBat: "5 Hrs", sScreen: "165Hz",
+
+                value: "ASUS TUF F15", vPrice: "$849",
+                vImg: "https://placehold.co/400x300/fef3c7/92400e?text=ASUS+TUF+F15",
+                vReason: "Military-grade durability.", vWeight: "2.3 kg", vBat: "4 Hrs", vScreen: "144Hz",
+
+                a1: "Laptop Stand", a1Desc: "Keep lid open",
+                a2: "IETS GT300 Cooler", a2Desc: "Prevents throttling"
+            },
+            "surface-laptop-5": {
+                name: "Surface Laptop 5", price: "$1,299",
+                img: "https://placehold.co/400x300/e2e8f0/1e293b?text=Surface+Laptop+5",
+                riskScore: 68, reviewCount: "500+",
+                db1: "Glued-Shut Nightmare", p1: "Zero repairability. E-waste if one part breaks.",
+                db2: "Alcantara Stain", p2: "Fabric deck turns yellow/gross after 6 months.",
+                specWeight: "1.27 kg", specBat: "8-9 Hrs", specScreen: "PixelSense",
+
+                solver: "Dell XPS 13", sPrice: "$1,099",
+                sImg: "https://placehold.co/400x300/dcfce7/166534?text=Dell+XPS+13",
+                s1: "Aluminum Deck", s2: "Standard Parts", sWeight: "1.17 kg", sBat: "9-10 Hrs", sScreen: "FHD+",
+
+                value: "Framework Laptop", vPrice: "$999",
+                vImg: "https://placehold.co/400x300/fef3c7/92400e?text=Framework",
+                vReason: "100% Repairable.", vWeight: "1.3 kg", vBat: "7-8 Hrs", vScreen: "2K",
+
+                a1: "Microsoft Complete", a1Desc: "Protection Plan",
+                a2: "Logitech K380", a2Desc: "External Keyboard"
+            },
+            "acer-swift-go-14": {
+                name: "Acer Swift Go 14", price: "$799",
+                img: "https://placehold.co/400x300/e2e8f0/1e293b?text=Acer+Swift+Go",
+                riskScore: 60, reviewCount: "300+",
+                db1: "WiFi Dropouts", p1: "Cheap MediaTek card struggles through walls.",
+                db2: "Plastic Trackpad", p2: "Sticky feel. Gestures often misfire.",
+                specWeight: "1.25 kg", specBat: "6-7 Hrs", specScreen: "OLED 90Hz",
+
+                solver: "MacBook Air M1", sPrice: "$799",
+                sImg: "https://placehold.co/400x300/dcfce7/166534?text=MacBook+Air+M1",
+                s1: "Rock Solid WiFi", s2: "Glass Trackpad", sWeight: "1.29 kg", sBat: "15 Hrs", sScreen: "Retina",
+
+                value: "Asus Zenbook 14", vPrice: "$849",
+                vImg: "https://placehold.co/400x300/fef3c7/92400e?text=Asus+Zenbook",
+                vReason: "Better build quality.", vWeight: "1.39 kg", vBat: "8-9 Hrs", vScreen: "OLED",
+
+                a1: "TP-Link USB WiFi", a1Desc: "Stable Connection",
+                a2: "Logitech MX Master", a2Desc: "Better Mouse"
+            },
+            "samsung-galaxy-book3": {
+                name: "Samsung Galaxy Book 3", price: "$1,099",
+                img: "https://placehold.co/400x300/e2e8f0/1e293b?text=Galaxy+Book+3",
+                riskScore: 75, reviewCount: "250+",
+                db1: "Crack-Gate Screen", p1: "Glass is too thin. Cracks spontaneously.",
+                db2: "The Wobble", p2: "Screen shakes uncontrollably while typing.",
+                specWeight: "1.5 kg", specBat: "7-8 Hrs", specScreen: "AMOLED",
+
+                solver: "MacBook Air 15", sPrice: "$1,299",
+                sImg: "https://placehold.co/400x300/dcfce7/166534?text=MacBook+Air+15",
+                s1: "Solid Unibody", s2: "Zero Wobble", sWeight: "1.51 kg", sBat: "15 Hrs", sScreen: "Liquid Retina",
+
+                value: "LG Gram 16", vPrice: "$1,199",
+                vImg: "https://placehold.co/400x300/fef3c7/92400e?text=LG+Gram+16",
+                vReason: "Lighter magnesium alloy.", vWeight: "1.19 kg", vBat: "10-11 Hrs", vScreen: "IPS",
+
+                a1: "Hard Shell Case", a1Desc: "Screen Protection",
+                a2: "Bluetooth Keyboard", a2Desc: "Avoid Wobble"
+            },
+            "macbook-pro-13-m2": {
+                name: "MacBook Pro 13 (M2)", price: "$1,299",
+                img: "https://placehold.co/400x300/e2e8f0/1e293b?text=MacBook+Pro+13",
+                riskScore: 90, reviewCount: "2,000+",
+                db1: "Zombie Touch Bar", p1: "Dead tech. Paying for a feature Apple killed.",
+                db2: "60Hz Time Machine", p2: "Paying $1300 for a slow 60Hz screen.",
+                specWeight: "1.4 kg", specBat: "18 Hrs", specScreen: "Retina 60Hz",
+
+                solver: "MacBook Pro 14 (M3)", sPrice: "$1,599",
+                sImg: "https://placehold.co/400x300/dcfce7/166534?text=MacBook+Pro+14",
+                s1: "No Touch Bar", s2: "120Hz ProMotion", sWeight: "1.55 kg", sBat: "18-22 Hrs", sScreen: "XDR 120Hz",
+
+                value: "MacBook Air M2", vPrice: "$999",
+                vImg: "https://placehold.co/400x300/fef3c7/92400e?text=MacBook+Air+M2",
+                vReason: "Better webcam & MagSafe.", vWeight: "1.24 kg", vBat: "15-18 Hrs", vScreen: "Liquid Retina",
+
+                a1: "Anker 4K Webcam", a1Desc: "Fixes 720p cam",
+                a2: "External Monitor", a2Desc: "Get 144Hz refresh"
             }
-            // ... (请在此处继续添加其他型号)
         };
 
         function updateDashboard() {
             const key = document.getElementById('laptop-select').value;
-            const data = laptopData[key] || laptopData['dell-xps-13-plus']; // Fallback
+            const data = laptopData[key] || laptopData['dell-xps-13-plus'];
             const arena = document.getElementById('arena');
             document.getElementById('reject-message').classList.add('hidden');
 
-            // 风险条颜色逻辑
             let riskColor = "bg-red-600";
             if(data.riskScore < 60) riskColor = "bg-yellow-500";
 
@@ -141,7 +275,7 @@
                         <h2 class="text-2xl font-black mt-3 text-gray-900 leading-tight">${data.name}</h2>
                         <p class="text-gray-500 font-mono mt-1">${data.price}</p>
                         
-                        <div class="mt-4 mb-2">
+                        <div class="mt-4 mb-2 px-4">
                             <div class="flex justify-between text-xs font-bold text-gray-600 mb-1">
                                 <span>Failure Probability</span>
                                 <span class="text-red-600">${data.riskScore}%</span>
@@ -151,7 +285,7 @@
                             </div>
                         </div>
                         
-                        <img src="${data.img}" class="h-40 mx-auto mt-4 object-contain mix-blend-multiply" alt="${data.name}">
+                        <img src="${data.img}" class="h-40 mx-auto mt-4 object-contain rounded-lg border border-gray-200" alt="${data.name}">
                     </div>
                     
                     <div class="p-6 space-y-5">
@@ -191,7 +325,7 @@
                         <span class="text-green-700 font-bold text-xs uppercase tracking-widest"><i class="fa-solid fa-check-circle mr-1"></i> The Solver</span>
                         <h2 class="text-2xl font-black mt-3 text-gray-900 leading-tight">${data.solver}</h2>
                         <p class="text-gray-500 font-mono mt-1">${data.sPrice}</p>
-                        <img src="${data.sImg}" class="h-40 mx-auto mt-8 object-contain mix-blend-multiply">
+                        <img src="${data.sImg}" class="h-40 mx-auto mt-8 object-contain rounded-lg border border-green-100">
                     </div>
                     <div class="p-6 space-y-4">
                         <div class="solver-card p-4 rounded-xl">
@@ -218,7 +352,7 @@
                         <span class="text-yellow-700 font-bold text-xs uppercase tracking-widest"><i class="fa-solid fa-piggy-bank mr-1"></i> Smart Value</span>
                         <h2 class="text-2xl font-black mt-3 text-gray-900 leading-tight">${data.value}</h2>
                         <p class="text-gray-500 font-mono mt-1">${data.vPrice}</p>
-                        <img src="${data.vImg}" class="h-40 mx-auto mt-8 object-contain mix-blend-multiply">
+                        <img src="${data.vImg}" class="h-40 mx-auto mt-8 object-contain rounded-lg border border-yellow-100">
                     </div>
                     <div class="p-6">
                         <div class="value-card p-4 rounded-xl mb-8">
