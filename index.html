@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LaptopRisk.ai - Forensic Risk Database</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .deal-breaker-card { border-left: 4px solid #ef4444; background: #fff1f2; transition: all 0.3s; }
+        .solver-card { border-left: 4px solid #10b981; background: #ecfdf5; }
+        .value-card { border-left: 4px solid #f59e0b; background: #fffbeb; }
+        .highlight-column { transform: scale(1.03) translateY(-10px); z-index: 20; border-width: 4px !important; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
+        .fade-in { animation: fadeIn 0.5s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* 风险条动画 */
+        .risk-bar { transition: width 1s ease-out; }
+    </style>
+</head>
+<body class="p-4 md:p-8 text-gray-800">
+
+    <div class="max-w-4xl mx-auto mb-10 text-center">
+        <h1 class="text-3xl font-black mb-2 text-gray-900"><i class="fa-solid fa-magnifying-glass-chart text-red-600 mr-2"></i>Laptop Risk Forensics</h1>
+        <p class="text-gray-500 mb-6">Don't buy until you check the "Deal-Breakers".</p>
+        
+        <div class="bg-white p-4 rounded-2xl shadow-lg border border-gray-200 text-left">
+            <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Select Model to Analyze:</label>
+            <select id="laptop-select" onchange="updateDashboard()" class="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg text-lg font-bold focus:border-red-500 focus:ring-2 focus:ring-red-200 outline-none transition-all cursor-pointer">
+                <option value="dell-xps-13-plus">Dell XPS 13 Plus (9320)</option>
+                <option value="lenovo-legion-5">Lenovo Legion 5 (Gen 8)</option>
+                <option value="razer-blade-15">Razer Blade 15 (2024)</option>
+                <option value="hp-spectre-x360">HP Spectre x360</option>
+                <option value="asus-tuf-a15">ASUS TUF Gaming A15</option>
+            </select>
+        </div>
+        
+        <div id="reject-message" class="hidden mt-6 bg-red-600 text-white p-3 text-center rounded-lg font-bold animate-bounce shadow-lg">
+            <i class="fa-solid fa-triangle-exclamation mr-2"></i> Risk too high? Check the "Solver" on the right!
+        </div>
+    </div>
+
+    <div id="arena" class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 items-start fade-in">
+        </div>
+
+    <div id="antidote-modal" class="fixed inset-0 bg-black bg-opacity-80 hidden flex items-center justify-center z-50 p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 text-center relative shadow-2xl transform transition-all scale-100">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600"><i class="fa-solid fa-xmark fa-xl"></i></button>
+            <div class="bg-red-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-red-100">
+                <i class="fa-solid fa-shield-virus text-3xl text-red-500"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-900 mb-2">Wait! Risk Mitigation Required</h2>
+            <p id="modal-text" class="text-gray-600 mb-6 text-sm"></p>
+            
+            <div id="antidote-list" class="space-y-3 text-left"></div>
+            
+            <button class="w-full mt-6 py-4 bg-yellow-400 text-black font-black rounded-xl hover:bg-yellow-500 shadow-md text-lg transition-colors uppercase tracking-wide">
+                View Solutions on Amazon <i class="fa-solid fa-arrow-up-right-from-square ml-2"></i>
+            </button>
+            <p class="text-xs text-gray-400 mt-3">We may earn a commission if you buy through our links.</p>
+        </div>
+    </div>
+
+    <script>
+        // 数据库：为了演示 v4.0 特性，我完善了前 3 款的数据结构
+        // 你需要按照这个格式，把剩下的 7 款填进去
+        const laptopData = {
+            "dell-xps-13-plus": {
+                name: "Dell XPS 13 Plus", price: "$1,399", img: "https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/xps-notebooks/xps-13-plus-9320/media-gallery/notebook-xps-13-plus-9320-nt-bk-gallery-3.psd?fmt=png-alpha&pscan=auto&hei=400&wid=400&qlt=100,1",
+                riskScore: 84, reviewCount: "1,240+", // 新增：风险分 + 评论数
+                db1: "Invisible Touch Bar", p1: "No haptic feedback. Can't find 'Esc' by touch. Freezes constantly.", 
+                db2: "Battery Anxiety", p2: "Lasts only 5 hours. You will be hugged to the wall outlet.", 
+                // 新增：底部参数对比
+                specWeight: "1.27 kg", specBat: "5-6 Hrs", specScreen: "OLED (PWM Flicker)",
+                
+                solver: "MacBook Air M2", sPrice: "$1,099", sImg: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/macbook-air-midnight-select-20220606?wid=400&hei=400&fmt=jpeg&qlt=90&.v=1653084303665",
+                s1: "Physical Keys", s2: "15h+ Battery",
+                sWeight: "1.24 kg", sBat: "15-18 Hrs", sScreen: "Liquid Retina", // 竞品参数
+
+                value: "Dell XPS 13 (9315)", vPrice: "$999", vImg: "https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/xps-notebooks/xps-13-9315/media-gallery/notebook-xps-13-9315-nt-blue-gallery-1.psd?fmt=png-alpha&pscan=auto&hei=400&wid=400&qlt=100,1",
+                vReason: "Real keys, saves $400.",
+                vWeight: "1.17 kg", vBat: "8-9 Hrs", vScreen: "IPS (No PWM)", // 性价比参数
+
+                a1: "Logitech MX Keys Mini", a1Desc: "Bypass the touch bar",
+                a2: "Anker 737 Power Bank", a2Desc: "Fixes battery anxiety"
+            },
+            "lenovo-legion-5": {
+                name: "Lenovo Legion 5", price: "$1,199", img: "https://p2-ofp.static.pub/fes/cms/2023/02/10/i6700548170258286938.png",
+                riskScore: 78, reviewCount: "3,500+",
+                db1: "WiFi Card Lottery", p1: "Cheap Realtek card causes massive lag spikes in gaming.", 
+                db2: "The 300W Brick", p2: "Charger weighs 1kg. Impossible to carry to class.", 
+                specWeight: "2.4 kg (+1kg Brick)", specBat: "3-4 Hrs", specScreen: "IPS 165Hz",
+
+                solver: "ASUS Zephyrus G14", sPrice: "$1,399", sImg: "https://dlcdnwebimgs.asus.com/gain/49d47938-04d3-45aa-95c5-2b083b06385d/w800",
+                s1: "Intel WiFi 6E", s2: "Super Portable",
+                sWeight: "1.65 kg", sBat: "8-9 Hrs", sScreen: "Mini-LED",
+
+                value: "Legion 5 (Gen 7)", vPrice: "$899", vImg: "https://p2-ofp.static.pub/fes/cms/2023/02/10/i6700548170258286938.png",
+                vReason: "Same GPU performance.",
+                vWeight: "2.4 kg", vBat: "3-4 Hrs", vScreen: "IPS 144Hz",
+
+                a1: "Intel AX210 WiFi Card", a1Desc: "Fixes lag spikes ($25)",
+                a2: "Slim GaN Charger", a2Desc: "Cut weight by 60%"
+            },
+            "razer-blade-15": {
+                name: "Razer Blade 15", price: "$2,499", img: "https://assets3.razerzone.com/1B9E77F7-4147-4979-992F-1C82404D5F8C/razer-blade-15-2022-base-fhd-144hz-rtx3060-black-hero.png",
+                riskScore: 92, reviewCount: "850+ (r/Razer)",
+                db1: "Spicy Pillow (Bloat)", p1: "Heat cooks the battery. Swells and bends trackpad.", 
+                db2: "Surface Lava", p2: "Chassis hits 55°C. Too hot to touch while gaming.", 
+                specWeight: "2.01 kg", specBat: "2-3 Hrs", specScreen: "QHD 240Hz",
+
+                solver: "ASUS Zephyrus G16", sPrice: "$2,299", sImg: "https://dlcdnwebimgs.asus.com/gain/49d47938-04d3-45aa-95c5-2b083b06385d/w800",
+                s1: "Cooler Thermals", s2: "Battery Care",
+                sWeight: "1.85 kg", sBat: "6-7 Hrs", sScreen: "Nebula HDR",
+
+                value: "Razer Blade 14 (AMD)", vPrice: "$1,899", vImg: "https://assets3.razerzone.com/1B9E77F7-4147-4979-992F-1C82404D5F8C/razer-blade-15-2022-base-fhd-144hz-rtx3060-black-hero.png",
+                vReason: "AMD runs much cooler.",
+                vWeight: "1.78 kg", vBat: "8-9 Hrs", vScreen: "QHD 165Hz",
+
+                a1: "IETS GT500 Cooler", a1Desc: "Force air into chassis",
+                a2: "Razer Huntsman Mini", a2Desc: "Don't touch the hot laptop"
+            }
+            // ... (请在此处继续添加其他型号)
+        };
+
+        function updateDashboard() {
+            const key = document.getElementById('laptop-select').value;
+            const data = laptopData[key] || laptopData['dell-xps-13-plus']; // Fallback
+            const arena = document.getElementById('arena');
+            document.getElementById('reject-message').classList.add('hidden');
+
+            // 风险条颜色逻辑
+            let riskColor = "bg-red-600";
+            if(data.riskScore < 60) riskColor = "bg-yellow-500";
+
+            arena.innerHTML = `
+                <div class="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden relative" id="col-accused">
+                    <div class="bg-gray-50 p-6 text-center border-b border-gray-100">
+                        <span class="bg-gray-900 text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest">Target Model</span>
+                        <h2 class="text-2xl font-black mt-3 text-gray-900 leading-tight">${data.name}</h2>
+                        <p class="text-gray-500 font-mono mt-1">${data.price}</p>
+                        
+                        <div class="mt-4 mb-2">
+                            <div class="flex justify-between text-xs font-bold text-gray-600 mb-1">
+                                <span>Failure Probability</span>
+                                <span class="text-red-600">${data.riskScore}%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-3">
+                                <div class="${riskColor} h-3 rounded-full risk-bar" style="width: ${data.riskScore}%"></div>
+                            </div>
+                        </div>
+                        
+                        <img src="${data.img}" class="h-40 mx-auto mt-4 object-contain mix-blend-multiply" alt="${data.name}">
+                    </div>
+                    
+                    <div class="p-6 space-y-5">
+                        <div class="deal-breaker-card p-4 rounded-xl">
+                            <h3 class="font-bold text-red-700 text-xs uppercase tracking-wide flex items-center"><i class="fa-solid fa-bug mr-2"></i> Deal-Breaker #1</h3>
+                            <p class="font-black text-gray-900 text-lg leading-tight mt-1">${data.db1}</p>
+                            <p class="text-sm text-gray-600 italic mt-2 border-l-2 border-red-300 pl-3">"${data.p1}"</p>
+                            <p class="text-xs text-gray-400 mt-2 text-right"><i class="fa-brands fa-reddit-alien mr-1"></i> Based on ${data.reviewCount} reports</p>
+                        </div>
+                        
+                        <div class="deal-breaker-card p-4 rounded-xl">
+                            <h3 class="font-bold text-red-700 text-xs uppercase tracking-wide flex items-center"><i class="fa-solid fa-temperature-arrow-up mr-2"></i> Deal-Breaker #2</h3>
+                            <p class="font-black text-gray-900 text-lg leading-tight mt-1">${data.db2}</p>
+                            <p class="text-sm text-gray-600 italic mt-2 border-l-2 border-red-300 pl-3">"${data.p2}"</p>
+                        </div>
+
+                        <div class="space-y-3 pt-2">
+                            <button onclick="rejectTarget()" class="w-full py-3 border-2 border-red-500 text-red-600 font-black rounded-lg hover:bg-red-50 transition-colors uppercase text-sm tracking-wide">
+                                I Can't Handle This <i class="fa-solid fa-xmark ml-1"></i>
+                            </button>
+                            <button onclick="acceptRisk('${key}')" class="w-full py-3 bg-gray-900 text-white font-black rounded-lg hover:bg-black shadow-lg hover:shadow-xl transition-all uppercase text-sm tracking-wide">
+                                I Accept The Risk <i class="fa-solid fa-check ml-1"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="pt-4 mt-4 border-t border-gray-100 grid grid-cols-3 gap-2 text-center text-xs text-gray-500">
+                            <div><i class="fa-solid fa-weight-hanging block mb-1"></i>${data.specWeight}</div>
+                            <div><i class="fa-solid fa-battery-half block mb-1"></i>${data.specBat}</div>
+                            <div><i class="fa-solid fa-display block mb-1"></i>${data.specScreen}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="col-solver" class="bg-white rounded-2xl shadow-xl border-2 border-green-400 overflow-hidden relative transform transition-all duration-500 z-10">
+                    <div class="absolute top-0 right-0 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg">TOP PICK</div>
+                    <div class="bg-green-50 p-6 text-center border-b border-green-100">
+                        <span class="text-green-700 font-bold text-xs uppercase tracking-widest"><i class="fa-solid fa-check-circle mr-1"></i> The Solver</span>
+                        <h2 class="text-2xl font-black mt-3 text-gray-900 leading-tight">${data.solver}</h2>
+                        <p class="text-gray-500 font-mono mt-1">${data.sPrice}</p>
+                        <img src="${data.sImg}" class="h-40 mx-auto mt-8 object-contain mix-blend-multiply">
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <div class="solver-card p-4 rounded-xl">
+                            <p class="text-sm font-bold text-green-800"><i class="fa-solid fa-check mr-2"></i>Solved: ${data.s1}</p>
+                        </div>
+                        <div class="solver-card p-4 rounded-xl">
+                            <p class="text-sm font-bold text-green-800"><i class="fa-solid fa-check mr-2"></i>Solved: ${data.s2}</p>
+                        </div>
+                        
+                        <button class="w-full py-4 bg-green-500 text-white font-black rounded-lg hover:bg-green-600 shadow-lg mt-4 uppercase tracking-wide">
+                            Buy The Solver <i class="fa-solid fa-arrow-right ml-2"></i>
+                        </button>
+                        
+                        <div class="pt-4 mt-4 border-t border-green-100 grid grid-cols-3 gap-2 text-center text-xs text-gray-500">
+                            <div class="font-bold text-green-700">${data.sWeight}</div>
+                            <div class="font-bold text-green-700">${data.sBat}</div>
+                            <div class="font-bold text-green-700">${data.sScreen}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="col-value" class="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden relative opacity-80 hover:opacity-100 transition-all duration-300">
+                    <div class="bg-yellow-50 p-6 text-center border-b border-yellow-100">
+                        <span class="text-yellow-700 font-bold text-xs uppercase tracking-widest"><i class="fa-solid fa-piggy-bank mr-1"></i> Smart Value</span>
+                        <h2 class="text-2xl font-black mt-3 text-gray-900 leading-tight">${data.value}</h2>
+                        <p class="text-gray-500 font-mono mt-1">${data.vPrice}</p>
+                        <img src="${data.vImg}" class="h-40 mx-auto mt-8 object-contain mix-blend-multiply">
+                    </div>
+                    <div class="p-6">
+                        <div class="value-card p-4 rounded-xl mb-8">
+                            <p class="text-sm text-yellow-900 font-medium">"${data.vReason}"</p>
+                        </div>
+                        
+                        <button class="w-full py-3 border-2 border-yellow-400 text-yellow-700 font-black rounded-lg hover:bg-yellow-50 mt-auto uppercase text-sm">
+                            Check Price
+                        </button>
+
+                        <div class="pt-4 mt-8 border-t border-yellow-100 grid grid-cols-3 gap-2 text-center text-xs text-gray-500">
+                            <div>${data.vWeight}</div>
+                            <div>${data.vBat}</div>
+                            <div>${data.vScreen}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function rejectTarget() {
+            document.getElementById('col-accused').style.opacity = '0.3';
+            document.getElementById('col-accused').style.pointerEvents = 'none';
+            document.getElementById('col-solver').classList.add('highlight-column');
+            document.getElementById('col-value').classList.add('highlight-column');
+            document.getElementById('col-value').style.opacity = '1';
+            document.getElementById('reject-message').classList.remove('hidden');
+        }
+
+        function acceptRisk(key) {
+            const data = laptopData[key] || laptopData['dell-xps-13-plus'];
+            document.getElementById('modal-text').innerHTML = `Since you chose <strong>${data.name}</strong>, these add-ons are <span class="text-red-500 font-bold">REQUIRED</span> to fix the defects:`;
+            
+            document.getElementById('antidote-list').innerHTML = `
+                <div class="p-4 border border-gray-200 rounded-xl bg-gray-50 flex items-center hover:bg-white hover:shadow-md transition-all cursor-pointer">
+                    <div class="bg-green-100 p-3 rounded-lg mr-4"><i class="fa-solid fa-wrench text-green-600"></i></div>
+                    <div>
+                        <h4 class="font-bold text-gray-900">${data.a1}</h4>
+                        <p class="text-xs text-gray-500">${data.a1Desc}</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right ml-auto text-gray-300"></i>
+                </div>
+                <div class="p-4 border border-gray-200 rounded-xl bg-gray-50 flex items-center hover:bg-white hover:shadow-md transition-all cursor-pointer">
+                    <div class="bg-green-100 p-3 rounded-lg mr-4"><i class="fa-solid fa-plug text-green-600"></i></div>
+                    <div>
+                        <h4 class="font-bold text-gray-900">${data.a2}</h4>
+                        <p class="text-xs text-gray-500">${data.a2Desc}</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right ml-auto text-gray-300"></i>
+                </div>
+            `;
+            document.getElementById('antidote-modal').classList.remove('hidden');
+        }
+
+        function closeModal() { document.getElementById('antidote-modal').classList.add('hidden'); }
+
+        // Initial Load
+        updateDashboard();
+    </script>
+</body>
+</html>
