@@ -84,8 +84,8 @@
 
     <script>
         // =========================================================================
-        //  DATABASE: Forensic Risk Analysis v9.0 (Final Production)
-        //  ACTION: Replace 'PUT_YOUR_LINK_HERE' with your Amazon Short Links!
+        //  DATABASE: Forensic Risk Analysis v10.0 (Auto-Link-Fix Edition)
+        //  NOTE: Just paste your links. The code will fix missing "https://" automatically.
         // =========================================================================
         
         const laptopData = {
@@ -115,7 +115,7 @@
                 a1: "Logitech MX Keys Mini", a1Desc: "Bypass the touch bar",
                 a2: "Anker 737 Power Bank", a2Desc: "Life support for battery",
 
-                // *** PASTE YOUR AMAZON LINKS HERE ***
+                // *** PASTE LINKS BELOW (Code will auto-add https:// if missing) ***
                 link_antidote1: "PUT_YOUR_LINK_HERE", 
                 link_antidote2: "PUT_YOUR_LINK_HERE", 
                 link_solver: "PUT_YOUR_LINK_HERE", 
@@ -289,7 +289,6 @@
                 sImg: "https://placehold.co/400x300/dcfce7/166534?text=Dell+XPS+13",
                 s1: "Metal Deck: Easy to clean.", s2: "Premium Build", sWeight: "1.17 kg", sBat: "9-10 Hrs", sScreen: "FHD+",
 
-                // UPDATED: Replaced Framework with ThinkPad E14
                 value: "Lenovo ThinkPad E14", vPrice: "$650", 
                 vImg: "https://placehold.co/400x300/fef3c7/92400e?text=ThinkPad+E14",
                 vReason: "Upgradeable RAM/SSD. Built like a tank.", vWeight: "1.5 kg", vBat: "8-9 Hrs", vScreen: "IPS",
@@ -344,7 +343,6 @@
                 
                 specWeight: "1.5 kg", specBat: "7-8 Hrs", specScreen: "AMOLED",
 
-                // UPDATED: Replaced MBA 15 (M2) with M3
                 solver: "MacBook Air 15 (M3)", sPrice: "$1,299",
                 sImg: "https://placehold.co/400x300/dcfce7/166534?text=MacBook+Air+15+M3",
                 s1: "Solid Unibody", s2: "Zero Wobble", sWeight: "1.51 kg", sBat: "15-18 Hrs", sScreen: "Liquid Retina",
@@ -382,7 +380,6 @@
                 vImg: "https://placehold.co/400x300/fef3c7/92400e?text=MacBook+Air+M2",
                 vReason: "Better webcam & MagSafe.", vWeight: "1.24 kg", vBat: "15-18 Hrs", vScreen: "Liquid Retina",
 
-                // UPDATED: Replaced Anker C200 with Logitech C920x
                 a1: "Logitech C920x Webcam", a1Desc: "The industry standard 1080p fix",
                 a2: "KOORUI Monitor", a2Desc: "Get 144Hz refresh",
 
@@ -397,6 +394,12 @@
         //  APP LOGIC
         // =========================================================================
         
+        // Helper: Automatically adds 'https://' if missing to prevent 404 errors
+        function formatLink(link) {
+            if (!link || link === '#' || link === 'PUT_YOUR_LINK_HERE') return '#';
+            return link.startsWith('http') ? link : 'https://' + link;
+        }
+
         function updateDashboard() {
             const key = document.getElementById('laptop-select').value;
             const data = laptopData[key] || laptopData['dell-xps-13-plus'];
@@ -405,6 +408,10 @@
 
             let riskColor = "bg-red-600";
             if(data.riskScore < 60) riskColor = "bg-yellow-500";
+
+            // Process Links with Auto-Fix
+            const safeLinkSolver = formatLink(data.link_solver);
+            const safeLinkValue = formatLink(data.link_value);
 
             arena.innerHTML = `
                 <div class="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden relative" id="col-accused">
@@ -473,7 +480,7 @@
                             <p class="text-sm font-bold text-green-800"><i class="fa-solid fa-check mr-2"></i>${data.s2}</p>
                         </div>
                         
-                        <a href="${data.link_solver}" target="_blank" class="block w-full text-center py-4 bg-green-500 text-white font-black rounded-lg hover:bg-green-600 shadow-lg hover:shadow-xl mt-4 uppercase tracking-wide transition-all">
+                        <a href="${safeLinkSolver}" target="_blank" class="block w-full text-center py-4 bg-green-500 text-white font-black rounded-lg hover:bg-green-600 shadow-lg hover:shadow-xl mt-4 uppercase tracking-wide transition-all">
                             Buy The Solver <i class="fa-solid fa-arrow-right ml-2"></i>
                         </a>
                         
@@ -497,7 +504,7 @@
                             <p class="text-sm text-yellow-900 font-medium italic">"${data.vReason}"</p>
                         </div>
                         
-                        <a href="${data.link_value}" target="_blank" class="block w-full text-center py-3 border-2 border-yellow-400 text-yellow-700 font-black rounded-lg hover:bg-yellow-50 mt-auto uppercase text-sm transition-colors">
+                        <a href="${safeLinkValue}" target="_blank" class="block w-full text-center py-3 border-2 border-yellow-400 text-yellow-700 font-black rounded-lg hover:bg-yellow-50 mt-auto uppercase text-sm transition-colors">
                             Check Smart Price
                         </a>
 
@@ -524,10 +531,13 @@
         // Logic: Open modal with specific antidote links
         function acceptRisk(key) {
             const data = laptopData[key] || laptopData['dell-xps-13-plus'];
+            const safeLinkA1 = formatLink(data.link_antidote1);
+            const safeLinkA2 = formatLink(data.link_antidote2);
+
             document.getElementById('modal-text').innerHTML = `Since you chose <strong>${data.name}</strong>, forensic analysis indicates you WILL need these specific tools to fix its hardware defects:`;
             
             document.getElementById('antidote-list').innerHTML = `
-                <a href="${data.link_antidote1}" target="_blank" class="block p-4 border border-gray-200 rounded-xl bg-gray-50 flex items-center hover:bg-white hover:shadow-md transition-all cursor-pointer group">
+                <a href="${safeLinkA1}" target="_blank" class="block p-4 border border-gray-200 rounded-xl bg-gray-50 flex items-center hover:bg-white hover:shadow-md transition-all cursor-pointer group">
                     <div class="bg-green-100 p-3 rounded-lg mr-4 group-hover:bg-green-200"><i class="fa-solid fa-wrench text-green-600"></i></div>
                     <div>
                         <h4 class="font-bold text-gray-900">${data.a1}</h4>
@@ -536,7 +546,7 @@
                     <i class="fa-solid fa-chevron-right ml-auto text-gray-300 group-hover:text-green-500"></i>
                 </a>
                 
-                <a href="${data.link_antidote2}" target="_blank" class="block p-4 border border-gray-200 rounded-xl bg-gray-50 flex items-center hover:bg-white hover:shadow-md transition-all cursor-pointer group">
+                <a href="${safeLinkA2}" target="_blank" class="block p-4 border border-gray-200 rounded-xl bg-gray-50 flex items-center hover:bg-white hover:shadow-md transition-all cursor-pointer group">
                     <div class="bg-green-100 p-3 rounded-lg mr-4 group-hover:bg-green-200"><i class="fa-solid fa-plug text-green-600"></i></div>
                     <div>
                         <h4 class="font-bold text-gray-900">${data.a2}</h4>
