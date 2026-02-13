@@ -70,7 +70,7 @@
     <footer class="text-center mt-16 mb-4 pt-8 border-t border-gray-200">
         <p class="text-xs text-gray-400">
             Found a fix? Or a broken link? 
-            <a href="#" target="_blank" class="text-gray-500 underline hover:text-gray-800 transition-colors">Report it here.</a>
+            <a href="https://forms.gle/FcaWCnjdH2aoYvku9" target="_blank" class="text-gray-500 underline hover:text-gray-800 transition-colors">Report it here.</a>
         </p>
         <p class="text-[10px] text-gray-300 mt-2">Prices are estimates and may vary by region.</p>
     </footer>
@@ -97,7 +97,7 @@
 
     <script>
         // =========================================================================
-        //  DATABASE: Forensic Risk Analysis v15.0 (Fuzzed Prices + Feedback Footer)
+        //  DATABASE: Forensic Risk Analysis v16.0 (Production Ready)
         //  LINKS ARE HARDCODED - NO CHANGES NEEDED
         // =========================================================================
         
@@ -108,7 +108,7 @@
         const laptopData = {
             "dell-xps-13-plus": {
                 name: "Dell XPS 13 Plus", 
-                price: "~$1,400", // FUZZED PRICE
+                price: "~$1,400", 
                 img: "https://placehold.co/400x300/e2e8f0/1e293b?text=Dell+XPS+13+Plus",
                 riskScore: 88, reviewCount: "1,500+ (Reddit)",
                 status: "❌ Confirmed Unfixed in 2026",
@@ -120,7 +120,7 @@
                 specWeight: "1.27 kg", specBat: "5 Hrs (Real)", specScreen: "OLED (PWM Flicker)",
                 
                 solver: "MacBook Air M2", 
-                sPrice: "~$1,100", // FUZZED PRICE
+                sPrice: "~$1,100", 
                 sImg: "https://placehold.co/400x300/dcfce7/166534?text=MacBook+Air+M2",
                 s1: "Tactile Bliss: Real keys, zero typos.", 
                 s2: "Untethered: Forget the charger exists.", 
@@ -128,7 +128,7 @@
                 switchCount: "524",
                 
                 value: "Dell XPS 13 (9315)", 
-                vPrice: "~$1,000", // FUZZED PRICE
+                vPrice: "~$1,000", 
                 vImg: "https://placehold.co/400x300/fef3c7/92400e?text=Dell+XPS+9315",
                 vReason: "Sanity Saver: Real keys + $400 cash kept.", 
                 vWeight: "1.17 kg", vBat: "8-9 Hrs", vScreen: "IPS (No PWM)",
@@ -144,7 +144,7 @@
 
             "lenovo-legion-5": {
                 name: "Lenovo Legion 5", 
-                price: "~$1,200", // FUZZED PRICE
+                price: "~$1,200", 
                 img: "https://placehold.co/400x300/e2e8f0/1e293b?text=Legion+5",
                 riskScore: 79, reviewCount: "4,200+ (Discord)",
                 status: "⚠️ Issue Persists in Gen 9",
@@ -156,7 +156,7 @@
                 specWeight: "2.4 kg (+1kg Brick)", specBat: "3-4 Hrs", specScreen: "IPS 165Hz",
 
                 solver: "ASUS Zephyrus G14", 
-                sPrice: "~$1,400", // FUZZED PRICE
+                sPrice: "~$1,400", 
                 sImg: "https://placehold.co/400x300/dcfce7/166534?text=Zephyrus+G14",
                 s1: "Lag Killer: Intel WiFi 6E standard.", 
                 s2: "Featherweight: 1.65kg total carry.", 
@@ -164,7 +164,7 @@
                 switchCount: "389",
 
                 value: "Lenovo Legion 5 (Gen 7)", 
-                vPrice: "~$900", // FUZZED PRICE
+                vPrice: "~$900", 
                 vImg: "https://placehold.co/400x300/fef3c7/92400e?text=Legion+5+(Old)",
                 vReason: "Smart Money: Same FPS, half the price.", 
                 vWeight: "2.4 kg", vBat: "3-4 Hrs", vScreen: "IPS 144Hz",
@@ -180,7 +180,7 @@
 
             "razer-blade-15": {
                 name: "Razer Blade 15", 
-                price: "~$2,500", // FUZZED PRICE
+                price: "~$2,500", 
                 img: "https://placehold.co/400x300/e2e8f0/1e293b?text=Razer+Blade+15",
                 riskScore: 95, reviewCount: "900+ (r/Razer)",
                 status: "🚫 Flaw Inherent to Chassis",
@@ -192,7 +192,7 @@
                 specWeight: "2.01 kg", specBat: "2-3 Hrs", specScreen: "QHD 240Hz",
 
                 solver: "ASUS Zephyrus G16", 
-                sPrice: "~$2,300", // FUZZED PRICE
+                sPrice: "~$2,300", 
                 sImg: "https://placehold.co/400x300/dcfce7/166534?text=Zephyrus+G16",
                 s1: "Frosty: 15°C cooler under load.", 
                 s2: "Safe Power: Zero battery bloat risk.", 
@@ -200,7 +200,7 @@
                 switchCount: "142",
 
                 value: "Razer Blade 14 (AMD)", 
-                vPrice: "~$1,900", // FUZZED PRICE
+                vPrice: "~$1,900", 
                 vImg: "https://placehold.co/400x300/fef3c7/92400e?text=Razer+Blade+14",
                 vReason: "Cooler Head: AMD chip stays chill.", 
                 vWeight: "1.78 kg", vBat: "8-9 Hrs", vScreen: "QHD 165Hz",
@@ -216,7 +216,7 @@
 
             "hp-spectre-x360": {
                 name: "HP Spectre x360", 
-                price: "~$1,600", // FUZZED PRICE
+                price: "~$1,600", 
                 img: "https://placehold.co/400x300/e2e8f0/1e293b?text=HP+Spectre",
                 riskScore: 65, reviewCount: "420+",
                 status: "⚠️ Hinge Design Unchanged",
@@ -228,13 +228,13 @@
                 specWeight: "1.36 kg", specBat: "7-8 Hrs", specScreen: "OLED Touch",
 
                 solver: "Dell XPS 13 Plus", 
-                sPrice: "~$1,400", // FUZZED PRICE
+                sPrice: "~$1,400", 
                 sImg: "https://placehold.co/400x300/dcfce7/166534?text=Dell+XPS+Plus",
                 s1: "Solid Hinge", s2: "Cleaner OS", sWeight: "1.23 kg", sBat: "6-7 Hrs", sScreen: "OLED",
                 switchCount: "89",
 
                 value: "Lenovo Yoga 9i", 
-                vPrice: "~$1,300", // FUZZED PRICE
+                vPrice: "~$1,300", 
                 vImg: "https://placehold.co/400x300/fef3c7/92400e?text=Yoga+9i",
                 vReason: "Soundbar hinge is durable.", vWeight: "1.4 kg", vBat: "8-9 Hrs", vScreen: "OLED 4K",
 
@@ -249,7 +249,7 @@
 
             "asus-tuf-a15": {
                 name: "ASUS TUF A15", 
-                price: "~$1,000", // FUZZED PRICE
+                price: "~$1,000", 
                 img: "https://placehold.co/400x300/e2e8f0/1e293b?text=ASUS+TUF+A15",
                 riskScore: 72, reviewCount: "1,100+",
                 status: "✅ Known Budget Trade-off",
@@ -261,13 +261,13 @@
                 specWeight: "2.2 kg", specBat: "4-5 Hrs", specScreen: "144Hz (Dim)",
 
                 solver: "Lenovo Legion 5", 
-                sPrice: "~$1,200", // FUZZED PRICE
+                sPrice: "~$1,200", 
                 sImg: "https://placehold.co/400x300/dcfce7/166534?text=Legion+5",
                 s1: "Silent Mode that works", s2: "Crisp Motion", sWeight: "2.4 kg", sBat: "4 Hrs", sScreen: "165Hz (Bright)",
                 switchCount: "632",
 
                 value: "Acer Nitro 5", 
-                vPrice: "~$900", // FUZZED PRICE
+                vPrice: "~$900", 
                 vImg: "https://placehold.co/400x300/fef3c7/92400e?text=Acer+Nitro+5",
                 vReason: "Budget King: Accepts its cheapness.", vWeight: "2.5 kg", vBat: "3 Hrs", vScreen: "144Hz",
 
@@ -282,7 +282,7 @@
 
             "msi-katana-gf63": {
                 name: "MSI Katana / GF63", 
-                price: "~$900", // FUZZED PRICE
+                price: "~$900", 
                 img: "https://placehold.co/400x300/e2e8f0/1e293b?text=MSI+Katana",
                 riskScore: 88, reviewCount: "950+",
                 status: "🚫 Critical Cooling Flaw",
@@ -294,13 +294,13 @@
                 specWeight: "2.25 kg", specBat: "2-3 Hrs", specScreen: "IPS 144Hz",
 
                 solver: "Acer Nitro 16", 
-                sPrice: "~$1,100", // FUZZED PRICE
+                sPrice: "~$1,100", 
                 sImg: "https://placehold.co/400x300/dcfce7/166534?text=Acer+Nitro+16",
                 s1: "Dual-Fan Cooling", s2: "Better Hinge", sWeight: "2.6 kg", sBat: "5 Hrs", sScreen: "165Hz",
                 switchCount: "210",
 
                 value: "ASUS TUF F15", 
-                vPrice: "~$850", // FUZZED PRICE
+                vPrice: "~$850", 
                 vImg: "https://placehold.co/400x300/fef3c7/92400e?text=ASUS+TUF+F15",
                 vReason: "Tank Build: Military-grade durability.", vWeight: "2.3 kg", vBat: "4 Hrs", vScreen: "144Hz",
 
@@ -315,7 +315,7 @@
 
             "surface-laptop-5": {
                 name: "Surface Laptop 5", 
-                price: "~$1,300", // FUZZED PRICE
+                price: "~$1,300", 
                 img: "https://placehold.co/400x300/e2e8f0/1e293b?text=Surface+Laptop+5",
                 riskScore: 68, reviewCount: "500+",
                 status: "⚠️ Material Flaw Unfixed",
@@ -327,13 +327,13 @@
                 specWeight: "1.27 kg", specBat: "8-9 Hrs", specScreen: "PixelSense",
 
                 solver: "Dell XPS 13", 
-                sPrice: "~$1,100", // FUZZED PRICE
+                sPrice: "~$1,100", 
                 sImg: "https://placehold.co/400x300/dcfce7/166534?text=Dell+XPS+13",
                 s1: "Metal Deck: Easy to clean.", s2: "Premium Build", sWeight: "1.17 kg", sBat: "9-10 Hrs", sScreen: "FHD+",
                 switchCount: "112",
 
                 value: "Lenovo ThinkPad E14", 
-                vPrice: "~$650", // FUZZED PRICE
+                vPrice: "~$650", 
                 vImg: "https://placehold.co/400x300/fef3c7/92400e?text=ThinkPad+E14",
                 vReason: "Upgradeable RAM/SSD. Built like a tank.", vWeight: "1.5 kg", vBat: "8-9 Hrs", vScreen: "IPS",
 
@@ -348,7 +348,7 @@
 
             "acer-swift-go-14": {
                 name: "Acer Swift Go 14", 
-                price: "~$800", // FUZZED PRICE
+                price: "~$800", 
                 img: "https://placehold.co/400x300/e2e8f0/1e293b?text=Acer+Swift+Go",
                 riskScore: 60, reviewCount: "300+",
                 status: "✅ Acceptable for Price",
@@ -360,13 +360,13 @@
                 specWeight: "1.25 kg", specBat: "6-7 Hrs", specScreen: "OLED 90Hz",
 
                 solver: "MacBook Air M1", 
-                sPrice: "~$800", // FUZZED PRICE
+                sPrice: "~$800", 
                 sImg: "https://placehold.co/400x300/dcfce7/166534?text=MacBook+Air+M1",
                 s1: "Rock Solid WiFi", s2: "Glass Trackpad", sWeight: "1.29 kg", sBat: "15 Hrs", sScreen: "Retina",
                 switchCount: "945",
 
                 value: "Asus Zenbook 14", 
-                vPrice: "~$850", // FUZZED PRICE
+                vPrice: "~$850", 
                 vImg: "https://placehold.co/400x300/fef3c7/92400e?text=Asus+Zenbook",
                 vReason: "Premium Feel: Better build quality.", vWeight: "1.39 kg", vBat: "8-9 Hrs", vScreen: "OLED",
 
@@ -381,7 +381,7 @@
 
             "samsung-galaxy-book3": {
                 name: "Samsung Galaxy Book 3", 
-                price: "~$1,100", // FUZZED PRICE
+                price: "~$1,100", 
                 img: "https://placehold.co/400x300/e2e8f0/1e293b?text=Galaxy+Book+3",
                 riskScore: 75, reviewCount: "250+",
                 status: "⚠️ Physical Structure Weak",
@@ -393,13 +393,13 @@
                 specWeight: "1.5 kg", specBat: "7-8 Hrs", specScreen: "AMOLED",
 
                 solver: "MacBook Air 15 (M3)", 
-                sPrice: "~$1,300", // FUZZED PRICE
+                sPrice: "~$1,300", 
                 sImg: "https://placehold.co/400x300/dcfce7/166534?text=MacBook+Air+15+M3",
                 s1: "Solid Unibody", s2: "Zero Wobble", sWeight: "1.51 kg", sBat: "15-18 Hrs", sScreen: "Liquid Retina",
                 switchCount: "267",
 
                 value: "LG Gram 16", 
-                vPrice: "~$1,200", // FUZZED PRICE
+                vPrice: "~$1,200", 
                 vImg: "https://placehold.co/400x300/fef3c7/92400e?text=LG+Gram+16",
                 vReason: "Featherlight: Lighter magnesium alloy.", vWeight: "1.19 kg", vBat: "10-11 Hrs", vScreen: "IPS",
 
@@ -414,7 +414,7 @@
 
             "macbook-pro-13-m2": {
                 name: "MacBook Pro 13 (M2)", 
-                price: "~$1,300", // FUZZED PRICE
+                price: "~$1,300", 
                 img: "https://placehold.co/400x300/e2e8f0/1e293b?text=MacBook+Pro+13",
                 riskScore: 90, reviewCount: "2,000+",
                 status: "⚠️ Discontinued Design",
@@ -426,13 +426,13 @@
                 specWeight: "1.4 kg", specBat: "18 Hrs", specScreen: "Retina 60Hz",
 
                 solver: "MacBook Pro 14 (M3)", 
-                sPrice: "~$1,600", // FUZZED PRICE
+                sPrice: "~$1,600", 
                 sImg: "https://placehold.co/400x300/dcfce7/166534?text=MacBook+Pro+14",
                 s1: "No Touch Bar", s2: "120Hz ProMotion", sWeight: "1.55 kg", sBat: "18-22 Hrs", sScreen: "XDR 120Hz",
                 switchCount: "1,200+",
 
                 value: "MacBook Air M2", 
-                vPrice: "~$1,000", // FUZZED PRICE
+                vPrice: "~$1,000", 
                 vImg: "https://placehold.co/400x300/fef3c7/92400e?text=MacBook+Air+M2",
                 vReason: "Better webcam & MagSafe.", vWeight: "1.24 kg", vBat: "15-18 Hrs", vScreen: "Liquid Retina",
 
@@ -528,7 +528,9 @@
                     <div class="bg-green-50 p-6 text-center border-b border-green-100">
                         <span class="text-green-700 font-bold text-xs uppercase tracking-widest"><i class="fa-solid fa-check-circle mr-1"></i> The Solver</span>
                         <h2 class="text-2xl font-black mt-3 text-gray-900 leading-tight">${data.solver}</h2>
-                        <p class="text-gray-500 font-mono mt-1">${data.sPrice}</p>
+                        
+                        <p class="text-gray-500 font-mono mt-2 text-sm">${data.sPrice}</p>
+
                         <img src="${data.sImg}" class="h-40 mx-auto mt-8 object-contain rounded-lg border border-green-100 bg-white">
                     </div>
                     <div class="p-6 space-y-4">
@@ -559,7 +561,9 @@
                     <div class="bg-yellow-50 p-6 text-center border-b border-yellow-100">
                         <span class="text-yellow-700 font-bold text-xs uppercase tracking-widest"><i class="fa-solid fa-piggy-bank mr-1"></i> Smart Value</span>
                         <h2 class="text-2xl font-black mt-3 text-gray-900 leading-tight">${data.value}</h2>
-                        <p class="text-gray-500 font-mono mt-1">${data.vPrice}</p>
+                        
+                        <p class="text-gray-500 font-mono mt-2 text-sm">${data.vPrice}</p>
+
                         <img src="${data.vImg}" class="h-40 mx-auto mt-8 object-contain rounded-lg border border-yellow-100 bg-white">
                     </div>
                     <div class="p-6">
