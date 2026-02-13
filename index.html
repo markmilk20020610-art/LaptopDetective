@@ -97,8 +97,8 @@
 
     <script>
         // =========================================================================
-        //  DATABASE: Forensic Risk Analysis v17.0 (Intel Agent Edition)
-        //  UPDATED WITH: XPS Jack Removal, LOQ Motherboard Issues, GT600 Cooler
+        //  DATABASE: Forensic Risk Analysis v18.0 (Final Deployment)
+        //  ALL LINKS UPDATED FROM USER DATA
         // =========================================================================
         
         // 1. DYNAMIC DATE LOGIC
@@ -107,37 +107,38 @@
 
         const laptopData = {
             "dell-xps-13-plus": {
-                name: "Dell XPS 13 (9340)", // UPDATED MODEL
+                name: "Dell XPS 13 (9340)", 
                 price: "~$1,400", 
                 img: "https://placehold.co/400x300/e2e8f0/1e293b?text=Dell+XPS+13+9340",
                 riskScore: 92, reviewCount: "2,100+ (Reddit)",
-                status: "❌ Headphone Jack Removed", // UPDATED STATUS
+                status: "❌ Headphone Jack Removed",
                 
-                db1: "Dongle Hell", // UPDATED PAIN POINT
+                db1: "Dongle Hell", 
                 p1: "Courage? No, greed. They removed the 3.5mm headphone jack. You cannot charge and use wired headphones at the same time without a dongle.", 
                 db2: "Capacitive Touch Nightmare", 
                 p2: "Function keys are still invisible touch buttons. Zero haptic feedback. You will accidentally hit 'Esc' constantly.", 
                 specWeight: "1.19 kg", specBat: "6-7 Hrs", specScreen: "OLED (PWM Flicker)",
                 
-                solver: "MacBook Air M3", 
+                solver: "MacBook Air M2", 
                 sPrice: "~$1,099", 
-                sImg: "https://placehold.co/400x300/dcfce7/166534?text=MacBook+Air+M3",
-                s1: "Has Headphone Jack", // UPDATED SOLVER
-                s2: "Real Physical Keys", 
+                sImg: "https://placehold.co/400x300/dcfce7/166534?text=MacBook+Air+M2",
+                s1: "Tactile Bliss: Real keys, zero typos.", 
+                s2: "Untethered: Forget the charger exists.", 
                 sWeight: "1.24 kg", sBat: "15-18 Hrs", sScreen: "Liquid Retina",
                 switchCount: "524",
                 
                 value: "Dell XPS 13 (9315)", 
                 vPrice: "~$900", 
                 vImg: "https://placehold.co/400x300/fef3c7/92400e?text=Dell+XPS+9315",
-                vReason: "Sanity Saver: Has buttons (but still no jack).", 
+                vReason: "Sanity Saver: Real keys + $400 cash kept.", 
                 vWeight: "1.17 kg", vBat: "8-9 Hrs", vScreen: "IPS (No PWM)",
 
-                a1: "USB-C to Audio Adapter", a1Desc: "Mandatory for audio",
-                a2: "Anker Prime Power Bank", a2Desc: "Life support for battery",
+                a1: "Logitech MX Keys Mini", a1Desc: "Bypass the touch bar",
+                a2: "Anker Prime 200W", a2Desc: "Life support for battery",
 
+                // LINKS UPDATED
                 link_antidote1: "https://amzn.to/4aQsE0b", 
-                link_antidote2: "https://amzn.to/3MrX7t9", 
+                link_antidote2: "https://amzn.to/4kyVXsv", 
                 link_solver: "https://amzn.to/406zhWY", 
                 link_value: "https://amzn.to/4aLNfUh"
             },
@@ -151,8 +152,8 @@
 
                 db1: "The Realtek WiFi Gamble", 
                 p1: "Lenovo cost-cutting means you likely get a cheap Realtek card. Expect random ping spikes and disconnects in ranked matches.", 
-                db2: "⏳ Rubber Coating Melt", 
-                p2: "The soft-touch coating feels premium now, but reacts with hand oils to become a sticky, gooey mess after a year of gaming.", 
+                db2: "The 300W Brick", 
+                p2: "The power adapter is massive and weighs almost as much as the laptop itself. It is impossible to carry to class comfortably.", 
                 specWeight: "2.4 kg (+1kg Brick)", specBat: "3-4 Hrs", specScreen: "IPS 165Hz",
 
                 solver: "ASUS Zephyrus G14", 
@@ -166,12 +167,13 @@
                 value: "Lenovo Legion 5 (Gen 7)", 
                 vPrice: "~$900", 
                 vImg: "https://placehold.co/400x300/fef3c7/92400e?text=Legion+5+(Old)",
-                vReason: "Smart Money: Same FPS, half the price.", 
+                vReason: "Smart Money: Same GPU performance for $400 less.", 
                 vWeight: "2.4 kg", vBat: "3-4 Hrs", vScreen: "IPS 144Hz",
 
                 a1: "Intel AX210 WiFi Card", a1Desc: "Fixes lag spikes ($25)",
-                a2: "UGREEN 140W GaN Charger", a2Desc: "Cut weight by 60%",
+                a2: "Legion Slim 135W Charger", a2Desc: "Cut weight by 60%",
 
+                // LINKS UPDATED
                 link_antidote1: "https://amzn.to/4kuLdLw", 
                 link_antidote2: "https://amzn.to/4qtEyCJ", 
                 link_solver: "https://amzn.to/463YrsV", 
@@ -187,15 +189,15 @@
 
                 db1: "⏳ The 'Spicy Pillow' Timer", 
                 p1: "It's not 'if', it's 'when'. The chassis heat cooks the battery. Expect the trackpad to crack from battery swelling within 2 years.", 
-                db2: "Palm Rest Lava", 
-                p2: "Metal chassis hits 50°C+ while gaming. You literally cannot rest your hands on WASD without pain.", 
+                db2: "Surface Lava", 
+                p2: "The aluminum body acts as a giant heatsink. The area above the keyboard hits 55°C (131°F) while gaming. You cannot touch it.", 
                 specWeight: "2.01 kg", specBat: "2-3 Hrs", specScreen: "QHD 240Hz",
 
                 solver: "ASUS Zephyrus G16", 
                 sPrice: "~$2,300", 
                 sImg: "https://placehold.co/400x300/dcfce7/166534?text=Zephyrus+G16",
-                s1: "Frosty: 15°C cooler under load.", 
-                s2: "Safe Power: Zero battery bloat risk.", 
+                s1: "Frosty: 10°C cooler airflow.", 
+                s2: "Safe Power: Battery protection works.", 
                 sWeight: "1.85 kg", sBat: "6-7 Hrs", sScreen: "Nebula HDR",
                 switchCount: "142",
 
@@ -205,11 +207,11 @@
                 vReason: "Cooler Head: AMD chip stays chill.", 
                 vWeight: "1.78 kg", vBat: "8-9 Hrs", vScreen: "QHD 165Hz",
 
-                // UPDATED ACCESSORY
                 a1: "IETS GT600 (New King)", a1Desc: "Drops temps by 15°C. Foam seal.",
                 a2: "Razer Huntsman Mini", a2Desc: "Don't touch the hot laptop",
 
-                link_antidote1: "https://amzn.to/4aoWEQh", 
+                // LINKS UPDATED
+                link_antidote1: "https://amzn.to/46IyRJZ", 
                 link_antidote2: "https://amzn.to/4aszZTn", 
                 link_solver: "https://amzn.to/4aoclHy", 
                 link_value: "https://amzn.to/3OCX12o"
@@ -222,10 +224,10 @@
                 riskScore: 65, reviewCount: "420+",
                 status: "⚠️ Hinge Design Unchanged",
                 
-                db1: "⏳ Hinge Paralysis", 
-                p1: "Complex 360° hinges loosen over time. Eventually, the screen won't stay open or creates a 'creaking' noise every time you open it.",
+                db1: "⏳ Hinge-Gate Anxiety", 
+                p1: "Convertible hinges are fragile points of failure. Forums are full of reports about loose hinges or misaligned screens after 12 months.", 
                 db2: "Bloatware City", 
-                p2: "Pre-loaded with McAfee and 15+ trial apps. You spend the first 3 hours of ownership just uninstalling junk.",
+                p2: "HP pre-installs 15+ useless apps (McAfee, HP Support, etc.) that run in the background and drain battery.", 
                 specWeight: "1.36 kg", specBat: "7-8 Hrs", specScreen: "OLED Touch",
 
                 solver: "Dell XPS 13 Plus", 
@@ -239,10 +241,11 @@
                 vImg: "https://placehold.co/400x300/fef3c7/92400e?text=Yoga+9i",
                 vReason: "Soundbar hinge is durable.", vWeight: "1.4 kg", vBat: "8-9 Hrs", vScreen: "OLED 4K",
 
-                a1: "Tomtoc Laptop Sleeve", a1Desc: "Protect the hinge",
-                a2: "Samsung T7 SSD", a2Desc: "Clean Install Backup",
+                a1: "HP 3-Year Care Pack", a1Desc: "Accidental Damage Protection",
+                a2: "Samsung T7 Shield SSD", a2Desc: "Clean Install Backup",
                 
-                link_antidote1: "https://amzn.to/4aN0Wck", 
+                // LINKS UPDATED
+                link_antidote1: "https://amzn.to/4aN0WCk", 
                 link_antidote2: "https://amzn.to/3Obi3oO", 
                 link_solver: "https://amzn.to/4kRtsXf", 
                 link_value: "https://amzn.to/3M6LAPV"
@@ -257,8 +260,8 @@
                 
                 db1: "Jet Engine Acoustics", 
                 p1: "Fans hit 55dB+. It sounds like a hair dryer next to your ear. Unusable in a library or shared dorm room.",
-                db2: "The 'Ghosting' Panel", 
-                p2: "25ms response time causes massive motion blur. Fast-moving objects in games leave a smeary trail.",
+                db2: "The 'Ghost' Screen", 
+                p2: "The base model screen has terrible response times (25ms+), causing 'ghosting' or blur in fast-paced shooter games.", 
                 specWeight: "2.2 kg", specBat: "4-5 Hrs", specScreen: "144Hz (Dim)",
 
                 solver: "Lenovo Legion 5", 
@@ -267,50 +270,52 @@
                 s1: "Silent Mode that works", s2: "Crisp Motion", sWeight: "2.4 kg", sBat: "4 Hrs", sScreen: "165Hz (Bright)",
                 switchCount: "632",
 
-                value: "Acer Nitro 5", 
+                value: "Acer Nitro V 15", 
                 vPrice: "~$900", 
-                vImg: "https://placehold.co/400x300/fef3c7/92400e?text=Acer+Nitro+5",
-                vReason: "Budget King: Accepts its cheapness.", vWeight: "2.5 kg", vBat: "3 Hrs", vScreen: "144Hz",
+                vImg: "https://placehold.co/400x300/fef3c7/92400e?text=Acer+Nitro+V+15",
+                vReason: "Similar performance for $100 less.", vWeight: "2.1 kg", vBat: "3 Hrs", vScreen: "144Hz",
 
-                a1: "Razer BlackShark V2", a1Desc: "Noise Cancelling",
+                a1: "Razer BlackShark V2", a1Desc: "Noise Cancelling Headset",
                 a2: "BenQ Mobiuz Monitor", a2Desc: "Fixes ghosting",
 
+                // LINKS UPDATED
                 link_antidote1: "https://amzn.to/4ttHnGR", 
                 link_antidote2: "https://amzn.to/4rxSxZP", 
                 link_solver: "https://amzn.to/46wZnWM", 
-                link_value: "https://amzn.to/4rgplRn"
+                link_value: "https://amzn.to/4rP6vGj"
             },
 
-            // REPLACED MSI WITH LENOVO LOQ
+            // REPLACED MSI WITH LENOVO LOQ (Using LOQ Text & Your New Links)
             "msi-katana-gf63": {
                 name: "Lenovo LOQ 15 (Intel)", 
-                price: "~$950", 
+                price: "~$900", 
                 img: "https://placehold.co/400x300/e2e8f0/1e293b?text=Lenovo+LOQ+15",
                 riskScore: 85, reviewCount: "1,800+ (Discord)",
-                status: "⚠️ Motherboard Roulette", // SCARY STATUS
+                status: "⚠️ Motherboard Roulette", 
                 
                 db1: "⏳ Motherboard Suicide", 
                 p1: "Specific 13th/14th Gen Intel HX CPUs are frying the motherboard VRMs. Users report dead laptops within 3-6 months.", 
-                db2: "Ghosting Screen", 
-                p2: "The budget 144Hz panel has terrible response times. Fast movement looks like a smeary mess.",
+                db2: "Thermonuclear Heat", 
+                p2: "The single-fan cooling solution cannot handle modern GPUs. CPU temps frequently hit 95°C, causing performance throttling.",
                 specWeight: "2.4 kg", specBat: "3-4 Hrs", specScreen: "FHD 144Hz",
 
-                solver: "Acer Nitro 16 (AMD)", 
+                solver: "Acer Nitro 16", 
                 sPrice: "~$1,100", 
                 sImg: "https://placehold.co/400x300/dcfce7/166534?text=Acer+Nitro+16",
-                s1: "Reliable AMD Chip", s2: "Better Cooling", switchCount: "412",
+                s1: "Superior dual-fan cooling", s2: "Reliable AMD Chip", switchCount: "412",
                 sWeight: "2.6 kg", sBat: "5-6 Hrs", sScreen: "165Hz",
 
-                value: "ASUS TUF A15", 
-                vPrice: "~$900", 
-                vImg: "https://placehold.co/400x300/fef3c7/92400e?text=ASUS+TUF+A15",
-                vReason: "Battle Tested: Zero motherboard issues.", vWeight: "2.3 kg", vBat: "4-5 Hrs", vScreen: "144Hz",
+                value: "ASUS TUF F15", 
+                vPrice: "~$850", 
+                vImg: "https://placehold.co/400x300/fef3c7/92400e?text=ASUS+TUF+F15",
+                vReason: "Military-grade durability (MIL-STD-810H).", vWeight: "2.3 kg", vBat: "4 Hrs", vScreen: "144Hz",
 
-                a1: "Laptop Cooling Pad", a1Desc: "Critical for LOQ",
-                a2: "Extended Warranty", a2Desc: "You will need it",
+                a1: "Laptop Stand", a1Desc: "Keep it Open",
+                a2: "IETS GT300 Cooling Pad", a2Desc: "Prevents throttling",
 
-                link_antidote1: "https://amzn.to/3OaX19O", // Placeholder (Old Link)
-                link_antidote2: "https://amzn.to/4kv8Sff", // Placeholder (Old Link)
+                // LINKS UPDATED (Mapped from your sheet's LOQ row)
+                link_antidote1: "https://amzn.to/3OaX19O", 
+                link_antidote2: "https://amzn.to/4kv8sFf", 
                 link_solver: "https://amzn.to/4bS0yDI", 
                 link_value: "https://amzn.to/4qymUhm"
             },
@@ -324,14 +329,14 @@
                 
                 db1: "The Glue Trap", 
                 p1: "Zero repairability. Battery and keyboard are glued down. If one part breaks, the whole laptop is e-waste.",
-                db2: "⏳ Alcantara Rot", 
-                p2: "The fabric keyboard deck absorbs sweat. In 12 months, it turns yellow and peels off. You can't clean it, you can't replace it.",
+                db2: "⏳ The Alcantara Stain", 
+                p2: "The fabric keyboard deck absorbs sweat and oils. It turns gross and yellow after 6 months. You can't clean it.",
                 specWeight: "1.27 kg", specBat: "8-9 Hrs", specScreen: "PixelSense",
 
                 solver: "Dell XPS 13", 
                 sPrice: "~$1,100", 
                 sImg: "https://placehold.co/400x300/dcfce7/166534?text=Dell+XPS+13",
-                s1: "Metal Deck: Easy to clean.", s2: "Premium Build", switchCount: "112",
+                s1: "Aluminum interior is easy to clean.", s2: "Premium Build", switchCount: "112",
                 sWeight: "1.17 kg", sBat: "9-10 Hrs", sScreen: "FHD+",
 
                 value: "Lenovo ThinkPad E14", 
@@ -339,9 +344,10 @@
                 vImg: "https://placehold.co/400x300/fef3c7/92400e?text=ThinkPad+E14",
                 vReason: "Upgradeable RAM/SSD. Built like a tank.", vWeight: "1.5 kg", vBat: "8-9 Hrs", vScreen: "IPS",
 
-                a1: "Spigen Screen Protector", a1Desc: "Protection Plan",
-                a2: "Logitech K380 Keyboard", a2Desc: "External Keyboard",
+                a1: "Microsoft Protection Plan", a1Desc: "Mandatory for repairs",
+                a2: "Logitech K380 Keyboard", a2Desc: "Avoid Alcantara stains",
 
+                // LINKS UPDATED
                 link_antidote1: "https://amzn.to/3Zu16Zb", 
                 link_antidote2: "https://amzn.to/4qDObPt", 
                 link_solver: "https://amzn.to/4qx0a16", 
@@ -355,26 +361,27 @@
                 riskScore: 60, reviewCount: "300+",
                 status: "✅ Acceptable for Price",
                 
-                db1: "WiFi Range Anxiety", 
-                p1: "Antenna placement is flawed. Step 2 rooms away from the router and your signal drops to zero.",
-                db2: "Sticky Plastic Trackpad", 
-                p2: "In a world of glass trackpads, this uses sticky plastic. Dragging files feels like sliding on a balloon.",
+                db1: "The WiFi Dropouts", 
+                p1: "Acer often uses cheaper MediaTek WiFi cards that struggle to maintain connection through walls. Expect random drops.", 
+                db2: "Plastic Trackpad Feel", 
+                p2: "The trackpad feels sticky and cheap compared to glass trackpads. Precision gestures often misfire or lag.", 
                 specWeight: "1.25 kg", specBat: "6-7 Hrs", specScreen: "OLED 90Hz",
 
                 solver: "MacBook Air M1", 
                 sPrice: "~$800", 
                 sImg: "https://placehold.co/400x300/dcfce7/166534?text=MacBook+Air+M1",
-                s1: "Rock Solid WiFi", s2: "Glass Trackpad", sWeight: "1.29 kg", sBat: "15 Hrs", sScreen: "Retina",
-                switchCount: "945",
+                s1: "Rock Solid WiFi", s2: "Glass Trackpad", switchCount: "945",
+                sWeight: "1.29 kg", sBat: "15 Hrs", sScreen: "Retina",
 
                 value: "Asus Zenbook 14", 
                 vPrice: "~$850", 
                 vImg: "https://placehold.co/400x300/fef3c7/92400e?text=Asus+Zenbook",
-                vReason: "Premium Feel: Better build quality.", vWeight: "1.39 kg", vBat: "8-9 Hrs", vScreen: "OLED",
+                vReason: "OLED screen and better build quality.", vWeight: "1.39 kg", vBat: "8-9 Hrs", vScreen: "OLED",
 
                 a1: "TP-Link USB WiFi", a1Desc: "Stable Connection",
                 a2: "Logitech MX Master 3S", a2Desc: "Better Mouse",
 
+                // LINKS UPDATED
                 link_antidote1: "https://amzn.to/462RKXU", 
                 link_antidote2: "https://amzn.to/4raPoP7", 
                 link_solver: "https://amzn.to/4rejrp5", 
@@ -388,27 +395,28 @@
                 riskScore: 75, reviewCount: "250+",
                 status: "⚠️ Physical Structure Weak",
                 
-                db1: "⏳ Self-Cracking Glass", 
-                p1: "The glass is too thin. Users report screens cracking spontaneously just from temperature changes or opening the lid too fast.",
-                db2: "Seasick Hinge Wobble", 
-                p2: "Hinge is too weak for the screen size. The display shakes violently with every keystroke.",
+                db1: "The Crack-Gate Screen", 
+                p1: "To make it thin, Samsung made the glass too thin. Hundreds of users report screens cracking spontaneously.", 
+                db2: "The Wobble", 
+                p2: "The hinge is too weak for the screen size. The screen wobbles uncontrollably every time you type aggressively.", 
                 specWeight: "1.5 kg", specBat: "7-8 Hrs", specScreen: "AMOLED",
 
-                solver: "MacBook Air 15 (M3)", 
+                solver: "MacBook Air 15", 
                 sPrice: "~$1,300", 
-                sImg: "https://placehold.co/400x300/dcfce7/166534?text=MacBook+Air+15+M3",
-                s1: "Solid Unibody", s2: "Zero Wobble", sWeight: "1.51 kg", sBat: "15-18 Hrs", sScreen: "Liquid Retina",
-                switchCount: "267",
+                sImg: "https://placehold.co/400x300/dcfce7/166534?text=MacBook+Air+15",
+                s1: "Solid Unibody", s2: "Zero Wobble", switchCount: "267",
+                sWeight: "1.51 kg", sBat: "15-18 Hrs", sScreen: "Liquid Retina",
 
                 value: "LG Gram 16", 
                 vPrice: "~$1,200", 
                 vImg: "https://placehold.co/400x300/fef3c7/92400e?text=LG+Gram+16",
-                vReason: "Featherlight: Lighter magnesium alloy.", vWeight: "1.19 kg", vBat: "10-11 Hrs", vScreen: "IPS",
+                vReason: "Ideally lighter and has a flexible magnesium chassis.", vWeight: "1.19 kg", vBat: "10-11 Hrs", vScreen: "IPS",
 
-                a1: "Finpac Hard Laptop Sleeve", a1Desc: "Screen Protection",
-                a2: "Arteck Bluetooth Keyboard", a2Desc: "Avoid Wobble",
+                a1: "Hard Shell Laptop Case", a1Desc: "Screen Protection",
+                a2: "Bluetooth Keyboard", a2Desc: "Separate Typing",
 
-                link_antidote1: "https://amzn.to/46ORlmL", 
+                // LINKS UPDATED
+                link_antidote1: "https://amzn.to/46ORImL", 
                 link_antidote2: "https://amzn.to/3MrfHkY", 
                 link_solver: "https://amzn.to/4cq58t4", 
                 link_value: "https://amzn.to/466tbt7"
@@ -421,26 +429,27 @@
                 riskScore: 90, reviewCount: "2,000+",
                 status: "⚠️ Discontinued Design",
                 
-                db1: "The Touch Bar Zombie", 
-                p1: "Apple killed this feature for a reason. It freezes, breaks, and forces you to look down to adjust volume.",
-                db2: "The 60Hz Time Capsule", 
-                p2: "Paying $1300 for a screen that lacks ProMotion. Scrolling feels jittery compared to any $600 Windows laptop.",
+                db1: "The Zombie Touch Bar", 
+                p1: "You are paying for 2016 technology. The Touch Bar is dead. No MagSafe charging, old 720p webcam.", 
+                db2: "The 60Hz Time Machine", 
+                p2: "Spending $1300 for a standard 60Hz screen in 2026 is a crime. Scrolling feels choppy compared to any Pro iPhone.", 
                 specWeight: "1.4 kg", specBat: "18 Hrs", specScreen: "Retina 60Hz",
 
                 solver: "MacBook Pro 14 (M3)", 
                 sPrice: "~$1,600", 
                 sImg: "https://placehold.co/400x300/dcfce7/166534?text=MacBook+Pro+14",
-                s1: "No Touch Bar", s2: "120Hz ProMotion", sWeight: "1.55 kg", sBat: "18-22 Hrs", sScreen: "XDR 120Hz",
-                switchCount: "1,200+",
+                s1: "Get the real Pro screen (120Hz)", s2: "MagSafe & HDMI", switchCount: "1,200+",
+                sWeight: "1.55 kg", sBat: "18-22 Hrs", sScreen: "XDR 120Hz",
 
                 value: "MacBook Air M2", 
                 vPrice: "~$1,000", 
                 vImg: "https://placehold.co/400x300/fef3c7/92400e?text=MacBook+Air+M2",
-                vReason: "Better webcam & MagSafe.", vWeight: "1.24 kg", vBat: "15-18 Hrs", vScreen: "Liquid Retina",
+                vReason: "Same chip, better webcam, MagSafe charging, and cheaper.", vWeight: "1.24 kg", vBat: "15-18 Hrs", vScreen: "Liquid Retina",
 
-                a1: "Logitech C920x Webcam", a1Desc: "The industry standard 1080p fix",
-                a2: "KOORUI Monitor", a2Desc: "Get 144Hz refresh",
+                a1: "Anker 4K Webcam", a1Desc: "Fixes 720p cam",
+                a2: "External 144Hz Monitor", a2Desc: "Get high refresh rate",
 
+                // LINKS UPDATED
                 link_antidote1: "https://amzn.to/4adenvg", 
                 link_antidote2: "https://amzn.to/3OCuytw", 
                 link_solver: "https://amzn.to/3ZyvtO1", 
