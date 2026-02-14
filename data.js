@@ -1,4 +1,4 @@
-// data.js - v30.2 FIXED DATABASE
+// data.js - v30.3 FIXED DESCRIPTIONS
 const productsDB = [
     // ================= LAPTOPS (10 Models) =================
     {
@@ -23,9 +23,9 @@ const productsDB = [
             long_term_risk: "Capacitive touch bar failure requires entire deck replacement.",
             maintenance_cost: "High",
             issues: [
-                { type: "Design", name: "Dongle Hell", severity: 2, frequency: 3, long_term_factor: 1.0 },
-                { type: "Hardware", name: "Touch Bar Freeze", severity: 3, frequency: 3, long_term_factor: 1.5 },
-                { type: "Battery", name: "Battery Degradation", severity: 2, frequency: 3, long_term_factor: 1.2 }
+                { type: "Design", name: "Dongle Hell", desc: "No headphone jack. Cannot charge & listen simultaneously.", severity: 2, frequency: 3, long_term_factor: 1.0 },
+                { type: "Hardware", name: "Touch Bar Freeze", desc: "Capacitive function row stops responding randomly.", severity: 3, frequency: 3, long_term_factor: 1.5 },
+                { type: "Battery", name: "Battery Degradation", desc: "Battery health drops below 80% within 14 months.", severity: 2, frequency: 3, long_term_factor: 1.2 }
             ]
         },
         accessories: [
@@ -55,9 +55,9 @@ const productsDB = [
             long_term_risk: "Intel HX CPUs are frying motherboard VRMs within 6 months.",
             maintenance_cost: "Total Loss",
             issues: [
-                { type: "Critical", name: "Motherboard Dead", severity: 3, frequency: 3, long_term_factor: 2.0 },
-                { type: "Thermal", name: "Overheating", severity: 3, frequency: 3, long_term_factor: 1.5 },
-                { type: "Power", name: "Battery Drain", severity: 2, frequency: 2, long_term_factor: 1.0 }
+                { type: "Critical", name: "Motherboard Dead", desc: "Specific Intel HX CPUs fry the motherboard VRMs.", severity: 3, frequency: 3, long_term_factor: 2.0 },
+                { type: "Thermal", name: "Overheating", desc: "CPU hits 95°C just opening a browser.", severity: 3, frequency: 3, long_term_factor: 1.5 },
+                { type: "Power", name: "Battery Drain", desc: "Drains battery even while plugged in.", severity: 2, frequency: 2, long_term_factor: 1.0 }
             ]
         },
         accessories: [
@@ -87,9 +87,9 @@ const productsDB = [
             long_term_risk: "Battery swelling (Spicy Pillow) is guaranteed due to heat.",
             maintenance_cost: "Very High",
             issues: [
-                { type: "Safety", name: "Battery Bloat", severity: 3, frequency: 3, long_term_factor: 2.0 },
-                { type: "Thermal", name: "Surface Lava", severity: 2, frequency: 3, long_term_factor: 1.2 },
-                { type: "Support", name: "Bad RMA", severity: 2, frequency: 2, long_term_factor: 1.0 }
+                { type: "Safety", name: "Battery Bloat", desc: "Chassis heat cooks battery causing dangerous swelling.", severity: 3, frequency: 3, long_term_factor: 2.0 },
+                { type: "Thermal", name: "Surface Lava", desc: "Keyboard area becomes too hot to touch.", severity: 2, frequency: 3, long_term_factor: 1.2 },
+                { type: "Support", name: "Bad RMA", desc: "Support takes weeks to respond to failures.", severity: 2, frequency: 2, long_term_factor: 1.0 }
             ]
         },
         accessories: [
@@ -119,9 +119,9 @@ const productsDB = [
             long_term_risk: "Hinge mechanism loosens causing screen wobble.",
             maintenance_cost: "Medium",
             issues: [
-                { type: "Mech", name: "Hinge Snap", severity: 2, frequency: 2, long_term_factor: 1.5 },
-                { type: "Software", name: "Bloatware", severity: 1, frequency: 3, long_term_factor: 1.0 },
-                { type: "Thermal", name: "Tablet Heat", severity: 2, frequency: 2, long_term_factor: 1.0 }
+                { type: "Mech", name: "Hinge Snap", desc: "One hinge becomes loose after 1 year of flipping.", severity: 2, frequency: 2, long_term_factor: 1.5 },
+                { type: "Software", name: "Bloatware", desc: "System slowed by 15+ pre-installed junk apps.", severity: 1, frequency: 3, long_term_factor: 1.0 },
+                { type: "Thermal", name: "Tablet Heat", desc: "Uncomfortable to hold in tablet mode.", severity: 2, frequency: 2, long_term_factor: 1.0 }
             ]
         },
         accessories: [
@@ -149,11 +149,11 @@ const productsDB = [
         },
         risk_data: {
             long_term_risk: "Fan bearings grind and fail after 12 months.",
-            maintenance_cost: "Low",
+            maintenance_cost: "Low (Fans are cheap)",
             issues: [
-                { type: "Noise", name: "Jet Engine", severity: 1, frequency: 3, long_term_factor: 1.0 },
-                { type: "Display", name: "Ghosting", severity: 2, frequency: 3, long_term_factor: 1.0 },
-                { type: "Build", name: "Plastic Flex", severity: 1, frequency: 2, long_term_factor: 1.0 }
+                { type: "Noise", name: "Jet Engine", desc: "Fans hit 55dB. You will be kicked out of libraries.", severity: 1, frequency: 3, long_term_factor: 1.0 },
+                { type: "Display", name: "Ghosting", desc: "Slow response time causes blurring in fast games.", severity: 2, frequency: 3, long_term_factor: 1.0 },
+                { type: "Build", name: "Plastic Flex", desc: "Chassis feels cheap and flexes under typing.", severity: 1, frequency: 2, long_term_factor: 1.0 }
             ]
         },
         accessories: [
@@ -180,12 +180,12 @@ const productsDB = [
             secondary: { name: "Framework", link: "https://amzn.to/3MBbFXr", reason: "Repairable." }
         },
         risk_data: {
-            long_term_risk: "Fabric deck stains permanently. Battery glued down.",
-            maintenance_cost: "Impossible",
+            long_term_risk: "Fabric deck stains permanently yellow. Battery cannot be replaced.",
+            maintenance_cost: "Impossible (Glue)",
             issues: [
-                { type: "Repair", name: "Glue Trap", severity: 2, frequency: 3, long_term_factor: 1.5 },
-                { type: "Cosmetic", name: "Alcantara Stain", severity: 2, frequency: 3, long_term_factor: 1.2 },
-                { type: "Design", name: "Thick Bezels", severity: 1, frequency: 3, long_term_factor: 1.0 }
+                { type: "Repair", name: "Glue Trap", desc: "Zero repairability. Battery glued down.", severity: 2, frequency: 3, long_term_factor: 1.5 },
+                { type: "Cosmetic", name: "Alcantara Stain", desc: "Fabric absorbs sweat and turns gross.", severity: 2, frequency: 3, long_term_factor: 1.2 },
+                { type: "Design", name: "Thick Bezels", desc: "Design looks outdated compared to competition.", severity: 1, frequency: 3, long_term_factor: 1.0 }
             ]
         },
         accessories: [
@@ -215,9 +215,9 @@ const productsDB = [
             long_term_risk: "WiFi card failure and trackpad peeling.",
             maintenance_cost: "Low",
             issues: [
-                { type: "Conn", name: "WiFi Dropouts", severity: 2, frequency: 3, long_term_factor: 1.2 },
-                { type: "Input", name: "Sticky Trackpad", severity: 2, frequency: 3, long_term_factor: 1.0 },
-                { type: "Software", name: "Bloatware", severity: 1, frequency: 3, long_term_factor: 1.0 }
+                { type: "Conn", name: "WiFi Dropouts", desc: "MediaTek cards struggle to maintain connection.", severity: 2, frequency: 3, long_term_factor: 1.2 },
+                { type: "Input", name: "Sticky Trackpad", desc: "Plastic trackpad feels cheap and wears down.", severity: 2, frequency: 3, long_term_factor: 1.0 },
+                { type: "Software", name: "Bloatware", desc: "Popups and ads out of the box.", severity: 1, frequency: 3, long_term_factor: 1.0 }
             ]
         },
         accessories: [
@@ -247,9 +247,9 @@ const productsDB = [
             long_term_risk: "Screen cracks spontaneously due to thin glass.",
             maintenance_cost: "High",
             issues: [
-                { type: "Fragile", name: "Crack-Gate", severity: 3, frequency: 2, long_term_factor: 1.5 },
-                { type: "Build", name: "Screen Wobble", severity: 2, frequency: 3, long_term_factor: 1.0 },
-                { type: "Cosmetic", name: "Fingerprints", severity: 1, frequency: 3, long_term_factor: 1.0 }
+                { type: "Fragile", name: "Crack-Gate", desc: "Glass is too thin and cracks from hinge stress.", severity: 3, frequency: 2, long_term_factor: 1.5 },
+                { type: "Build", name: "Screen Wobble", desc: "Hinge is too weak for the screen size.", severity: 2, frequency: 3, long_term_factor: 1.0 },
+                { type: "Cosmetic", name: "Fingerprints", desc: "Midnight blue chassis looks dirty instantly.", severity: 1, frequency: 3, long_term_factor: 1.0 }
             ]
         },
         accessories: [
@@ -277,11 +277,11 @@ const productsDB = [
         },
         risk_data: {
             long_term_risk: "WiFi card failure creates online gaming lag.",
-            maintenance_cost: "Low",
+            maintenance_cost: "Low (WiFi card is $20)",
             issues: [
-                { type: "Conn", name: "WiFi Lottery", severity: 2, frequency: 3, long_term_factor: 1.2 },
-                { type: "Design", name: "Heavy Brick", severity: 1, frequency: 3, long_term_factor: 1.0 },
-                { type: "Cosmetic", name: "Paint Chip", severity: 1, frequency: 2, long_term_factor: 1.0 }
+                { type: "Conn", name: "WiFi Lottery", desc: "Realtek cards cause ping spikes.", severity: 2, frequency: 3, long_term_factor: 1.2 },
+                { type: "Design", name: "Heavy Brick", desc: "Power adapter weighs almost 1kg.", severity: 1, frequency: 3, long_term_factor: 1.0 },
+                { type: "Cosmetic", name: "Paint Chip", desc: "Palm rest paint wears off quickly.", severity: 1, frequency: 2, long_term_factor: 1.0 }
             ]
         },
         accessories: [
@@ -309,11 +309,11 @@ const productsDB = [
         },
         risk_data: {
             long_term_risk: "Touch Bar has no future OS support. Ancient screen tech.",
-            maintenance_cost: "High",
+            maintenance_cost: "High (Apple Care)",
             issues: [
-                { type: "Obsolete", name: "Zombie TouchBar", severity: 2, frequency: 3, long_term_factor: 1.2 },
-                { type: "Display", name: "60Hz Screen", severity: 2, frequency: 3, long_term_factor: 1.0 },
-                { type: "Cam", name: "720p Webcam", severity: 1, frequency: 3, long_term_factor: 1.0 }
+                { type: "Obsolete", name: "Zombie TouchBar", desc: "No physical Esc key. Feature is dead.", severity: 2, frequency: 3, long_term_factor: 1.2 },
+                { type: "Display", name: "60Hz Screen", desc: "Slow refresh rate for a 'Pro' device.", severity: 2, frequency: 3, long_term_factor: 1.0 },
+                { type: "Cam", name: "720p Webcam", desc: "Grainy video quality.", severity: 1, frequency: 3, long_term_factor: 1.0 }
             ]
         },
         accessories: [
@@ -343,11 +343,11 @@ const productsDB = [
         },
         risk_data: {
             long_term_risk: "Gantry wobble and extruder wear degrade quality over time.",
-            maintenance_cost: "Medium",
+            maintenance_cost: "Medium (Parts are cheap)",
             issues: [
-                { type: "Mech", name: "Gantry Wobble", severity: 2, frequency: 3, long_term_factor: 1.2 },
-                { type: "Parts", name: "Gear Wear", severity: 2, frequency: 2, long_term_factor: 1.5 },
-                { type: "Fail", name: "Spaghetti", severity: 2, frequency: 2, long_term_factor: 1.0 }
+                { type: "Mech", name: "Gantry Wobble", desc: "Z-axis instability causes lines on prints.", severity: 2, frequency: 3, long_term_factor: 1.2 },
+                { type: "Parts", name: "Gear Wear", desc: "Plastic gears break inside the extruder.", severity: 2, frequency: 2, long_term_factor: 1.5 },
+                { type: "Fail", name: "Spaghetti", desc: "No AI detection for failed prints.", severity: 2, frequency: 2, long_term_factor: 1.0 }
             ]
         },
         accessories: [
@@ -377,9 +377,9 @@ const productsDB = [
             long_term_risk: "Proprietary parts mean you rely 100% on Bambu for repairs.",
             maintenance_cost: "Medium",
             issues: [
-                { type: "Privacy", name: "Cloud Logs", severity: 2, frequency: 2, long_term_factor: 1.5 },
-                { type: "Size", name: "Small Volume", severity: 1, frequency: 3, long_term_factor: 1.0 },
-                { type: "Repair", name: "Proprietary", severity: 1, frequency: 3, long_term_factor: 1.2 }
+                { type: "Privacy", name: "Cloud Logs", desc: "Print logs sent to cloud servers.", severity: 2, frequency: 2, long_term_factor: 1.5 },
+                { type: "Size", name: "Small Volume", desc: "180mm cube limits cosplay prints.", severity: 1, frequency: 3, long_term_factor: 1.0 },
+                { type: "Repair", name: "Proprietary", desc: "Cannot use generic cheap parts.", severity: 1, frequency: 3, long_term_factor: 1.2 }
             ]
         },
         accessories: [
@@ -407,11 +407,11 @@ const productsDB = [
         },
         risk_data: {
             long_term_risk: "LCD screen is a consumable. Resin fumes are hazardous.",
-            maintenance_cost: "High",
+            maintenance_cost: "High (Screen replacement)",
             issues: [
-                { type: "Health", name: "Toxic Fumes", severity: 3, frequency: 3, long_term_factor: 1.0 },
-                { type: "Fail", name: "FEP Leak", severity: 3, frequency: 1, long_term_factor: 2.0 },
-                { type: "Maintenance", name: "Messy Cleanup", severity: 2, frequency: 3, long_term_factor: 1.0 }
+                { type: "Health", name: "Toxic Fumes", desc: "Resin fumes require ventilation.", severity: 3, frequency: 3, long_term_factor: 1.0 },
+                { type: "Fail", name: "FEP Leak", desc: "Resin leaks cure on the screen.", severity: 3, frequency: 1, long_term_factor: 2.0 },
+                { type: "Maintenance", name: "Messy Cleanup", desc: "Requires isopropyl alcohol washing.", severity: 2, frequency: 3, long_term_factor: 1.0 }
             ]
         },
         accessories: [
@@ -441,9 +441,9 @@ const productsDB = [
             long_term_risk: "Firmware bugs cause nozzle crashes. Wheels wear out.",
             maintenance_cost: "Medium",
             issues: [
-                { type: "Firmware", name: "Z-Offset Bug", severity: 3, frequency: 2, long_term_factor: 1.5 },
-                { type: "Noise", name: "Loud Fans", severity: 2, frequency: 3, long_term_factor: 1.0 },
-                { type: "Wear", name: "Wheel Dust", severity: 2, frequency: 2, long_term_factor: 1.2 }
+                { type: "Firmware", name: "Z-Offset Bug", desc: "Printer forgets height, crashes into bed.", severity: 3, frequency: 2, long_term_factor: 1.5 },
+                { type: "Noise", name: "Loud Fans", desc: "Auxiliary fans sound like a jet engine.", severity: 2, frequency: 3, long_term_factor: 1.0 },
+                { type: "Wear", name: "Wheel Dust", desc: "POM wheels wear out at high speeds.", severity: 2, frequency: 2, long_term_factor: 1.2 }
             ]
         },
         accessories: [
@@ -473,9 +473,9 @@ const productsDB = [
             long_term_risk: "Obsolete technology. Very slow compared to modern printers.",
             maintenance_cost: "Low",
             issues: [
-                { type: "Perf", name: "Slow Speed", severity: 2, frequency: 3, long_term_factor: 1.2 },
-                { type: "Design", name: "Bowden Jam", severity: 2, frequency: 2, long_term_factor: 1.0 },
-                { type: "Value", name: "Overpriced", severity: 1, frequency: 3, long_term_factor: 1.0 }
+                { type: "Perf", name: "Slow Speed", desc: "No input shaping. Very slow prints.", severity: 2, frequency: 3, long_term_factor: 1.2 },
+                { type: "Design", name: "Bowden Jam", desc: "Gap in bowden tube causes jams.", severity: 2, frequency: 2, long_term_factor: 1.0 },
+                { type: "Value", name: "Overpriced", desc: "Paying premium for 2019 tech.", severity: 1, frequency: 3, long_term_factor: 1.0 }
             ]
         },
         accessories: [
@@ -503,11 +503,11 @@ const productsDB = [
         },
         risk_data: {
             long_term_risk: "Gen 1 extruder and hotend are prone to jamming.",
-            maintenance_cost: "High",
+            maintenance_cost: "High (Upgrades needed)",
             issues: [
-                { type: "Mech", name: "Extruder Jam", severity: 3, frequency: 3, long_term_factor: 2.0 },
-                { type: "Quality", name: "VFA Ripples", severity: 1, frequency: 3, long_term_factor: 1.0 },
-                { type: "Design", name: "Tube Melt", severity: 2, frequency: 2, long_term_factor: 1.5 }
+                { type: "Mech", name: "Extruder Jam", desc: "Gen 1 extruder fails to grip filament.", severity: 3, frequency: 3, long_term_factor: 2.0 },
+                { type: "Quality", name: "VFA Ripples", desc: "Vertical artifacts on walls due to belts.", severity: 1, frequency: 3, long_term_factor: 1.0 },
+                { type: "Design", name: "Tube Melt", desc: "PTFE tube melts inside the hotend.", severity: 2, frequency: 2, long_term_factor: 1.5 }
             ]
         },
         accessories: [
