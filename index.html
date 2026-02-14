@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechDetective - Forensic Hardware Analysis (v23.0)</title>
+    <title>TechDetective - Forensic Hardware Analysis (v24.0)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -31,7 +31,7 @@
 
     <div class="max-w-5xl mx-auto mb-8 text-center">
         <div class="inline-block bg-slate-800 text-slate-300 px-3 py-1 rounded-sm text-xs font-bold mono mb-6 border border-slate-600">
-            <i class="fa-solid fa-database mr-2"></i>DATABASE: v23.0
+            <i class="fa-solid fa-database mr-2"></i>DATABASE: v24.0
         </div>
         <h1 class="text-4xl md:text-5xl font-black mb-2 tracking-tighter text-white">
             <span class="text-blue-500">Tech</span>Detective<span class="text-gray-600">.exe</span>
@@ -55,17 +55,36 @@
             </div>
         </div>
 
-        <div id="user-profile-selector" class="hidden mt-4 flex justify-center gap-2 text-sm fade-in">
-            <span class="text-gray-400 self-center mr-2 font-mono text-xs uppercase tracking-widest">Identify Yourself:</span>
-            <button onclick="setUserProfile('Beginner')" id="btn-user-beginner" class="px-4 py-2 bg-blue-600 text-white rounded-lg border border-blue-500 font-bold transition-all shadow-lg shadow-blue-900/50">Beginner / Parent</button>
-            <button onclick="setUserProfile('Geek')" id="btn-user-geek" class="px-4 py-2 bg-slate-800 text-gray-400 rounded-lg border border-slate-700 hover:bg-slate-700 transition-all">Geek / Tinkerer</button>
+        <div id="user-profile-selector" class="hidden mt-6 flex justify-center gap-4 fade-in">
+            <button onclick="setUserProfile('Beginner')" id="btn-user-beginner" class="px-6 py-3 bg-blue-600 text-white rounded-xl border-2 border-blue-400 font-bold transition-all shadow-lg flex items-center">
+                <i class="fa-solid fa-baby mr-2"></i> Beginner / Parent
+            </button>
+            <button onclick="setUserProfile('Geek')" id="btn-user-geek" class="px-6 py-3 bg-slate-800 text-gray-400 rounded-xl border-2 border-slate-700 hover:bg-slate-700 transition-all flex items-center">
+                <i class="fa-solid fa-screwdriver-wrench mr-2"></i> Geek / Tinkerer
+            </button>
         </div>
     </div>
 
     <div id="arena" class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 items-start fade-in w-full">
         </div>
 
-    <footer class="text-center mt-16 pt-8 border-t border-slate-800 text-slate-500 text-xs">
+    <div class="max-w-3xl mx-auto mt-20 p-8 bg-slate-800 rounded-2xl border border-slate-700 text-center">
+        <h3 class="text-2xl font-black text-white mb-2"><i class="fa-solid fa-magnifying-glass-arrow-right mr-2"></i>SUBMIT EVIDENCE</h3>
+        <p class="text-gray-400 mb-6">Which device should I investigate next? Help me build the next case file.</p>
+        <div class="flex flex-col md:flex-row gap-4 justify-center">
+            <a href="mailto:your-email@example.com?subject=TechDetective%20Request" class="px-6 py-3 bg-slate-700 hover:bg-slate-600 text-white font-bold rounded-lg border border-slate-500 transition-all">
+                <i class="fa-regular fa-envelope mr-2"></i> Request a Review
+            </a>
+            <button onclick="alert('Thank you! Your vote for [More Laptops] has been recorded.')" class="px-6 py-3 bg-slate-900 hover:bg-slate-800 text-gray-300 font-bold rounded-lg border border-slate-700 transition-all">
+                Vote: More Laptops
+            </button>
+            <button onclick="alert('Thank you! Your vote for [More 3D Printers] has been recorded.')" class="px-6 py-3 bg-slate-900 hover:bg-slate-800 text-gray-300 font-bold rounded-lg border border-slate-700 transition-all">
+                Vote: More 3D Printers
+            </button>
+        </div>
+    </div>
+
+    <footer class="text-center mt-12 pt-8 border-t border-slate-800 text-slate-500 text-xs pb-8">
         <p>Database Verified: <span id="current-date" class="text-slate-300"></span></p>
         <p class="mt-2">As an Amazon Associate, I earn from qualifying purchases.</p>
     </footer>
@@ -81,7 +100,7 @@
 
     <script>
         // =========================================================================
-        //  DATABASE v23.0 (LINKS FINALIZED & CLEANED)
+        //  DATABASE v24.0 (Links Verified + Profile Logic)
         // =========================================================================
         
         let currentCategory = 'Laptop';
@@ -93,7 +112,7 @@
         }
 
         const database = [
-            // ================= LAPTOPS (10 Models - Unchanged) =================
+            // ================= LAPTOPS (10 Models) =================
             {
                 category: "Laptop", id: "dell-xps-13-plus", name: "Dell XPS 13 Plus (9320)", price: "$1,399", riskScore: 92, verdict: "DONGLE HELL",
                 persona: "Music Producers: No headphone jack means living in a dongle nightmare.", timebomb: "Month 6: The capacitive touch function row starts registering phantom touches or freezes entirely.",
@@ -185,7 +204,7 @@
                 a1: "Anker 4K Webcam", l_a1: "https://amzn.to/4adenvg", a2: "External 144Hz Monitor", l_a2: "https://amzn.to/3OCuytw", l_solver: "https://amzn.to/3ZyvtO1", l_value: "https://amzn.to/3MsXTG7"
             },
 
-            // ================= 3D PRINTERS (6 Models - CORRECT LINKS!) =================
+            // ================= 3D PRINTERS (6 Models) =================
             {
                 category: "3D_Printer", id: "ender-3-v3-se", name: "Creality Ender 3 V3 SE", price: "$199", riskScore: 85, verdict: "QC LOTTERY",
                 persona: "Parents: NOT A TOY. Requires constant mechanical maintenance and debugging.", timebomb: "Month 3: The extruder gears wear out, causing underextrusion and failed prints.",
@@ -193,13 +212,10 @@
                 db1: "Gantry Wobble", p1: "Cheap construction leads to Z-axis wobble and ugly lines.",
                 db2: "The Spaghetti Monster", p2: "With no AI detection, a failed print will continue for 10 hours, creating a massive ball of plastic spaghetti and wasting $20 of filament.",
                 
-                // Ender 3 Links
                 a1: "CR Touch Auto Leveling Kit", l_a1: "https://amzn.to/4avRTV1",
                 a2: "Sunlu Filament Dryer S1", l_a2: "https://amzn.to/4rieR9m",
-                
                 solver: "Flashforge Adventurer 5M", sReason: "CoreXY structure, auto-leveling, and 600mm/s speed. The reliable workhorse.",
                 l_solver: "https://amzn.to/4rO30zE",
-                
                 value: "Sovol SV06", vReason: "Linear rails are more durable than plastic wheels for the same price.",
                 l_value: "https://amzn.to/4bV0DGS"
             },
@@ -210,13 +226,10 @@
                 db1: "Too Small", p1: "180mm volume limits cosplay prints.",
                 db2: "Cloud Privacy Risk", p2: "Your print files go through cloud servers. If the internet goes down, you lose app control. It is a data black box.",
                 
-                // Bambu A1 Links
                 a1: "Textured PEI Plate", l_a1: "https://amzn.to/4kyuwPk",
                 a2: "eSun PLA+ Filament White", l_a2: "https://amzn.to/4ataRvx",
-                
                 solver: "Prusa Mini+", sReason: "If you care about Open Source and offline privacy, get Prusa.",
                 l_solver: "https://amzn.to/3MIGFVp",
-                
                 value: "AnkerMake M5C", vReason: "Faster printing speeds and solid aluminum build for a similar price.",
                 l_value: "https://amzn.to/4agB7KS"
             },
@@ -227,13 +240,10 @@
                 db1: "Toxic Resin", p1: "Requires gloves, masks, and ventilation. Dangerous for pets.",
                 db2: "FEP Film Tear", p2: "If the thin plastic film (FEP) tears during a print, liquid resin leaks onto the LCD screen and cures, permanently destroying your printer.",
                 
-                // Anycubic Links
                 a1: "Anycubic Wash & Cure Station", l_a1: "https://amzn.to/4tCG87Y",
                 a2: "Anycubic Grey Resin 1kg", l_a2: "https://amzn.to/4sblM4z",
-                
                 solver: "Flashforge Adventurer 5M", sReason: "Escape the toxicity. FDM printing requires no gloves, is safe for home, and auto-levels.",
                 l_solver: "https://amzn.to/4tCngpS",
-                
                 value: "Elegoo Mars 4", vReason: "Comes with a built-in air filter to reduce the toxic smell.",
                 l_value: "https://amzn.to/469PUEF"
             },
@@ -244,13 +254,10 @@
                 db1: "Z-Offset Bug", p1: "Printer forgets height settings, scratching the bed.",
                 db2: "Jet Engine Noise", p2: "The massive auxiliary cooling fan hits 65dB+. It sounds like a vacuum cleaner running next to your ear. Unusable in a bedroom.",
                 
-                // Neptune 4 Links
                 a1: "PEI Magnetic Build Plate", l_a1: "https://amzn.to/4ctaUtW",
                 a2: "Noctua Silent Fan Mod", l_a2: "https://amzn.to/4rgiixg",
-                
                 solver: "Creality K1C", sReason: "Stable firmware that doesn't crash the nozzle into the bed. Quiet mode included.",
                 l_solver: "https://amzn.to/4rhuAFL",
-                
                 value: "Creality Ender 3 V3 KE", vReason: "Better software experience and easier to repair.",
                 l_value: "https://amzn.to/4rhu1M9"
             },
@@ -261,13 +268,10 @@
                 db1: "Painfully Slow", p1: "It lacks Input Shaping. A standard 'Benchy' boat takes 1.5 hours. A Bambu Lab A1 does it in 18 minutes.",
                 db2: "Tiny Build Volume", p2: "180mm cube is too small for most cosplay helmets or useful organizers. You will outgrow this size in a month.",
                 
-                // Prusa Mini Links
                 a1: "Raspberry Pi 4 (For OctoPrint)", l_a1: "https://amzn.to/4awdywx",
                 a2: "Bondtech Heatbreak", l_a2: "https://amzn.to/4qG8n3c",
-                
                 solver: "Flashforge Adventurer 5M", sReason: "CoreXY structure, auto-leveling, and 600mm/s speed. The reliable workhorse.",
                 l_solver: "https://amzn.to/3MEIa77",
-                
                 value: "Sovol SV07", vReason: "Faster Klipper speed and larger build volume for a lower price.",
                 l_value: "https://amzn.to/3OcjO5b"
             },
@@ -278,13 +282,10 @@
                 db1: "Underextrusion Lottery", p1: "Due to a design flaw in the extruder gears, the filament slips. Your 10-hour print will fail at hour 9.",
                 db2: "VFA (Vertical Artifacts)", p2: "The printer vibrates so much it leaves vertical ripple patterns on the walls. Prints look ugly.",
                 
-                // Creality K1 Links
                 a1: "Official Extruder Upgrade Kit (V3)", l_a1: "https://amzn.to/4kyx6F0",
                 a2: "Hyper PLA High Speed Filament", l_a2: "https://amzn.to/3ZCCYU7",
-                
                 solver: "Flashforge 5M Pro", sReason: "A truly reliable enclosed CoreXY printer. Its quick-swap nozzle system solves the K1's constant jamming issues.",
                 l_solver: "https://amzn.to/3Of1sjT",
-                
                 value: "QIDI Tech Q1 Pro", vReason: "Features an active heated chamber (60°C) for warp-free ABS printing. Far superior build quality compared to K1.",
                 l_value: "https://amzn.to/3ZF3Oen"
             }
@@ -322,11 +323,11 @@
             const btnGeek = document.getElementById('btn-user-geek');
             
             if (profile === 'Beginner') {
-                btnBeginner.className = 'px-4 py-2 bg-blue-600 text-white rounded-lg border border-blue-500 font-bold transition-all shadow-lg shadow-blue-900/50 transform scale-105';
-                btnGeek.className = 'px-4 py-2 bg-slate-800 text-gray-500 rounded-lg border border-slate-700 hover:bg-slate-700 transition-all';
+                btnBeginner.className = 'px-6 py-3 bg-blue-600 text-white rounded-xl border-2 border-blue-400 font-bold transition-all shadow-lg flex items-center scale-105';
+                btnGeek.className = 'px-6 py-3 bg-slate-800 text-gray-400 rounded-xl border-2 border-slate-700 hover:bg-slate-700 transition-all flex items-center';
             } else {
-                btnBeginner.className = 'px-4 py-2 bg-slate-800 text-gray-500 rounded-lg border border-slate-700 hover:bg-slate-700 transition-all';
-                btnGeek.className = 'px-4 py-2 bg-blue-600 text-white rounded-lg border border-blue-500 font-bold transition-all shadow-lg shadow-blue-900/50 transform scale-105';
+                btnBeginner.className = 'px-6 py-3 bg-slate-800 text-gray-400 rounded-xl border-2 border-slate-700 hover:bg-slate-700 transition-all flex items-center';
+                btnGeek.className = 'px-6 py-3 bg-blue-600 text-white rounded-xl border-2 border-blue-400 font-bold transition-all shadow-lg flex items-center scale-105';
             }
             updateDashboard();
         }
@@ -369,24 +370,42 @@
         }
 
         function renderPrinter(data, container) {
-            let rec = "", recColor = "";
             let userBadge = "";
+            let alertBox = "";
             
+            // Dynamic Alert Logic based on User Profile + EaseOfUse + Repairability
             if (currentUserProfile === 'Beginner') {
                 if (data.easeUse < 7) { 
-                    rec = "BAD FOR BEGINNERS"; recColor = "text-red-500"; 
-                    userBadge = `<div class="mt-2 text-center text-xs text-red-400 bg-red-900/30 p-1 rounded border border-red-800">⚠️ Hard for Beginners</div>`;
-                } else { 
-                    rec = "BEGINNER FRIENDLY"; recColor = "text-emerald-500"; 
-                    userBadge = `<div class="mt-2 text-center text-xs text-emerald-400 bg-emerald-900/30 p-1 rounded border border-emerald-800">✅ Good for Beginners</div>`;
+                    // Bad for Beginner
+                    alertBox = `
+                    <div class="bg-red-900/40 border-l-4 border-red-500 p-4 mb-4 rounded-r">
+                        <div class="flex items-center"><i class="fa-solid fa-triangle-exclamation text-red-500 mr-2"></i><span class="font-bold text-red-100">NOT FOR BEGINNERS</span></div>
+                        <p class="text-red-200 text-xs mt-1">This printer requires constant mechanical debugging. You will spend more time fixing it than printing.</p>
+                    </div>`;
+                } else {
+                    // Good for Beginner
+                    alertBox = `
+                    <div class="bg-emerald-900/40 border-l-4 border-emerald-500 p-4 mb-4 rounded-r">
+                        <div class="flex items-center"><i class="fa-solid fa-check-circle text-emerald-500 mr-2"></i><span class="font-bold text-emerald-100">BEGINNER APPROVED</span></div>
+                        <p class="text-emerald-200 text-xs mt-1">Plug and play. Excellent auto-leveling and minimal maintenance required.</p>
+                    </div>`;
                 }
             } else {
+                // Geek Profile
                 if (data.repair > 7) { 
-                    rec = "GEEK APPROVED"; recColor = "text-emerald-500"; 
-                    userBadge = `<div class="mt-2 text-center text-xs text-emerald-400 bg-emerald-900/30 p-1 rounded border border-emerald-800">🛠️ Mod-Friendly</div>`;
+                    // Good for Geek (High Repairability)
+                    alertBox = `
+                    <div class="bg-emerald-900/40 border-l-4 border-emerald-500 p-4 mb-4 rounded-r">
+                        <div class="flex items-center"><i class="fa-solid fa-screwdriver-wrench text-emerald-500 mr-2"></i><span class="font-bold text-emerald-100">EXCELLENT MOD BASE</span></div>
+                        <p class="text-emerald-200 text-xs mt-1">Open source, standard parts, and huge community support. Perfect for installing Klipper or mods.</p>
+                    </div>`;
                 } else { 
-                    rec = "HARD TO MOD"; recColor = "text-yellow-500"; 
-                    userBadge = `<div class="mt-2 text-center text-xs text-yellow-400 bg-yellow-900/30 p-1 rounded border border-yellow-800">🔒 Closed System</div>`;
+                    // Bad for Geek (Proprietary/Hard to mod)
+                    alertBox = `
+                    <div class="bg-yellow-900/40 border-l-4 border-yellow-500 p-4 mb-4 rounded-r">
+                        <div class="flex items-center"><i class="fa-solid fa-lock text-yellow-500 mr-2"></i><span class="font-bold text-yellow-100">PROPRIETARY SYSTEM</span></div>
+                        <p class="text-yellow-200 text-xs mt-1">Closed source firmware or custom parts make this hard to upgrade or repair yourself.</p>
+                    </div>`;
                 }
             }
 
@@ -397,13 +416,13 @@
                         <div class="flex justify-between items-start mb-4"><span class="bg-purple-900 text-purple-200 px-2 py-1 rounded text-xs mono">3D PRINTER</span><span class="text-slate-500 text-xs mono">${data.price}</span></div>
                         <h2 class="text-2xl font-black text-white leading-none mb-1">${data.name}</h2>
                         
-                        <div class="grid grid-cols-3 gap-2 mt-6 mb-2">
+                        <div class="grid grid-cols-3 gap-2 mt-6 mb-4">
                             <div class="bg-slate-800 p-2 rounded text-center"><div class="text-[10px] text-slate-400 uppercase">Mech</div><div class="font-bold ${data.mechScore > 5 ? 'text-red-400' : 'text-green-400'}">${data.mechScore}/10</div></div>
                             <div class="bg-slate-800 p-2 rounded text-center"><div class="text-[10px] text-slate-400 uppercase">Hotend</div><div class="font-bold ${data.hotendScore > 5 ? 'text-red-400' : 'text-green-400'}">${data.hotendScore}/10</div></div>
                             <div class="bg-slate-800 p-2 rounded text-center"><div class="text-[10px] text-slate-400 uppercase">Firmware</div><div class="font-bold ${data.firmScore > 5 ? 'text-red-400' : 'text-green-400'}">${data.firmScore}/10</div></div>
                         </div>
                         
-                        ${userBadge}
+                        ${alertBox}
                     </div>
                     <div class="p-6 space-y-6">
                         <div class="space-y-4">
