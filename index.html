@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechDetective - Forensic Hardware Analysis (v22.1)</title>
+    <title>TechDetective - Forensic Hardware Analysis (v22.2)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -31,7 +31,7 @@
 
     <div class="max-w-5xl mx-auto mb-8 text-center">
         <div class="inline-block bg-slate-800 text-slate-300 px-3 py-1 rounded-sm text-xs font-bold mono mb-6 border border-slate-600">
-            <i class="fa-solid fa-database mr-2"></i>DATABASE: v22.1
+            <i class="fa-solid fa-database mr-2"></i>DATABASE: v22.2
         </div>
         <h1 class="text-4xl md:text-5xl font-black mb-2 tracking-tighter text-white">
             <span class="text-blue-500">Tech</span>Detective<span class="text-gray-600">.exe</span>
@@ -81,7 +81,7 @@
 
     <script>
         // =========================================================================
-        //  DATABASE v22.1 (LINKS FIXED)
+        //  DATABASE v22.2 (Links 100% Fixed from User Table)
         // =========================================================================
         
         let currentCategory = 'Laptop';
@@ -93,7 +93,7 @@
         }
 
         const database = [
-            // ================= LAPTOPS (10 Models - Links Ready) =================
+            // ================= LAPTOPS (10 Models - Correct Links) =================
             {
                 category: "Laptop", id: "dell-xps-13-plus", name: "Dell XPS 13 Plus (9320)", price: "$1,399", riskScore: 92, verdict: "DONGLE HELL",
                 persona: "Music Producers: No headphone jack means living in a dongle nightmare.", timebomb: "Month 6: The capacitive touch function row starts registering phantom touches or freezes entirely.",
@@ -185,8 +185,7 @@
                 a1: "Anker 4K Webcam", l_a1: "https://amzn.to/4adenvg", a2: "External 144Hz Monitor", l_a2: "https://amzn.to/3OCuytw", l_solver: "https://amzn.to/3ZyvtO1", l_value: "https://amzn.to/3MsXTG7"
             },
 
-            // ================= 3D PRINTERS (6 Models - LINKS FILLED!) =================
-            // 注意：这些链接必须是有效的 HTTPS 链接，否则点击没反应
+            // ================= 3D PRINTERS (6 Models - CORRECT LINKS) =================
             {
                 category: "3D_Printer", id: "ender-3-v3-se", name: "Creality Ender 3 V3 SE", price: "$199", riskScore: 85, verdict: "QC LOTTERY",
                 persona: "Parents: NOT A TOY. Requires constant mechanical maintenance and debugging.", timebomb: "Month 3: The extruder gears wear out, causing underextrusion and failed prints.",
@@ -194,15 +193,15 @@
                 db1: "Gantry Wobble", p1: "Cheap construction leads to Z-axis wobble and ugly lines.",
                 db2: "The Spaghetti Monster", p2: "With no AI detection, a failed print will continue for 10 hours, creating a massive ball of plastic spaghetti and wasting $20 of filament.",
                 
-                // ⚠️ 假设链接：请替换为你的真实亚马逊链接
-                a1: "CR Touch Auto Leveling Kit", l_a1: "https://amzn.to/3XYZ123",
-                a2: "Sunlu Filament Dryer S1", l_a2: "https://amzn.to/3ABC456",
+                // CORRECTED LINKS FROM YOUR TABLE
+                a1: "CR Touch Auto Leveling Kit", l_a1: "https://amzn.to/4avRTV1",
+                a2: "Sunlu Filament Dryer S1", l_a2: "https://amzn.to/4rieR9m",
                 
                 solver: "Flashforge Adventurer 5M", sReason: "CoreXY structure, auto-leveling, and 600mm/s speed. The reliable workhorse.",
-                l_solver: "https://amzn.to/3DEF789",
+                l_solver: "https://amzn.to/4rO30zE",
                 
                 value: "Sovol SV06", vReason: "Linear rails are more durable than plastic wheels for the same price.",
-                l_value: "https://amzn.to/3GHI012"
+                l_value: "https://amzn.to/4bV0DGS"
             },
             {
                 category: "3D_Printer", id: "bambu-a1-mini", name: "Bambu Lab A1 Mini", price: "$299", riskScore: 15, verdict: "JUST WORKS",
@@ -211,15 +210,15 @@
                 db1: "Too Small", p1: "180mm volume limits cosplay prints.",
                 db2: "Cloud Privacy Risk", p2: "Your print files go through cloud servers. If the internet goes down, you lose app control. It is a data black box.",
                 
-                // ⚠️ 假设链接
-                a1: "Textured PEI Plate", l_a1: "https://amzn.to/4aQsE0b",
-                a2: "eSun PLA+ Filament White", l_a2: "https://amzn.to/4kyVXsv",
+                // CORRECTED LINKS FROM YOUR TABLE
+                a1: "Textured PEI Plate", l_a1: "https://amzn.to/4kyuwPk",
+                a2: "eSun PLA+ Filament White", l_a2: "https://amzn.to/4ataRvx",
                 
                 solver: "Prusa Mini+", sReason: "If you care about Open Source and offline privacy, get Prusa.",
-                l_solver: "https://amzn.to/4ax1iM6",
+                l_solver: "https://amzn.to/3MIGFVp",
                 
                 value: "AnkerMake M5C", vReason: "Faster printing speeds and solid aluminum build for a similar price.",
-                l_value: "https://amzn.to/4aLNfUh"
+                l_value: "https://amzn.to/4agB7KS"
             },
             {
                 category: "3D_Printer", id: "anycubic-photon-mono", name: "Anycubic Photon Mono 2", price: "$180", riskScore: 90, verdict: "TOXIC HAZARD",
@@ -228,15 +227,15 @@
                 db1: "Toxic Resin", p1: "Requires gloves, masks, and ventilation. Dangerous for pets.",
                 db2: "FEP Film Tear", p2: "If the thin plastic film (FEP) tears during a print, liquid resin leaks onto the LCD screen and cures, permanently destroying your printer.",
                 
-                // ⚠️ 假设链接
-                a1: "Anycubic Wash & Cure Station", l_a1: "https://amzn.to/4kuLdLw",
-                a2: "Anycubic Grey Resin 1kg", l_a2: "https://amzn.to/4qtEyCJ",
+                // CORRECTED LINKS FROM YOUR TABLE
+                a1: "Anycubic Wash & Cure Station", l_a1: "https://amzn.to/4tCG87Y",
+                a2: "Anycubic Grey Resin 1kg", l_a2: "https://amzn.to/4sblM4z",
                 
                 solver: "Flashforge Adventurer 5M", sReason: "Escape the toxicity. FDM printing requires no gloves, is safe for home, and auto-levels.",
-                l_solver: "https://amzn.to/3DEF789",
+                l_solver: "https://amzn.to/4tCngpS",
                 
                 value: "Elegoo Mars 4", vReason: "Comes with a built-in air filter to reduce the toxic smell.",
-                l_value: "https://amzn.to/3OpuxsR"
+                l_value: "https://amzn.to/469PUEF"
             },
             {
                 category: "3D_Printer", id: "elegoo-neptune-4", name: "Elegoo Neptune 4 Pro", price: "$280", riskScore: 75, verdict: "FIRMWARE BUG",
@@ -245,15 +244,15 @@
                 db1: "Z-Offset Bug", p1: "Printer forgets height settings, scratching the bed.",
                 db2: "Jet Engine Noise", p2: "The massive auxiliary cooling fan hits 65dB+. It sounds like a vacuum cleaner running next to your ear. Unusable in a bedroom.",
                 
-                // ⚠️ 假设链接
-                a1: "PEI Magnetic Build Plate", l_a1: "https://amzn.to/46IyRJZ",
-                a2: "Noctua Silent Fan Mod", l_a2: "https://amzn.to/4aszZTn",
+                // CORRECTED LINKS FROM YOUR TABLE
+                a1: "PEI Magnetic Build Plate", l_a1: "https://amzn.to/4ctaUtW",
+                a2: "Noctua Silent Fan Mod", l_a2: "https://amzn.to/4rgiixg",
                 
                 solver: "Creality K1C", sReason: "Stable firmware that doesn't crash the nozzle into the bed. Quiet mode included.",
-                l_solver: "https://amzn.to/4aoclHy",
+                l_solver: "https://amzn.to/4rhuAFL",
                 
                 value: "Creality Ender 3 V3 KE", vReason: "Better software experience and easier to repair.",
-                l_value: "https://amzn.to/3OCX12o"
+                l_value: "https://amzn.to/4rhu1M9"
             },
             {
                 category: "3D_Printer", id: "prusa-mini", name: "Prusa Mini+", price: "$429", riskScore: 40, verdict: "OLD TECH",
@@ -262,15 +261,15 @@
                 db1: "Painfully Slow", p1: "It lacks Input Shaping. A standard 'Benchy' boat takes 1.5 hours. A Bambu Lab A1 does it in 18 minutes.",
                 db2: "Tiny Build Volume", p2: "180mm cube is too small for most cosplay helmets or useful organizers. You will outgrow this size in a month.",
                 
-                // ⚠️ 假设链接
-                a1: "Raspberry Pi 4 (For OctoPrint)", l_a1: "https://amzn.to/4aN0WCk",
-                a2: "Bondtech Heatbreak", l_a2: "https://amzn.to/3Obi3oO",
+                // CORRECTED LINKS FROM YOUR TABLE
+                a1: "Raspberry Pi 4 (For OctoPrint)", l_a1: "https://amzn.to/4awdywx",
+                a2: "Bondtech Heatbreak", l_a2: "https://amzn.to/4qG8n3c",
                 
                 solver: "Flashforge Adventurer 5M", sReason: "CoreXY structure, auto-leveling, and 600mm/s speed. The reliable workhorse.",
-                l_solver: "https://amzn.to/3DEF789",
+                l_solver: "https://amzn.to/3MEIa77",
                 
                 value: "Sovol SV07", vReason: "Faster Klipper speed and larger build volume for a lower price.",
-                l_value: "https://amzn.to/3M6LAPV"
+                l_value: "https://amzn.to/3OcjO5b"
             },
             {
                 category: "3D_Printer", id: "creality-k1", name: "Creality K1 (Gen 1)", price: "$399", riskScore: 82, verdict: "EXTRUDER JAM",
@@ -279,21 +278,17 @@
                 db1: "Underextrusion Lottery", p1: "Due to a design flaw in the extruder gears, the filament slips. Your 10-hour print will fail at hour 9.",
                 db2: "VFA (Vertical Artifacts)", p2: "The printer vibrates so much it leaves vertical ripple patterns on the walls. Prints look ugly.",
                 
-                // ⚠️ 假设链接
-                a1: "Official Extruder Upgrade Kit (V3)", l_a1: "https://amzn.to/4ttHnGR",
-                a2: "Hyper PLA High Speed Filament", l_a2: "https://amzn.to/4rxSxZP",
+                // CORRECTED LINKS FROM YOUR TABLE
+                a1: "Official Extruder Upgrade Kit (V3)", l_a1: "https://amzn.to/4kyx6F0",
+                a2: "Hyper PLA High Speed Filament", l_a2: "https://amzn.to/3ZCCYU7",
                 
-                solver: "Flashforge 5M Pro", sReason: "A truly reliable enclosed CoreXY printer. Its quick-swap nozzle system solves the K1's constant jamming issues.",
-                l_solver: "https://amzn.to/46wZnWM",
+                solver: "Flashforge Adventurer 5M Pro", sReason: "A truly reliable enclosed CoreXY printer. Its quick-swap nozzle system solves the K1's constant jamming issues.",
+                l_solver: "https://amzn.to/3Of1sjT",
                 
                 value: "QIDI Tech Q1 Pro", vReason: "Features an active heated chamber (60°C) for warp-free ABS printing. Far superior build quality compared to K1.",
-                l_value: "https://amzn.to/4rP6vGj"
+                l_value: "https://amzn.to/3ZF3Oen"
             }
         ];
-
-        // Config & Initialization
-        const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
-        document.getElementById('current-date').innerText = new Date().toLocaleDateString('en-US', dateOptions);
 
         function switchCategory(cat) {
             currentCategory = cat;
@@ -303,7 +298,6 @@
             const profileSel = document.getElementById('user-profile-selector');
             if(cat === '3D_Printer') {
                 profileSel.classList.remove('hidden');
-                // Refresh buttons style based on current profile
                 setUserProfile(currentUserProfile); 
             }
             else {
@@ -324,7 +318,6 @@
 
         function setUserProfile(profile) {
             currentUserProfile = profile;
-            // Enhanced Visual Feedback for Buttons
             const btnBeginner = document.getElementById('btn-user-beginner');
             const btnGeek = document.getElementById('btn-user-geek');
             
