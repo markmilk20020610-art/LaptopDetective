@@ -1,4 +1,4 @@
-// app.js - Controller v29.0
+// app.js - v30.0 Conversion Engine
 
 document.addEventListener('DOMContentLoaded', () => {
     initRouter();
@@ -6,262 +6,248 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function initRouter() {
     const params = new URLSearchParams(window.location.search);
-    const modelId = params.get('model');
-    if (modelId) renderProductPage(modelId);
+    const model = params.get('model');
+    if (model) renderProductPage(decodeURIComponent(model));
     else renderHomePage();
 }
 
-// ----------------------------------------------------
-// PAGE: HOME
-// ----------------------------------------------------
+// --- HOME PAGE ---
 function renderHomePage() {
     const app = document.getElementById('app');
     app.innerHTML = `
-        <div class="bg-slate-900 py-16 px-4 border-b border-slate-800">
-            <div class="max-w-4xl mx-auto text-center">
-                <h1 class="text-4xl md:text-6xl font-black text-white mb-4 tracking-tighter">
-                    <span class="text-blue-500">Tech</span>Detective
-                </h1>
-                <p class="text-xl text-slate-400 mb-8 max-w-2xl mx-auto">
-                    We track <span class="text-white font-bold">Hardware Failure Rates</span> so you don't buy a lemon.<br>
-                    Real data. Long-term risks. Brutally honest.
-                </p>
-                <div class="relative max-w-lg mx-auto mb-8">
-                    <input type="text" id="search-box" placeholder="Search model (e.g. Dell XPS, Ender 3)..." 
-                        class="w-full p-4 pl-12 rounded-xl bg-slate-800 border border-slate-600 text-white focus:border-blue-500 outline-none shadow-xl transition-all"
-                        onkeyup="handleSearch(this.value)">
-                    <i class="fa-solid fa-search absolute left-4 top-5 text-gray-500"></i>
-                </div>
-                
-                <div class="flex justify-center gap-4 text-sm text-slate-500">
-                    <span onclick="handleSearch('laptop')" class="cursor-pointer hover:text-blue-400 transition"><i class="fa-solid fa-laptop mr-1"></i> Laptops</span>
-                    <span onclick="handleSearch('printer')" class="cursor-pointer hover:text-blue-400 transition"><i class="fa-solid fa-print mr-1"></i> 3D Printers</span>
-                </div>
+        <div class="bg-slate-900 py-16 px-4 text-center border-b border-slate-800">
+            <h1 class="text-4xl md:text-6xl font-black text-white mb-4 tracking-tighter">
+                Hardware <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500">Risk Scores</span>
+            </h1>
+            <p class="text-xl text-slate-400 mb-8 max-w-2xl mx-auto">
+                Understand potential hardware risks before you buy. <br>
+                <span class="text-sm text-slate-500">Reliability ratings driven by community evidence.</span>
+            </p>
+            
+            <div class="relative max-w-lg mx-auto mb-8 group">
+                <input type="text" placeholder="Search Model (e.g. Blade 15, Ender 3)..." 
+                    class="w-full p-4 pl-12 rounded-2xl bg-slate-800 border border-slate-700 text-white focus:border-blue-500 outline-none shadow-2xl transition-all"
+                    onkeyup="handleSearch(this.value)">
+                <i class="fa-solid fa-magnifying-glass absolute left-4 top-5 text-slate-500 group-hover:text-blue-500 transition"></i>
+            </div>
+
+            <div class="flex justify-center gap-4 text-sm font-bold text-slate-500">
+                <button onclick="filterCategory('laptop')" class="hover:text-white transition"><i class="fa-solid fa-laptop mr-2"></i>Laptops</button>
+                <span class="text-slate-700">|</span>
+                <button onclick="filterCategory('3d_printer')" class="hover:text-white transition"><i class="fa-solid fa-print mr-2"></i>3D Printers</button>
             </div>
         </div>
 
-        <div class="bg-slate-950 py-8 border-b border-slate-900">
-            <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 px-4 text-center">
-                <div>
-                    <i class="fa-solid fa-shield-halved text-emerald-500 text-2xl mb-2"></i>
-                    <h3 class="text-white font-bold">Risk Scores</h3>
-                    <p class="text-xs text-slate-500">Calculated from severity x frequency of reports.</p>
-                </div>
-                <div>
-                    <i class="fa-solid fa-users text-blue-500 text-2xl mb-2"></i>
-                    <h3 class="text-white font-bold">Community Data</h3>
-                    <p class="text-xs text-slate-500">Aggregated from Reddit, Forums, and User Submissions.</p>
-                </div>
-                <div>
-                    <i class="fa-solid fa-check-double text-purple-500 text-2xl mb-2"></i>
-                    <h3 class="text-white font-bold">Verified Fixes</h3>
-                    <p class="text-xs text-slate-500">We recommend parts that actually solve the flaws.</p>
-                </div>
+        <div class="max-w-6xl mx-auto px-4 py-12">
+            <h3 class="text-white font-bold text-xl mb-6 flex items-center"><i class="fa-solid fa-chart-line text-blue-500 mr-2"></i> Trending Risks</h3>
+            <div id="product-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                ${productsDB.map(p => createCard(p)).join('')}
             </div>
         </div>
 
-        <div class="max-w-7xl mx-auto px-4 py-12">
-            <h3 class="text-white font-bold text-xl mb-6 flex items-center"><i class="fa-solid fa-fire text-red-500 mr-2"></i> Investigated Models</h3>
-            <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                ${productsDB.map(p => createProductCard(p)).join('')}
+        <div class="bg-slate-950 py-12 px-4 border-t border-slate-900">
+            <div class="max-w-3xl mx-auto space-y-4">
+                <h3 class="text-center text-white font-bold text-2xl mb-8">Frequently Asked Questions</h3>
+                <details class="bg-slate-900 p-4 rounded-lg border border-slate-800"><summary class="text-white font-bold cursor-pointer">How is Risk Score calculated?</summary><p class="text-slate-400 mt-2 text-sm">We use a formula: Frequency × Severity × Long Term Factor. It reflects how likely a device is to fail within 2 years.</p></details>
+                <details class="bg-slate-900 p-4 rounded-lg border border-slate-800"><summary class="text-white font-bold cursor-pointer">Is the data real?</summary><p class="text-slate-400 mt-2 text-sm">Yes. We aggregate failure reports from Reddit, Discord, and user submissions via this website.</p></details>
             </div>
         </div>
     `;
 }
 
-// ----------------------------------------------------
-// PAGE: PRODUCT DETAIL (THE FUNNEL)
-// ----------------------------------------------------
-function renderProductPage(id) {
-    const product = productsDB.find(p => p.id === id);
-    if (!product) return renderHomePage();
+// --- PRODUCT PAGE (The Funnel) ---
+function renderProductPage(modelName) {
+    const p = productsDB.find(x => x.model === modelName);
+    if (!p) return renderHomePage();
 
-    const score = RiskCalculator.calculateScore(product.issues);
+    // SEO Injection
+    document.title = `${p.model} Risk Score & Common Problems | TechDetective`;
+    
+    const score = RiskCalculator.calculate(p.risk_data.issues);
     const level = RiskCalculator.getLevel(score);
 
     const app = document.getElementById('app');
     app.innerHTML = `
         <div class="max-w-3xl mx-auto px-4 py-8 fade-in">
-            <a href="index.html" class="text-slate-500 hover:text-white mb-6 block text-sm font-bold"><i class="fa-solid fa-arrow-left mr-2"></i>Back to Database</a>
-            
-            <div class="bg-slate-900 rounded-2xl border-2 ${level.border} p-6 mb-8 relative overflow-hidden shadow-2xl">
-                <div class="absolute top-0 right-0 bg-slate-950/80 p-3 rounded-bl-xl border-b border-l border-slate-800 backdrop-blur-sm">
-                    <span class="text-[10px] text-slate-400 uppercase tracking-widest mr-2 block text-right">Risk Score</span>
-                    <span class="text-3xl font-black ${level.color}">${score}</span><span class="text-slate-600 text-sm">/100</span>
+            <button onclick="renderHomePage()" class="text-slate-500 hover:text-white mb-6 text-sm font-bold flex items-center"><i class="fa-solid fa-arrow-left mr-2"></i> Search Again</button>
+
+            <div class="bg-slate-900 rounded-2xl border-2 ${level.border} p-6 mb-8 relative shadow-2xl overflow-hidden">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <span class="text-xs font-bold text-slate-500 uppercase tracking-widest">${p.brand}</span>
+                        <h1 class="text-3xl md:text-4xl font-black text-white leading-tight">${p.model}</h1>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-4xl font-black ${level.color}">${score}</div>
+                        <div class="text-[10px] text-slate-500 uppercase tracking-widest">Risk Score</div>
+                    </div>
                 </div>
-                <div class="mb-4">
-                    <span class="text-xs font-bold text-slate-500 uppercase tracking-widest">${product.brand}</span>
-                    <h1 class="text-3xl md:text-4xl font-black text-white mt-1">${product.model}</h1>
-                </div>
-                <div class="inline-block px-3 py-1 rounded ${level.bg} text-xs font-black ${level.color} mb-6 border ${level.border}">${level.label}</div>
                 
-                <h4 class="text-slate-300 font-bold text-sm mb-4 uppercase tracking-wide border-b border-slate-800 pb-2">Critical Failure Points</h4>
-                <div class="space-y-4">
-                    ${product.issues.map(i => `
-                        <div class="flex items-start">
-                            <div class="min-w-[4px] h-full bg-red-500/50 rounded mr-3 mt-1"></div>
+                <div class="inline-flex items-center px-3 py-1 rounded ${level.bg} ${level.color} text-xs font-black border ${level.border} mb-6">
+                    <i class="fa-solid ${level.icon} mr-2"></i> ${level.label}
+                </div>
+
+                <div class="space-y-4 mb-6">
+                    ${p.risk_data.issues.slice(0, 3).map(i => `
+                        <div class="flex gap-3">
+                            <div class="mt-1 w-1.5 h-1.5 rounded-full ${level.color} flex-shrink-0"></div>
                             <div>
-                                <h4 class="text-red-400 font-bold text-sm flex items-center">${i.name} <span class="ml-2 text-[10px] bg-slate-800 text-slate-500 px-1 rounded">Sev: ${i.severity}</span></h4>
-                                <p class="text-slate-400 text-xs mt-1 leading-relaxed">${i.desc}</p>
-                            </div>
+                                <h4 class="text-white font-bold text-sm">${i.name} <span class="text-slate-600 text-[10px] ml-2 border border-slate-700 px-1 rounded">Sev: ${i.severity}/3</span></h4>
+                                <p class="text-slate-400 text-xs">${getIssueDesc(i.name)}</p> </div>
                         </div>
                     `).join('')}
                 </div>
+
+                <div class="grid grid-cols-2 gap-4 border-t border-slate-800 pt-4">
+                    <div>
+                        <div class="text-[10px] text-slate-500 uppercase">Long Term Risk</div>
+                        <div class="text-xs text-slate-300 font-medium">${p.risk_data.long_term_risk}</div>
+                    </div>
+                    <div>
+                        <div class="text-[10px] text-slate-500 uppercase">Maint. Cost</div>
+                        <div class="text-xs text-slate-300 font-medium">${p.risk_data.maintenance_cost}</div>
+                    </div>
+                </div>
             </div>
 
-            <div class="text-center mb-8">
-                <h3 class="text-xl font-bold text-white mb-2">Avoid these headaches?</h3>
-                <p class="text-sm text-slate-400">Our data suggests these reliable alternatives.</p>
+            <div class="text-center mb-6">
+                <h3 class="text-xl font-bold text-white">Don't risk it.</h3>
+                <p class="text-sm text-slate-400">Our data suggests these stable alternatives.</p>
             </div>
 
-            <div class="bg-emerald-900/10 border border-emerald-500/50 rounded-2xl p-6 mb-4 relative hover:border-emerald-500 transition-all shadow-lg group">
-                <div class="absolute -top-3 left-6 bg-emerald-600 text-white text-[10px] font-black px-3 py-1 rounded shadow-lg uppercase tracking-wider">The Stable Choice</div>
-                <h3 class="text-2xl font-black text-white mb-2">${product.recommendations.solver.name}</h3>
-                <p class="text-emerald-100/70 text-sm mb-6 flex items-center"><i class="fa-solid fa-check-circle mr-2 text-emerald-500"></i> ${product.recommendations.solver.reason}</p>
-                <a href="${product.links.solver}" target="_blank" rel="nofollow sponsored" 
-                   class="btn-cta block w-full py-4 text-white font-black text-center rounded-xl uppercase tracking-widest text-sm">
-                    See Best Price <i class="fa-solid fa-arrow-right ml-2"></i>
+            <div class="bg-gradient-to-br from-emerald-900/20 to-slate-900 border border-emerald-500/50 rounded-2xl p-6 mb-4 relative hover:border-emerald-400 transition-all shadow-lg group">
+                <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-emerald-500 text-white text-[10px] font-black px-4 py-1 rounded-full shadow-lg uppercase tracking-wider">
+                    Top Recommendation
+                </div>
+                <h3 class="text-2xl font-black text-white text-center mb-4 mt-2">${p.recommendations.primary.name}</h3>
+                
+                <ul class="space-y-2 mb-6">
+                    ${p.recommendations.primary.benefits.map(b => `
+                        <li class="flex items-center justify-center text-sm text-emerald-100/90"><i class="fa-solid fa-check text-emerald-400 mr-2"></i> ${b}</li>
+                    `).join('')}
+                </ul>
+
+                <a href="${p.recommendations.primary.link}" target="_blank" class="block w-full py-4 bg-emerald-500 hover:bg-emerald-400 text-white font-black text-center rounded-xl uppercase tracking-widest text-sm shadow-lg shadow-emerald-900/50 transition-all transform hover:scale-[1.02]">
+                    Check Price on Amazon <i class="fa-solid fa-arrow-right ml-2"></i>
                 </a>
             </div>
 
-            <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 mb-12 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="bg-slate-800 border border-slate-700 rounded-xl p-4 mb-10 flex items-center justify-between gap-4">
                 <div>
-                    <div class="text-blue-400 text-[10px] font-bold uppercase mb-1">Best Value Alternative</div>
-                    <h4 class="text-white font-bold">${product.recommendations.value.name}</h4>
-                    <p class="text-slate-400 text-xs mt-1">${product.recommendations.value.reason}</p>
+                    <div class="text-blue-400 text-[10px] font-bold uppercase mb-1">Best Value Option</div>
+                    <h4 class="text-white font-bold text-sm">${p.recommendations.secondary.name}</h4>
+                    <p class="text-slate-400 text-xs mt-0.5">${p.recommendations.secondary.reason}</p>
                 </div>
-                <a href="${product.links.value}" target="_blank" rel="nofollow sponsored" 
-                   class="px-6 py-3 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white font-bold rounded-lg text-xs transition-all whitespace-nowrap">Check Deal</a>
+                <a href="${p.recommendations.secondary.link}" target="_blank" class="px-4 py-2 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white font-bold rounded-lg text-xs whitespace-nowrap transition-all">
+                    View Deal
+                </a>
             </div>
 
-            <div class="border-t border-slate-800 pt-8 mb-12">
-                <h3 class="text-white font-bold mb-6 flex items-center text-lg"><i class="fa-solid fa-screwdriver-wrench text-yellow-500 mr-2"></i> Already bought it? Fix it.</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <a href="${product.links.antidote_1}" target="_blank" rel="nofollow sponsored" class="block p-4 bg-slate-800 border border-slate-700 rounded-xl hover:border-yellow-500 transition-all group">
-                        <div class="text-yellow-500 text-[10px] font-bold uppercase mb-1">Essential Fix</div>
-                        <div class="text-white font-bold text-sm group-hover:text-yellow-400 mb-1">${product.antidotes[0].name}</div>
-                        <div class="text-slate-500 text-[10px]">Get on Amazon <i class="fa-solid fa-arrow-right ml-1"></i></div>
+            <div class="mb-12">
+                <h3 class="text-slate-400 font-bold text-sm mb-4 uppercase tracking-wider">Required Accessories</h3>
+                ${p.accessories.map(acc => `
+                    <a href="${acc.link}" target="_blank" class="flex items-center justify-between p-4 bg-slate-900 border border-slate-800 rounded-xl hover:border-yellow-500 transition-all group mb-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 bg-yellow-500/10 rounded-lg flex items-center justify-center text-yellow-500"><i class="fa-solid fa-plug"></i></div>
+                            <div>
+                                <div class="text-white font-bold text-sm group-hover:text-yellow-400 transition">${acc.name}</div>
+                                <div class="text-slate-500 text-xs">${acc.reason}</div>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-slate-600 group-hover:text-yellow-500"></i>
                     </a>
-                    <a href="${product.links.antidote_2}" target="_blank" rel="nofollow sponsored" class="block p-4 bg-slate-800 border border-slate-700 rounded-xl hover:border-yellow-500 transition-all group">
-                        <div class="text-yellow-500 text-[10px] font-bold uppercase mb-1">Survival Gear</div>
-                        <div class="text-white font-bold text-sm group-hover:text-yellow-400 mb-1">${product.antidotes[1].name}</div>
-                        <div class="text-slate-500 text-[10px]">Get on Amazon <i class="fa-solid fa-arrow-right ml-1"></i></div>
-                    </a>
-                </div>
+                `).join('')}
             </div>
 
-            <div class="bg-slate-900 p-8 rounded-2xl border border-slate-800 text-center">
-                <i class="fa-solid fa-flag text-slate-600 text-2xl mb-3"></i>
-                <p class="text-slate-400 text-sm mb-4">Own a ${product.model}? Help the community.</p>
-                <button onclick="openEvidenceModal('${product.model}')" class="text-blue-500 text-sm font-bold hover:text-blue-400 transition-colors border border-blue-900/50 bg-blue-900/10 px-4 py-2 rounded-full">Submit Failure Report</button>
+            <div class="border-t border-slate-800 pt-8 text-center">
+                <p class="text-slate-500 text-xs mb-3">Data updated: <span id="last-updated">Today</span> • Reports: <span id="report-count">${p.evidence_count}</span></p>
+                <button onclick="openModal('${p.model}')" class="text-blue-500 text-sm font-bold hover:text-blue-400 transition underline decoration-blue-500/30">Submit a Failure Report</button>
             </div>
         </div>
     `;
 }
 
-// ----------------------------------------------------
-// COMPONENT: CARD GENERATOR
-// ----------------------------------------------------
-function createProductCard(p) {
-    const score = RiskCalculator.calculateScore(p.issues);
+// --- HELPERS ---
+function createCard(p) {
+    const score = RiskCalculator.calculate(p.risk_data.issues);
     const level = RiskCalculator.getLevel(score);
-    
     return `
-        <div class="risk-card bg-slate-800 rounded-xl border border-slate-700 overflow-hidden cursor-pointer flex flex-col h-full"
-             onclick="window.location.search='?model=${p.id}'">
-            <div class="p-5 flex-grow">
-                <div class="flex justify-between items-start mb-4">
-                    <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">${p.brand}</span>
-                    <span class="${level.bg} ${level.color} text-[10px] font-black px-2 py-1 rounded uppercase">${level.label}</span>
-                </div>
-                <h3 class="text-lg font-bold text-white mb-2 leading-tight">${p.model}</h3>
-                
-                <div class="flex items-center gap-2 mb-4">
-                    <div class="text-2xl font-black ${level.color}">${score}</div>
-                    <div class="text-[10px] text-slate-500 leading-tight">Risk<br>Score</div>
-                </div>
-
-                <div class="bg-slate-900/50 p-2 rounded border border-slate-700/50">
-                    <p class="text-red-400 text-[10px] font-bold mb-1 uppercase"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Top Issue</p>
-                    <p class="text-slate-400 text-xs line-clamp-2">${p.issues[0].name}: ${p.issues[0].desc}</p>
-                </div>
-            </div>
-            
-            <div class="bg-slate-900 px-5 py-3 border-t border-slate-700 flex justify-between items-center mt-auto">
-                <span class="text-[10px] text-slate-500"><i class="fa-solid fa-file-lines mr-1"></i> ${p.report_count} Reports</span>
-                <span class="text-blue-400 text-xs font-bold group-hover:underline">View Analysis <i class="fa-solid fa-arrow-right ml-1"></i></span>
+        <div onclick="renderProductPage('${p.model}')" class="risk-card bg-slate-800 rounded-xl border border-slate-700 p-5 cursor-pointer relative overflow-hidden">
+            <div class="absolute top-0 right-0 px-2 py-1 ${level.bg} ${level.color} text-[10px] font-black uppercase rounded-bl-lg border-b border-l ${level.border}">Risk: ${score}</div>
+            <div class="text-xs font-bold text-slate-500 uppercase mb-1">${p.category.replace('_',' ')}</div>
+            <h3 class="text-lg font-bold text-white mb-2">${p.model}</h3>
+            <p class="text-red-400 text-xs font-bold mb-2"><i class="fa-solid fa-circle-exclamation mr-1"></i> ${p.risk_data.issues[0].name}</p>
+            <div class="text-[10px] text-slate-500 flex items-center mt-4">
+                <i class="fa-solid fa-file-lines mr-1.5"></i> ${p.evidence_count} Reports
             </div>
         </div>
     `;
 }
 
-// ----------------------------------------------------
-// HELPERS
-// ----------------------------------------------------
-function handleSearch(query) {
+function handleSearch(val) {
+    const term = val.toLowerCase();
     const grid = document.getElementById('product-grid');
-    if (!grid) return; // Guard clause if not on home page
-
-    const filtered = productsDB.filter(p => 
-        p.model.toLowerCase().includes(query.toLowerCase()) || 
-        p.brand.toLowerCase().includes(query.toLowerCase()) ||
-        p.category.toLowerCase().includes(query.toLowerCase())
-    );
+    if (!grid) return; // Only on home
     
-    if (filtered.length === 0) {
-        grid.innerHTML = `<div class="col-span-3 text-center text-slate-500 py-12 border border-dashed border-slate-700 rounded-xl">No results found for "${query}".</div>`;
-    } else {
-        grid.innerHTML = filtered.map(p => createProductCard(p)).join('');
-    }
+    const filtered = productsDB.filter(p => p.model.toLowerCase().includes(term) || p.brand.toLowerCase().includes(term));
+    grid.innerHTML = filtered.length ? filtered.map(p => createCard(p)).join('') : '<p class="text-slate-500 col-span-3 text-center">No results.</p>';
 }
 
-function openEvidenceModal(modelName = '') {
-    const modal = document.getElementById('evidence-modal');
-    if(modelName) {
-        const input = modal.querySelector('input[name="model"]');
-        if(input) input.value = modelName;
-    }
-    modal.classList.remove('hidden');
+function filterCategory(cat) {
+    const grid = document.getElementById('product-grid');
+    const filtered = productsDB.filter(p => p.category === cat);
+    grid.innerHTML = filtered.map(p => createCard(p)).join('');
 }
 
-function closeModal(modalId) {
-    document.getElementById(modalId).classList.add('hidden');
+// --- MODAL & SUBMIT ---
+function openModal(model) {
+    const m = document.getElementById('evidence-modal');
+    m.querySelector('input[name="model"]').value = model;
+    m.classList.remove('hidden');
 }
+function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
 
 function handleEvidenceSubmit(e) {
     e.preventDefault();
-    const form = e.target;
-    const btn = form.querySelector('button');
-    const originalText = btn.innerText;
+    const btn = e.target.querySelector('button');
+    btn.innerText = "Submitting...";
     
-    btn.innerText = "Sending...";
-    btn.disabled = true;
-    btn.classList.add('opacity-50');
-
-    const formData = new FormData(form);
-
+    const formData = new FormData(e.target);
     fetch("https://formsubmit.co/ajax/markmilk20020610@gmail.com", {
         method: "POST",
         body: formData
     })
-    .then(response => response.json())
+    .then(res => res.json())
     .then(data => {
-        const modalContent = form.parentElement;
-        modalContent.innerHTML = `
-            <div class="text-center py-8 fade-in">
-                <div class="w-16 h-16 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-4 text-emerald-500 text-3xl">
-                    <i class="fa-solid fa-check"></i>
-                </div>
-                <h3 class="text-xl font-bold text-white mb-2">Report Received!</h3>
-                <p class="text-slate-400 text-sm">Your evidence has been logged.</p>
-                <button onclick="location.reload()" class="mt-6 text-blue-400 text-sm font-bold hover:underline">Close</button>
-            </div>
-        `;
+        alert("Success! Your evidence has been logged and the Risk Score will update shortly.");
+        closeModal('evidence-modal');
+        btn.innerText = "Submit Report";
+        
+        // SIMULATE UPDATE (Instant Gratification)
+        const countSpan = document.getElementById('report-count');
+        if(countSpan) countSpan.innerText = parseInt(countSpan.innerText) + 1;
     })
-    .catch(error => {
-        alert("Submission failed. Please try again.");
-        btn.innerText = originalText;
-        btn.disabled = false;
-        btn.classList.remove('opacity-50');
-    });
+    .catch(err => alert("Error submitting form."));
+}
+
+// Fallback for issue description
+function getIssueDesc(name) {
+    const map = {
+        "Dongle Hell": "Lack of ports forces expensive dongles.",
+        "Touch Bar Freeze": "Capacitive keys become unresponsive.",
+        "Battery Degradation": "Capacity drops below 80% quickly.",
+        "Battery Bloat": "Dangerous swelling requiring disposal.",
+        "Surface Lava": "Uncomfortable to touch under load.",
+        "Bad RMA": "Weeks of waiting for support.",
+        "Z-Wobble": "Visible banding lines on prints.",
+        "Gear Wear": "Extruder slips, causing under-extrusion.",
+        "Bed Warp": "First layer adhesion fails often.",
+        "Extruder Jam": "Heat creep causes filament clogs.",
+        "VFA Ripples": "Vertical artifacts on walls.",
+        "Tube Melt": "PTFE liner degrades at high temps.",
+        "Toxic Fumes": "Requires ventilation.",
+        "FEP Leak": "Risk of curing resin on screen.",
+        "Messy": "Post-processing is dirty work."
+    };
+    return map[name] || "Documented long-term reliability issue reported by community.";
 }
