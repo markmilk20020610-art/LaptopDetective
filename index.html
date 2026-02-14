@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechDetective - Forensic Hardware Analysis (v22.2)</title>
+    <title>TechDetective - Forensic Hardware Analysis (v23.0)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -31,7 +31,7 @@
 
     <div class="max-w-5xl mx-auto mb-8 text-center">
         <div class="inline-block bg-slate-800 text-slate-300 px-3 py-1 rounded-sm text-xs font-bold mono mb-6 border border-slate-600">
-            <i class="fa-solid fa-database mr-2"></i>DATABASE: v22.2
+            <i class="fa-solid fa-database mr-2"></i>DATABASE: v23.0
         </div>
         <h1 class="text-4xl md:text-5xl font-black mb-2 tracking-tighter text-white">
             <span class="text-blue-500">Tech</span>Detective<span class="text-gray-600">.exe</span>
@@ -81,7 +81,7 @@
 
     <script>
         // =========================================================================
-        //  DATABASE v22.2 (Links 100% Fixed from User Table)
+        //  DATABASE v23.0 (LINKS FINALIZED & CLEANED)
         // =========================================================================
         
         let currentCategory = 'Laptop';
@@ -93,7 +93,7 @@
         }
 
         const database = [
-            // ================= LAPTOPS (10 Models - Correct Links) =================
+            // ================= LAPTOPS (10 Models - Unchanged) =================
             {
                 category: "Laptop", id: "dell-xps-13-plus", name: "Dell XPS 13 Plus (9320)", price: "$1,399", riskScore: 92, verdict: "DONGLE HELL",
                 persona: "Music Producers: No headphone jack means living in a dongle nightmare.", timebomb: "Month 6: The capacitive touch function row starts registering phantom touches or freezes entirely.",
@@ -185,7 +185,7 @@
                 a1: "Anker 4K Webcam", l_a1: "https://amzn.to/4adenvg", a2: "External 144Hz Monitor", l_a2: "https://amzn.to/3OCuytw", l_solver: "https://amzn.to/3ZyvtO1", l_value: "https://amzn.to/3MsXTG7"
             },
 
-            // ================= 3D PRINTERS (6 Models - CORRECT LINKS) =================
+            // ================= 3D PRINTERS (6 Models - CORRECT LINKS!) =================
             {
                 category: "3D_Printer", id: "ender-3-v3-se", name: "Creality Ender 3 V3 SE", price: "$199", riskScore: 85, verdict: "QC LOTTERY",
                 persona: "Parents: NOT A TOY. Requires constant mechanical maintenance and debugging.", timebomb: "Month 3: The extruder gears wear out, causing underextrusion and failed prints.",
@@ -193,7 +193,7 @@
                 db1: "Gantry Wobble", p1: "Cheap construction leads to Z-axis wobble and ugly lines.",
                 db2: "The Spaghetti Monster", p2: "With no AI detection, a failed print will continue for 10 hours, creating a massive ball of plastic spaghetti and wasting $20 of filament.",
                 
-                // CORRECTED LINKS FROM YOUR TABLE
+                // Ender 3 Links
                 a1: "CR Touch Auto Leveling Kit", l_a1: "https://amzn.to/4avRTV1",
                 a2: "Sunlu Filament Dryer S1", l_a2: "https://amzn.to/4rieR9m",
                 
@@ -210,7 +210,7 @@
                 db1: "Too Small", p1: "180mm volume limits cosplay prints.",
                 db2: "Cloud Privacy Risk", p2: "Your print files go through cloud servers. If the internet goes down, you lose app control. It is a data black box.",
                 
-                // CORRECTED LINKS FROM YOUR TABLE
+                // Bambu A1 Links
                 a1: "Textured PEI Plate", l_a1: "https://amzn.to/4kyuwPk",
                 a2: "eSun PLA+ Filament White", l_a2: "https://amzn.to/4ataRvx",
                 
@@ -227,7 +227,7 @@
                 db1: "Toxic Resin", p1: "Requires gloves, masks, and ventilation. Dangerous for pets.",
                 db2: "FEP Film Tear", p2: "If the thin plastic film (FEP) tears during a print, liquid resin leaks onto the LCD screen and cures, permanently destroying your printer.",
                 
-                // CORRECTED LINKS FROM YOUR TABLE
+                // Anycubic Links
                 a1: "Anycubic Wash & Cure Station", l_a1: "https://amzn.to/4tCG87Y",
                 a2: "Anycubic Grey Resin 1kg", l_a2: "https://amzn.to/4sblM4z",
                 
@@ -244,7 +244,7 @@
                 db1: "Z-Offset Bug", p1: "Printer forgets height settings, scratching the bed.",
                 db2: "Jet Engine Noise", p2: "The massive auxiliary cooling fan hits 65dB+. It sounds like a vacuum cleaner running next to your ear. Unusable in a bedroom.",
                 
-                // CORRECTED LINKS FROM YOUR TABLE
+                // Neptune 4 Links
                 a1: "PEI Magnetic Build Plate", l_a1: "https://amzn.to/4ctaUtW",
                 a2: "Noctua Silent Fan Mod", l_a2: "https://amzn.to/4rgiixg",
                 
@@ -261,7 +261,7 @@
                 db1: "Painfully Slow", p1: "It lacks Input Shaping. A standard 'Benchy' boat takes 1.5 hours. A Bambu Lab A1 does it in 18 minutes.",
                 db2: "Tiny Build Volume", p2: "180mm cube is too small for most cosplay helmets or useful organizers. You will outgrow this size in a month.",
                 
-                // CORRECTED LINKS FROM YOUR TABLE
+                // Prusa Mini Links
                 a1: "Raspberry Pi 4 (For OctoPrint)", l_a1: "https://amzn.to/4awdywx",
                 a2: "Bondtech Heatbreak", l_a2: "https://amzn.to/4qG8n3c",
                 
@@ -278,11 +278,11 @@
                 db1: "Underextrusion Lottery", p1: "Due to a design flaw in the extruder gears, the filament slips. Your 10-hour print will fail at hour 9.",
                 db2: "VFA (Vertical Artifacts)", p2: "The printer vibrates so much it leaves vertical ripple patterns on the walls. Prints look ugly.",
                 
-                // CORRECTED LINKS FROM YOUR TABLE
+                // Creality K1 Links
                 a1: "Official Extruder Upgrade Kit (V3)", l_a1: "https://amzn.to/4kyx6F0",
                 a2: "Hyper PLA High Speed Filament", l_a2: "https://amzn.to/3ZCCYU7",
                 
-                solver: "Flashforge Adventurer 5M Pro", sReason: "A truly reliable enclosed CoreXY printer. Its quick-swap nozzle system solves the K1's constant jamming issues.",
+                solver: "Flashforge 5M Pro", sReason: "A truly reliable enclosed CoreXY printer. Its quick-swap nozzle system solves the K1's constant jamming issues.",
                 l_solver: "https://amzn.to/3Of1sjT",
                 
                 value: "QIDI Tech Q1 Pro", vReason: "Features an active heated chamber (60°C) for warp-free ABS printing. Far superior build quality compared to K1.",
