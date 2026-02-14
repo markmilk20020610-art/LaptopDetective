@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechDetective | Hardware Risk Scores & Long-Term Reliability</title>
+    <title>TechDetective | Hardware Risk Scores & Reliability</title>
     <meta name="description" content="Don't buy electronic waste. Check the Hardware Risk Score for Laptops and 3D Printers. We analyze long-term failure rates so you don't have to.">
-    <meta name="keywords" content="laptop reliability, 3d printer issues, hardware risk score, dell xps problems, bambu lab issues, tech durability">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -15,19 +14,15 @@
         body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #f1f5f9; }
         .mono { font-family: 'JetBrains Mono', monospace; }
         
-        /* Conversion Elements */
-        .btn-cta {
-            background: linear-gradient(to right, #10b981, #059669);
-            transition: all 0.2s;
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
-        }
-        .btn-cta:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(16, 185, 129, 0.6); }
-        
-        .risk-card { transition: transform 0.2s, border-color 0.2s; }
-        .risk-card:hover { transform: translateY(-4px); border-color: #3b82f6; }
-
+        /* Smooth Fade In Animation */
         .fade-in { animation: fadeIn 0.4s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
@@ -47,24 +42,15 @@
 
     <div id="evidence-modal" class="fixed inset-0 bg-black/90 hidden flex items-center justify-center z-50 p-4 backdrop-blur-sm fade-in">
         <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-md w-full p-6 relative shadow-2xl">
-            <button onclick="closeModal('evidence-modal')" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i class="fa-solid fa-xmark fa-xl"></i></button>
+            <button onclick="closeModal('evidence-modal')" class="absolute top-4 right-4 text-gray-400 hover:text-white transition"><i class="fa-solid fa-xmark fa-xl"></i></button>
             <h2 class="text-xl font-black text-white mb-4 flex items-center"><i class="fa-solid fa-file-circle-plus text-blue-500 mr-2"></i> Submit Evidence</h2>
             
             <form onsubmit="handleEvidenceSubmit(event)" class="space-y-4">
-                <input type="hidden" name="_subject" value="TechDetective Failure Report">
-                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="model" value="">
                 
                 <div>
-                    <label class="text-xs font-bold text-gray-400 uppercase">Device Model</label>
-                    <input type="text" name="model" class="w-full bg-slate-800 border border-slate-600 rounded p-3 text-white text-sm focus:border-blue-500 outline-none" required>
-                </div>
-                <div>
-                    <label class="text-xs font-bold text-gray-400 uppercase">Your Email (Verification)</label>
-                    <input type="email" name="email" class="w-full bg-slate-800 border border-slate-600 rounded p-3 text-white text-sm focus:border-blue-500 outline-none" required>
-                </div>
-                <div>
                     <label class="text-xs font-bold text-gray-400 uppercase">Issue Type</label>
-                    <select name="issue_type" class="w-full bg-slate-800 border border-slate-600 rounded p-3 text-white text-sm outline-none">
+                    <select class="w-full bg-slate-800 border border-slate-600 rounded p-3 text-white text-sm outline-none focus:border-blue-500 transition">
                         <option>Total Failure (Dead)</option>
                         <option>Safety Hazard (Fire/Shock)</option>
                         <option>Quality Control (Defects)</option>
@@ -73,15 +59,15 @@
                 </div>
                 <div>
                     <label class="text-xs font-bold text-gray-400 uppercase">Description & Source</label>
-                    <textarea name="description" rows="3" class="w-full bg-slate-800 border border-slate-600 rounded p-3 text-white text-sm focus:border-blue-500 outline-none" placeholder="What broke? Include Reddit/Forum links if possible." required></textarea>
+                    <textarea rows="3" class="w-full bg-slate-800 border border-slate-600 rounded p-3 text-white text-sm focus:border-blue-500 outline-none" placeholder="What broke? Include Reddit link if possible." required></textarea>
                 </div>
-                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-lg transition-all">Submit Report</button>
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-lg transition-all shadow-lg shadow-blue-900/50">Submit Report</button>
             </form>
         </div>
     </div>
 
-    <script src="data.js"></script>
-    <script src="risk.js"></script>
-    <script src="app.js"></script>
+    <script src="data.js?v=33.0"></script>
+    <script src="risk.js?v=33.0"></script>
+    <script src="app.js?v=33.0"></script>
 </body>
 </html>
