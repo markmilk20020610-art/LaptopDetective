@@ -41,7 +41,7 @@
         
         <div class="max-w-5xl mx-auto text-center z-10 relative">
             <div class="inline-block bg-slate-800 text-slate-400 px-3 py-1 rounded-full text-xs font-bold mono mb-4 border border-slate-700">
-                <i class="fa-solid fa-shield-halved mr-2 text-blue-500"></i>DATABASE: v25.0
+                <i class="fa-solid fa-shield-halved mr-2 text-blue-500"></i>DATABASE: v25.1
             </div>
             <h1 class="text-4xl md:text-6xl font-black mb-4 tracking-tighter text-white">
                 <span class="text-blue-500">Tech</span>Detective<span class="text-gray-600">.exe</span>
@@ -102,7 +102,9 @@
                 </div>
                 <p class="text-gray-400 text-sm mb-4">Did your hinge break? Is your printer clogging? Send us a photo. We protect your identity.</p>
                 <div class="flex items-center justify-between">
-                    <a href="mailto:report@techdetective.com" class="text-blue-400 font-bold text-sm hover:underline">Upload Evidence <i class="fa-solid fa-arrow-right ml-1"></i></a>
+                    <button onclick="openEvidenceModal()" class="text-blue-400 font-bold text-sm hover:underline cursor-pointer">
+                        Upload Evidence <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </button>
                     <span class="text-xs font-mono text-slate-500"><span id="evidence-count">1,240</span> reports logged</span>
                 </div>
             </div>
@@ -121,7 +123,7 @@
 
     <div id="antidote-modal" class="fixed inset-0 bg-black bg-opacity-90 hidden flex items-center justify-center z-50 p-4 backdrop-blur-sm">
         <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-lg w-full p-6 text-center relative shadow-2xl">
-            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i class="fa-solid fa-xmark fa-xl"></i></button>
+            <button onclick="closeModal('antidote-modal')" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i class="fa-solid fa-xmark fa-xl"></i></button>
             <div class="w-16 h-16 bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-4 text-red-500 text-2xl">
                 <i class="fa-solid fa-kit-medical"></i>
             </div>
@@ -131,9 +133,31 @@
         </div>
     </div>
 
+    <div id="evidence-modal" class="fixed inset-0 bg-black bg-opacity-90 hidden flex items-center justify-center z-50 p-4 backdrop-blur-sm">
+        <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-lg w-full p-6 text-center relative shadow-2xl">
+            <button onclick="closeModal('evidence-modal')" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i class="fa-solid fa-xmark fa-xl"></i></button>
+            
+            <div class="w-16 h-16 bg-blue-900/30 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-500 text-2xl">
+                <i class="fa-solid fa-file-contract"></i>
+            </div>
+            <h2 class="text-2xl font-black text-white mb-2">SUBMIT EVIDENCE</h2>
+            <p class="text-gray-400 mb-6 text-sm">Please select how you want to send your failure report:</p>
+            
+            <div class="space-y-4">
+                <a href="mailto:report@techdetective.com?subject=Failure Report" class="block w-full py-4 bg-slate-800 hover:bg-slate-700 border border-slate-600 text-white font-bold rounded-xl transition-all flex items-center justify-center">
+                    <i class="fa-regular fa-envelope mr-3"></i> Send Email
+                </a>
+                <a href="#" onclick="alert('Google Form link coming soon!'); closeModal('evidence-modal');" class="block w-full py-4 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl transition-all flex items-center justify-center shadow-lg shadow-blue-900/30">
+                    <i class="fa-brands fa-google mr-3"></i> Fill Google Form
+                </a>
+            </div>
+            <p class="text-slate-500 text-xs mt-4">We protect your anonymity. No personal data is published.</p>
+        </div>
+    </div>
+
     <script>
         // =========================================================================
-        //  DATABASE v25.0 (All Data + Real Links)
+        //  DATABASE v25.1
         // =========================================================================
         
         let currentCategory = 'Laptop';
@@ -145,7 +169,7 @@
         }
 
         const database = [
-            // --- LAPTOPS (10 Models - Unchanged) ---
+            // --- LAPTOPS ---
             { category: "Laptop", id: "dell-xps-13-plus", name: "Dell XPS 13 Plus (9320)", price: "$1,399", riskScore: 92, verdict: "DONGLE HELL", persona: "Music Producers: No headphone jack means living in a dongle nightmare.", timebomb: "Month 6: Capacitive touch row freezes.", db1: "Dongle Hell", p1: "No 3.5mm jack. Cannot charge & listen.", db2: "Battery Anxiety", p2: "Lasts barely 5 hours.", solver: "MacBook Air M2", sReason: "15+ hours battery. Real keys.", value: "Dell XPS 13 (9315)", vReason: "Has real function keys.", a1: "USB-C to Audio Adapter", l_a1: "https://amzn.to/4aQsE0b", a2: "Anker Prime 200W", l_a2: "https://amzn.to/4kyVXsv", l_solver: "https://amzn.to/4ax1iM6", l_value: "https://amzn.to/4aLNfUh" },
             { category: "Laptop", id: "lenovo-legion-5", name: "Lenovo Legion 5 (Gen 8)", price: "$1,199", riskScore: 79, verdict: "WIFI LOTTERY", persona: "Competitive Gamers: Ping spikes lose matches.", timebomb: "Month 12: Power brick cable frays.", db1: "WiFi Card Lottery", p1: "Realtek cards cause lag spikes.", db2: "The 300W Brick", p2: "Massive and heavy charger.", solver: "ASUS ROG Zephyrus G14", sReason: "Lighter, premium Intel WiFi.", value: "Lenovo Legion 5 (Gen 7 Used)", vReason: "Cheaper, upgrade WiFi yourself.", a1: "Intel AX210 WiFi 6E Card", l_a1: "https://amzn.to/4kuLdLw", a2: "Slim Charger", l_a2: "https://amzn.to/4qtEyCJ", l_solver: "https://amzn.to/463YrsV", l_value: "https://amzn.to/3OpuxsR" },
             { category: "Laptop", id: "razer-blade-15", name: "Razer Blade 15 (2024)", price: "$2,499", riskScore: 95, verdict: "SPICY PILLOW", persona: "Students: Battery bloat is dangerous.", timebomb: "Month 18: Battery swells, bending chassis.", db1: "Spicy Pillow Risk", p1: "Heat cooks the battery.", db2: "Surface Lava", p2: "Keyboard hits 55°C.", solver: "ASUS ROG Zephyrus G16", sReason: "Runs 10°C cooler.", value: "Razer Blade 14 (AMD)", vReason: "AMD runs cooler.", a1: "IETS GT600 Cooler", l_a1: "https://amzn.to/46IyRJZ", a2: "Razer Mini Keyboard", l_a2: "https://amzn.to/4aszZTn", l_solver: "https://amzn.to/4aoclHy", l_value: "https://amzn.to/3OCX12o" },
@@ -157,7 +181,7 @@
             { category: "Laptop", id: "samsung-galaxy-book3", name: "Samsung Galaxy Book 3", price: "$1,099", riskScore: 75, verdict: "CRACK GATE", persona: "Travelers: Screen breaks easily.", timebomb: "Month 3: Spontaneous cracks.", db1: "Crack-Gate Screen", p1: "Glass is too thin.", db2: "The Wobble", p2: "Weak hinge.", solver: "MacBook Air 15", sReason: "Solid unibody aluminum.", value: "LG Gram 16", vReason: "Flexible magnesium alloy.", a1: "Hard Case", l_a1: "https://amzn.to/46ORImL", a2: "Bluetooth Keyboard", l_a2: "https://amzn.to/3MrfHkY", l_solver: "https://amzn.to/4cq58t4", l_value: "https://amzn.to/466tbt7" },
             { category: "Laptop", id: "macbook-pro-13-m2", name: "MacBook Pro 13 (M2)", price: "$1,299", riskScore: 90, verdict: "ZOMBIE TECH", persona: "Editors: Touch Bar is dead.", timebomb: "Year 2: Webcam looks ancient.", db1: "Zombie Touch Bar", p1: "No future OS support.", db2: "60Hz Screen", p2: "Choppy scrolling.", solver: "MacBook Pro 14", sReason: "Real Pro screen (120Hz).", value: "MacBook Air M2", vReason: "Cheaper, better webcam.", a1: "4K Webcam", l_a1: "https://amzn.to/4adenvg", a2: "144Hz Monitor", l_a2: "https://amzn.to/3OCuytw", l_solver: "https://amzn.to/3ZyvtO1", l_value: "https://amzn.to/3MsXTG7" },
 
-            // --- 3D PRINTERS (6 Models - Corrected Links & Logic) ---
+            // --- 3D PRINTERS ---
             {
                 category: "3D_Printer", id: "ender-3-v3-se", name: "Creality Ender 3 V3 SE", price: "$199", riskScore: 85, verdict: "QC LOTTERY",
                 persona: "Parents: NOT A TOY. Requires constant mechanical maintenance and debugging.", timebomb: "Month 3: The extruder gears wear out, causing underextrusion and failed prints.",
@@ -261,7 +285,6 @@
             const btnBeginner = document.getElementById('btn-user-beginner');
             const btnGeek = document.getElementById('btn-user-geek');
             
-            // Visual feedback logic
             if (profile === 'Beginner') {
                 btnBeginner.className = 'px-4 py-2 bg-blue-600 text-white rounded-lg border border-blue-500 font-bold transition-all shadow-lg scale-105';
                 btnGeek.className = 'px-4 py-2 bg-slate-800 text-gray-500 rounded-lg border border-slate-700 hover:bg-slate-700 transition-all opacity-60';
@@ -274,7 +297,6 @@
 
         function updateDashboard() {
             const select = document.getElementById('product-select');
-            // If empty (init), select first of category
             if (!select.value) { const first = database.find(i => i.category === currentCategory); if(first) select.value = first.id; }
             
             const data = database.find(i => i.id === select.value);
@@ -315,7 +337,6 @@
         function renderPrinter(data, container) {
             let alertBox = "";
             
-            // LOGIC: Beginner vs Geek
             if (currentUserProfile === 'Beginner') {
                 if (data.easeUse < 7) { 
                     alertBox = `<div class="bg-red-900/40 border-l-4 border-red-500 p-4 mb-4 rounded-r mt-4"><div class="flex items-center"><i class="fa-solid fa-triangle-exclamation text-red-500 mr-2"></i><span class="font-bold text-red-100">NIGHTMARE FOR BEGINNERS</span></div><p class="text-red-200 text-xs mt-1">Requires constant mechanical debugging. You will fix it more than you print.</p></div>`;
@@ -400,7 +421,16 @@
                 </a>`;
             document.getElementById('antidote-modal').classList.remove('hidden');
         }
-        function closeModal() { document.getElementById('antidote-modal').classList.add('hidden'); }
+
+        // --- NEW: GENERIC MODAL HANDLERS ---
+        function openEvidenceModal() {
+            document.getElementById('evidence-modal').classList.remove('hidden');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+        }
+
         function vote(cat) { alert('Thank you! Your vote for ' + cat + ' has been recorded.'); }
         
         // Init
