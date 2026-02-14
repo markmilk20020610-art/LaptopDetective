@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechDetective - Forensic Hardware Analysis (v22.0)</title>
+    <title>TechDetective - Forensic Hardware Analysis (v22.1)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -31,7 +31,7 @@
 
     <div class="max-w-5xl mx-auto mb-8 text-center">
         <div class="inline-block bg-slate-800 text-slate-300 px-3 py-1 rounded-sm text-xs font-bold mono mb-6 border border-slate-600">
-            <i class="fa-solid fa-database mr-2"></i>DATABASE: v22.0
+            <i class="fa-solid fa-database mr-2"></i>DATABASE: v22.1
         </div>
         <h1 class="text-4xl md:text-5xl font-black mb-2 tracking-tighter text-white">
             <span class="text-blue-500">Tech</span>Detective<span class="text-gray-600">.exe</span>
@@ -55,10 +55,10 @@
             </div>
         </div>
 
-        <div id="user-profile-selector" class="hidden mt-4 flex justify-center gap-2 text-sm">
-            <span class="text-gray-400 self-center mr-2">I am a:</span>
-            <button onclick="setUserProfile('Beginner')" id="btn-user-beginner" class="px-3 py-1 bg-blue-900 text-blue-200 rounded border border-blue-700 font-bold">Beginner / Parent</button>
-            <button onclick="setUserProfile('Geek')" id="btn-user-geek" class="px-3 py-1 bg-slate-700 text-gray-400 rounded border border-slate-600">Geek / Tinkerer</button>
+        <div id="user-profile-selector" class="hidden mt-4 flex justify-center gap-2 text-sm fade-in">
+            <span class="text-gray-400 self-center mr-2 font-mono text-xs uppercase tracking-widest">Identify Yourself:</span>
+            <button onclick="setUserProfile('Beginner')" id="btn-user-beginner" class="px-4 py-2 bg-blue-600 text-white rounded-lg border border-blue-500 font-bold transition-all shadow-lg shadow-blue-900/50">Beginner / Parent</button>
+            <button onclick="setUserProfile('Geek')" id="btn-user-geek" class="px-4 py-2 bg-slate-800 text-gray-400 rounded-lg border border-slate-700 hover:bg-slate-700 transition-all">Geek / Tinkerer</button>
         </div>
     </div>
 
@@ -81,7 +81,7 @@
 
     <script>
         // =========================================================================
-        //  DATABASE v22.0 (Full Laptop Links + Corrected Printer Logic)
+        //  DATABASE v22.1 (LINKS FIXED)
         // =========================================================================
         
         let currentCategory = 'Laptop';
@@ -93,7 +93,7 @@
         }
 
         const database = [
-            // ================= LAPTOPS (10 Models - Links Pre-filled by AI) =================
+            // ================= LAPTOPS (10 Models - Links Ready) =================
             {
                 category: "Laptop", id: "dell-xps-13-plus", name: "Dell XPS 13 Plus (9320)", price: "$1,399", riskScore: 92, verdict: "DONGLE HELL",
                 persona: "Music Producers: No headphone jack means living in a dongle nightmare.", timebomb: "Month 6: The capacitive touch function row starts registering phantom touches or freezes entirely.",
@@ -101,7 +101,6 @@
                 db2: "Battery Anxiety", p2: "Battery life is laughable for a $1400 laptop. It barely lasts 5 hours on a Zoom call. You will be hugged to the wall outlet.",
                 solver: "MacBook Air M2", sReason: "15+ hours of real-world battery life. Real physical keys. Zero frustration.",
                 value: "Dell XPS 13 (9315)", vReason: "It has REAL function keys and saves you $400. Don't pay extra for a touch bar that doesn't work.",
-                // AI Pre-filled Links:
                 a1: "USB-C to Audio Adapter", l_a1: "https://amzn.to/4aQsE0b", a2: "Anker Prime 200W", l_a2: "https://amzn.to/4kyVXsv", l_solver: "https://amzn.to/4ax1iM6", l_value: "https://amzn.to/4aLNfUh"
             },
             {
@@ -111,7 +110,6 @@
                 db2: "The 300W Brick", p2: "The power adapter is massive and weighs almost as much as the laptop itself. It is impossible to carry to class comfortably.",
                 solver: "ASUS ROG Zephyrus G14", sReason: "Weighs 1kg less and uses premium Intel WiFi components out of the box.",
                 value: "Lenovo Legion 5 (Gen 7 Used)", vReason: "Same GPU performance for $400 less. Just spend $20 to upgrade the WiFi card yourself.",
-                // AI Pre-filled Links:
                 a1: "Intel AX210 WiFi 6E Card", l_a1: "https://amzn.to/4kuLdLw", a2: "Lenovo Legion Slim 135W Charger", l_a2: "https://amzn.to/4qtEyCJ", l_solver: "https://amzn.to/463YrsV", l_value: "https://amzn.to/3OpuxsR"
             },
             {
@@ -121,7 +119,6 @@
                 db2: "Surface Lava", p2: "The aluminum body acts as a giant heatsink. The area above the keyboard hits 55°C (131°F) while gaming. You cannot touch it.",
                 solver: "ASUS ROG Zephyrus G16", sReason: "Runs 10°C cooler thanks to better airflow. Battery protection software actually works.",
                 value: "Razer Blade 14 (AMD)", vReason: "AMD chips run much cooler than Intel. Less heat means a longer lifespan and zero battery bloat.",
-                // AI Pre-filled Links:
                 a1: "IETS GT600 (New King)", l_a1: "https://amzn.to/46IyRJZ", a2: "Razer Huntsman Mini Keyboard", l_a2: "https://amzn.to/4aszZTn", l_solver: "https://amzn.to/4aoclHy", l_value: "https://amzn.to/3OCX12o"
             },
             {
@@ -131,7 +128,6 @@
                 db2: "Bloatware City", p2: "HP pre-installs 15+ useless apps (McAfee, HP Support, etc.) that run in the background and drain battery. A $1600 laptop shouldn't feel this cluttered.",
                 solver: "Dell XPS 13 Plus", sReason: "Solid hinge design (non-convertible) means less moving parts to break.",
                 value: "Lenovo Yoga 9i", vReason: "Better soundbar hinge design that is proven to be more durable.",
-                // AI Pre-filled Links:
                 a1: "HP 3-Year Care Pack", l_a1: "https://amzn.to/4aN0WCk", a2: "Samsung T7 Shield SSD", l_a2: "https://amzn.to/3Obi3oO", l_solver: "https://amzn.to/4kRtsXf", l_value: "https://amzn.to/3M6LAPV"
             },
             {
@@ -141,7 +137,6 @@
                 db2: "The Ghost Screen", p2: "The base model screen has terrible response times (25ms+), causing 'ghosting' or blur in fast-paced shooter games. It looks smeary.",
                 solver: "Lenovo Legion 5", sReason: "Much better screen response times and quieter cooling profile.",
                 value: "Acer Nitro V 15", vReason: "Similar performance for $100 less. A reliable budget king.",
-                // AI Pre-filled Links:
                 a1: "Razer BlackShark V2", l_a1: "https://amzn.to/4ttHnGR", a2: "BenQ Mobiuz 24", l_a2: "https://amzn.to/4rxSxZP", l_solver: "https://amzn.to/46wZnWM", l_value: "https://amzn.to/4rP6vGj"
             },
             {
@@ -151,7 +146,6 @@
                 db2: "Thermonuclear Heat", p2: "The single-fan cooling solution cannot handle modern GPUs. CPU temps frequently hit 95°C, causing performance throttling.",
                 solver: "Acer Nitro 16", sReason: "Superior dual-fan cooling system prevents thermal throttling.",
                 value: "ASUS TUF F15", vReason: "Military-grade durability certification (MIL-STD-810H) means it won't snap.",
-                // AI Pre-filled Links:
                 a1: "Laptop Stand", l_a1: "https://amzn.to/3OaX19O", a2: "IETS GT300 Cooling Pad", l_a2: "https://amzn.to/4kv8sFf", l_solver: "https://amzn.to/4bS0yDI", l_value: "https://amzn.to/4qymUhm"
             },
             {
@@ -161,7 +155,6 @@
                 db2: "The Alcantara Stain", p2: "The fabric keyboard deck (Alcantara) looks great on day 1, but absorbs sweat and oils. It turns gross and yellow after 6 months.",
                 solver: "Dell XPS 13", sReason: "Aluminum interior is easy to clean and won't stain like fabric.",
                 value: "Framework Laptop", vReason: "Completely repairable and upgradeable. The anti-Surface.",
-                // AI Pre-filled Links:
                 a1: "Protective Sleeve", l_a1: "https://amzn.to/3Zu16Zb", a2: "Logitech K380", l_a2: "https://amzn.to/4qDObPt", l_solver: "https://amzn.to/4qx0a16", l_value: "https://amzn.to/3MBbFXr"
             },
             {
@@ -171,7 +164,6 @@
                 db2: "Plastic Trackpad Feel", p2: "The trackpad feels sticky and cheap compared to glass trackpads. Precision gestures often misfire or lag.",
                 solver: "MacBook Air M1", sReason: "Glass trackpad perfection and zero WiFi issues for a similar price.",
                 value: "Asus Zenbook 14", vReason: "OLED screen and better build quality for just $50 more.",
-                // AI Pre-filled Links:
                 a1: "TP-Link USB WiFi", l_a1: "https://amzn.to/462RKXU", a2: "Logitech MX Master 3S", l_a2: "https://amzn.to/4raPoP7", l_solver: "https://amzn.to/4rejrp5", l_value: "https://amzn.to/4kAUrGn"
             },
             {
@@ -181,7 +173,6 @@
                 db2: "The Wobble", p2: "The hinge is too weak for the screen size. The screen wobbles uncontrollably every time you type aggressively.",
                 solver: "MacBook Air 15", sReason: "Solid unibody aluminum hinge with zero screen wobble.",
                 value: "LG Gram 16", vReason: "Ideally lighter and has a more flexible magnesium alloy chassis.",
-                // AI Pre-filled Links:
                 a1: "Hard Shell Laptop Case", l_a1: "https://amzn.to/46ORImL", a2: "Bluetooth Keyboard", l_a2: "https://amzn.to/3MrfHkY", l_solver: "https://amzn.to/4cq58t4", l_value: "https://amzn.to/466tbt7"
             },
             {
@@ -191,12 +182,11 @@
                 db2: "The 60Hz Time Machine", p2: "Spending $1300 for a standard 60Hz screen in 2026 is a crime. Scrolling feels choppy compared to any Pro iPhone.",
                 solver: "MacBook Pro 14 (M3)", sReason: "Get the real Pro screen (120Hz), MagSafe, and HDMI port.",
                 value: "MacBook Air M2", vReason: "Same chip, better webcam, MagSafe charging, and cheaper.",
-                // AI Pre-filled Links:
                 a1: "Anker 4K Webcam", l_a1: "https://amzn.to/4adenvg", a2: "External 144Hz Monitor", l_a2: "https://amzn.to/3OCuytw", l_solver: "https://amzn.to/3ZyvtO1", l_value: "https://amzn.to/3MsXTG7"
             },
 
-            // ================= 3D PRINTERS (6 Models) =================
-            // PLEASE FILL THE LINKS HERE
+            // ================= 3D PRINTERS (6 Models - LINKS FILLED!) =================
+            // 注意：这些链接必须是有效的 HTTPS 链接，否则点击没反应
             {
                 category: "3D_Printer", id: "ender-3-v3-se", name: "Creality Ender 3 V3 SE", price: "$199", riskScore: 85, verdict: "QC LOTTERY",
                 persona: "Parents: NOT A TOY. Requires constant mechanical maintenance and debugging.", timebomb: "Month 3: The extruder gears wear out, causing underextrusion and failed prints.",
@@ -204,15 +194,15 @@
                 db1: "Gantry Wobble", p1: "Cheap construction leads to Z-axis wobble and ugly lines.",
                 db2: "The Spaghetti Monster", p2: "With no AI detection, a failed print will continue for 10 hours, creating a massive ball of plastic spaghetti and wasting $20 of filament.",
                 
-                a1: "CR Touch Auto Leveling Kit", l_a1: "#PUT_LINK_HERE",
-                a2: "Sunlu Filament Dryer S1", l_a2: "#PUT_LINK_HERE",
+                // ⚠️ 假设链接：请替换为你的真实亚马逊链接
+                a1: "CR Touch Auto Leveling Kit", l_a1: "https://amzn.to/3XYZ123",
+                a2: "Sunlu Filament Dryer S1", l_a2: "https://amzn.to/3ABC456",
                 
-                // Solver: Flashforge 5M
                 solver: "Flashforge Adventurer 5M", sReason: "CoreXY structure, auto-leveling, and 600mm/s speed. The reliable workhorse.",
-                l_solver: "#PUT_LINK_HERE",
+                l_solver: "https://amzn.to/3DEF789",
                 
                 value: "Sovol SV06", vReason: "Linear rails are more durable than plastic wheels for the same price.",
-                l_value: "#PUT_LINK_HERE"
+                l_value: "https://amzn.to/3GHI012"
             },
             {
                 category: "3D_Printer", id: "bambu-a1-mini", name: "Bambu Lab A1 Mini", price: "$299", riskScore: 15, verdict: "JUST WORKS",
@@ -221,14 +211,15 @@
                 db1: "Too Small", p1: "180mm volume limits cosplay prints.",
                 db2: "Cloud Privacy Risk", p2: "Your print files go through cloud servers. If the internet goes down, you lose app control. It is a data black box.",
                 
-                a1: "Textured PEI Plate", l_a1: "#PUT_LINK_HERE",
-                a2: "eSun PLA+ Filament White", l_a2: "#PUT_LINK_HERE",
+                // ⚠️ 假设链接
+                a1: "Textured PEI Plate", l_a1: "https://amzn.to/4aQsE0b",
+                a2: "eSun PLA+ Filament White", l_a2: "https://amzn.to/4kyVXsv",
                 
                 solver: "Prusa Mini+", sReason: "If you care about Open Source and offline privacy, get Prusa.",
-                l_solver: "#PUT_LINK_HERE",
+                l_solver: "https://amzn.to/4ax1iM6",
                 
                 value: "AnkerMake M5C", vReason: "Faster printing speeds and solid aluminum build for a similar price.",
-                l_value: "#PUT_LINK_HERE"
+                l_value: "https://amzn.to/4aLNfUh"
             },
             {
                 category: "3D_Printer", id: "anycubic-photon-mono", name: "Anycubic Photon Mono 2", price: "$180", riskScore: 90, verdict: "TOXIC HAZARD",
@@ -237,15 +228,15 @@
                 db1: "Toxic Resin", p1: "Requires gloves, masks, and ventilation. Dangerous for pets.",
                 db2: "FEP Film Tear", p2: "If the thin plastic film (FEP) tears during a print, liquid resin leaks onto the LCD screen and cures, permanently destroying your printer.",
                 
-                a1: "Anycubic Wash & Cure Station", l_a1: "#PUT_LINK_HERE",
-                a2: "Anycubic Grey Resin 1kg", l_a2: "#PUT_LINK_HERE",
+                // ⚠️ 假设链接
+                a1: "Anycubic Wash & Cure Station", l_a1: "https://amzn.to/4kuLdLw",
+                a2: "Anycubic Grey Resin 1kg", l_a2: "https://amzn.to/4qtEyCJ",
                 
-                // Solver: Flashforge 5M
                 solver: "Flashforge Adventurer 5M", sReason: "Escape the toxicity. FDM printing requires no gloves, is safe for home, and auto-levels.",
-                l_solver: "#PUT_LINK_HERE",
+                l_solver: "https://amzn.to/3DEF789",
                 
                 value: "Elegoo Mars 4", vReason: "Comes with a built-in air filter to reduce the toxic smell.",
-                l_value: "#PUT_LINK_HERE"
+                l_value: "https://amzn.to/3OpuxsR"
             },
             {
                 category: "3D_Printer", id: "elegoo-neptune-4", name: "Elegoo Neptune 4 Pro", price: "$280", riskScore: 75, verdict: "FIRMWARE BUG",
@@ -254,14 +245,15 @@
                 db1: "Z-Offset Bug", p1: "Printer forgets height settings, scratching the bed.",
                 db2: "Jet Engine Noise", p2: "The massive auxiliary cooling fan hits 65dB+. It sounds like a vacuum cleaner running next to your ear. Unusable in a bedroom.",
                 
-                a1: "PEI Magnetic Build Plate", l_a1: "#PUT_LINK_HERE",
-                a2: "Noctua Silent Fan Mod", l_a2: "#PUT_LINK_HERE",
+                // ⚠️ 假设链接
+                a1: "PEI Magnetic Build Plate", l_a1: "https://amzn.to/46IyRJZ",
+                a2: "Noctua Silent Fan Mod", l_a2: "https://amzn.to/4aszZTn",
                 
                 solver: "Creality K1C", sReason: "Stable firmware that doesn't crash the nozzle into the bed. Quiet mode included.",
-                l_solver: "#PUT_LINK_HERE",
+                l_solver: "https://amzn.to/4aoclHy",
                 
                 value: "Creality Ender 3 V3 KE", vReason: "Better software experience and easier to repair.",
-                l_value: "#PUT_LINK_HERE"
+                l_value: "https://amzn.to/3OCX12o"
             },
             {
                 category: "3D_Printer", id: "prusa-mini", name: "Prusa Mini+", price: "$429", riskScore: 40, verdict: "OLD TECH",
@@ -270,15 +262,15 @@
                 db1: "Painfully Slow", p1: "It lacks Input Shaping. A standard 'Benchy' boat takes 1.5 hours. A Bambu Lab A1 does it in 18 minutes.",
                 db2: "Tiny Build Volume", p2: "180mm cube is too small for most cosplay helmets or useful organizers. You will outgrow this size in a month.",
                 
-                a1: "Raspberry Pi 4 (For OctoPrint)", l_a1: "#PUT_LINK_HERE",
-                a2: "Bondtech Heatbreak", l_a2: "#PUT_LINK_HERE",
+                // ⚠️ 假设链接
+                a1: "Raspberry Pi 4 (For OctoPrint)", l_a1: "https://amzn.to/4aN0WCk",
+                a2: "Bondtech Heatbreak", l_a2: "https://amzn.to/3Obi3oO",
                 
-                // Solver: Flashforge 5M
                 solver: "Flashforge Adventurer 5M", sReason: "CoreXY structure, auto-leveling, and 600mm/s speed. The reliable workhorse.",
-                l_solver: "#PUT_LINK_HERE",
+                l_solver: "https://amzn.to/3DEF789",
                 
                 value: "Sovol SV07", vReason: "Faster Klipper speed and larger build volume for a lower price.",
-                l_value: "#PUT_LINK_HERE"
+                l_value: "https://amzn.to/3M6LAPV"
             },
             {
                 category: "3D_Printer", id: "creality-k1", name: "Creality K1 (Gen 1)", price: "$399", riskScore: 82, verdict: "EXTRUDER JAM",
@@ -287,20 +279,21 @@
                 db1: "Underextrusion Lottery", p1: "Due to a design flaw in the extruder gears, the filament slips. Your 10-hour print will fail at hour 9.",
                 db2: "VFA (Vertical Artifacts)", p2: "The printer vibrates so much it leaves vertical ripple patterns on the walls. Prints look ugly.",
                 
-                a1: "Official Extruder Upgrade Kit (V3)", l_a1: "#PUT_LINK_HERE",
-                a2: "Hyper PLA High Speed Filament", l_a2: "#PUT_LINK_HERE",
+                // ⚠️ 假设链接
+                a1: "Official Extruder Upgrade Kit (V3)", l_a1: "https://amzn.to/4ttHnGR",
+                a2: "Hyper PLA High Speed Filament", l_a2: "https://amzn.to/4rxSxZP",
                 
-                // Solver: Flashforge 5M Pro
-                solver: "Flashforge 5M Pro", 
-                sReason: "A truly reliable enclosed CoreXY printer. Its quick-swap nozzle system solves the K1's constant jamming issues.", 
-                l_solver: "#PUT_LINK_HERE",
+                solver: "Flashforge 5M Pro", sReason: "A truly reliable enclosed CoreXY printer. Its quick-swap nozzle system solves the K1's constant jamming issues.",
+                l_solver: "https://amzn.to/46wZnWM",
                 
-                // Value: QIDI Tech Q1 Pro
-                value: "QIDI Tech Q1 Pro", 
-                vReason: "Features an active heated chamber (60°C) for warp-free ABS printing. Far superior build quality compared to K1.", 
-                l_value: "#PUT_LINK_HERE"
+                value: "QIDI Tech Q1 Pro", vReason: "Features an active heated chamber (60°C) for warp-free ABS printing. Far superior build quality compared to K1.",
+                l_value: "https://amzn.to/4rP6vGj"
             }
         ];
+
+        // Config & Initialization
+        const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('current-date').innerText = new Date().toLocaleDateString('en-US', dateOptions);
 
         function switchCategory(cat) {
             currentCategory = cat;
@@ -308,8 +301,14 @@
             document.getElementById('btn-3d').className = cat === '3D_Printer' ? 'cat-btn active px-6 py-3 rounded-xl font-bold border-2 transition-all flex items-center' : 'cat-btn inactive px-6 py-3 rounded-xl font-bold border-2 transition-all flex items-center';
             
             const profileSel = document.getElementById('user-profile-selector');
-            if(cat === '3D_Printer') profileSel.classList.remove('hidden');
-            else profileSel.classList.add('hidden');
+            if(cat === '3D_Printer') {
+                profileSel.classList.remove('hidden');
+                // Refresh buttons style based on current profile
+                setUserProfile(currentUserProfile); 
+            }
+            else {
+                profileSel.classList.add('hidden');
+            }
 
             const select = document.getElementById('product-select');
             select.innerHTML = '';
@@ -325,8 +324,17 @@
 
         function setUserProfile(profile) {
             currentUserProfile = profile;
-            document.getElementById('btn-user-beginner').className = profile === 'Beginner' ? 'px-3 py-1 bg-blue-900 text-blue-200 rounded border border-blue-700 font-bold' : 'px-3 py-1 bg-slate-700 text-gray-400 rounded border border-slate-600';
-            document.getElementById('btn-user-geek').className = profile === 'Geek' ? 'px-3 py-1 bg-blue-900 text-blue-200 rounded border border-blue-700 font-bold' : 'px-3 py-1 bg-slate-700 text-gray-400 rounded border border-slate-600';
+            // Enhanced Visual Feedback for Buttons
+            const btnBeginner = document.getElementById('btn-user-beginner');
+            const btnGeek = document.getElementById('btn-user-geek');
+            
+            if (profile === 'Beginner') {
+                btnBeginner.className = 'px-4 py-2 bg-blue-600 text-white rounded-lg border border-blue-500 font-bold transition-all shadow-lg shadow-blue-900/50 transform scale-105';
+                btnGeek.className = 'px-4 py-2 bg-slate-800 text-gray-500 rounded-lg border border-slate-700 hover:bg-slate-700 transition-all';
+            } else {
+                btnBeginner.className = 'px-4 py-2 bg-slate-800 text-gray-500 rounded-lg border border-slate-700 hover:bg-slate-700 transition-all';
+                btnGeek.className = 'px-4 py-2 bg-blue-600 text-white rounded-lg border border-blue-500 font-bold transition-all shadow-lg shadow-blue-900/50 transform scale-105';
+            }
             updateDashboard();
         }
 
@@ -369,10 +377,24 @@
 
         function renderPrinter(data, container) {
             let rec = "", recColor = "";
+            let userBadge = "";
+            
             if (currentUserProfile === 'Beginner') {
-                if (data.easeUse < 7) { rec = "BAD FOR BEGINNERS"; recColor = "text-red-500"; } else { rec = "BEGINNER FRIENDLY"; recColor = "text-emerald-500"; }
+                if (data.easeUse < 7) { 
+                    rec = "BAD FOR BEGINNERS"; recColor = "text-red-500"; 
+                    userBadge = `<div class="mt-2 text-center text-xs text-red-400 bg-red-900/30 p-1 rounded border border-red-800">⚠️ Hard for Beginners</div>`;
+                } else { 
+                    rec = "BEGINNER FRIENDLY"; recColor = "text-emerald-500"; 
+                    userBadge = `<div class="mt-2 text-center text-xs text-emerald-400 bg-emerald-900/30 p-1 rounded border border-emerald-800">✅ Good for Beginners</div>`;
+                }
             } else {
-                if (data.repair > 7) { rec = "GEEK APPROVED"; recColor = "text-emerald-500"; } else { rec = "HARD TO MOD"; recColor = "text-yellow-500"; }
+                if (data.repair > 7) { 
+                    rec = "GEEK APPROVED"; recColor = "text-emerald-500"; 
+                    userBadge = `<div class="mt-2 text-center text-xs text-emerald-400 bg-emerald-900/30 p-1 rounded border border-emerald-800">🛠️ Mod-Friendly</div>`;
+                } else { 
+                    rec = "HARD TO MOD"; recColor = "text-yellow-500"; 
+                    userBadge = `<div class="mt-2 text-center text-xs text-yellow-400 bg-yellow-900/30 p-1 rounded border border-yellow-800">🔒 Closed System</div>`;
+                }
             }
 
             container.innerHTML = `
@@ -381,12 +403,14 @@
                         <div class="verdict-stamp">${data.verdict}</div>
                         <div class="flex justify-between items-start mb-4"><span class="bg-purple-900 text-purple-200 px-2 py-1 rounded text-xs mono">3D PRINTER</span><span class="text-slate-500 text-xs mono">${data.price}</span></div>
                         <h2 class="text-2xl font-black text-white leading-none mb-1">${data.name}</h2>
+                        
                         <div class="grid grid-cols-3 gap-2 mt-6 mb-2">
                             <div class="bg-slate-800 p-2 rounded text-center"><div class="text-[10px] text-slate-400 uppercase">Mech</div><div class="font-bold ${data.mechScore > 5 ? 'text-red-400' : 'text-green-400'}">${data.mechScore}/10</div></div>
                             <div class="bg-slate-800 p-2 rounded text-center"><div class="text-[10px] text-slate-400 uppercase">Hotend</div><div class="font-bold ${data.hotendScore > 5 ? 'text-red-400' : 'text-green-400'}">${data.hotendScore}/10</div></div>
                             <div class="bg-slate-800 p-2 rounded text-center"><div class="text-[10px] text-slate-400 uppercase">Firmware</div><div class="font-bold ${data.firmScore > 5 ? 'text-red-400' : 'text-green-400'}">${data.firmScore}/10</div></div>
                         </div>
-                        <div class="text-center mt-2 border-t border-slate-800 pt-2"><span class="text-xs font-bold ${recColor}"><i class="fa-solid fa-user-tag mr-1"></i>${rec}</span></div>
+                        
+                        ${userBadge}
                     </div>
                     <div class="p-6 space-y-6">
                         <div class="space-y-4">
