@@ -1,8 +1,7 @@
-// app.js - v28.2 (Fixed Evidence Counter & Submit UI)
+// app.js - v28.3 (Email Integrated)
 
 document.addEventListener('DOMContentLoaded', () => {
     initRouter();
-    updateDate();
 });
 
 function initRouter() {
@@ -139,13 +138,12 @@ function createProductCard(p) {
     const score = RiskCalculator.calculateScore(p.issues);
     const level = RiskCalculator.getLevel(score);
     
-    // FIX 1: Generate a pseudo-random report count based on the product name characters
-    // This ensures it's always the same number for the same product, but different for others.
+    // Pseudo-random report count based on model name
     let charCodeSum = 0;
     for (let i = 0; i < p.model.length; i++) {
         charCodeSum += p.model.charCodeAt(i);
     }
-    const reportCount = (charCodeSum * 2) + 36; // Fake math to make it look realistic (e.g., 200-500 range)
+    const reportCount = (charCodeSum * 2) + 36;
 
     return `
         <div class="risk-card bg-slate-800 rounded-xl border border-slate-700 overflow-hidden cursor-pointer hover:border-blue-500 transition-all"
@@ -178,47 +176,64 @@ function handleSearch(query) {
 }
 
 // =======================
-// 4. SUBMIT FORM HANDLER (IMPROVED UI)
+// 4. SUBMIT FORM HANDLER (REAL EMAIL)
 // =======================
 
-// Open modal and pre-fill model name if provided
 function openEvidenceModal(modelName = '') {
     const modal = document.getElementById('evidence-modal');
     if(modelName) {
-        // Find input inside modal and set value if possible
-        const input = modal.querySelector('input[type="text"]');
+        const input = modal.querySelector('input[name="model"]');
         if(input) input.value = modelName;
     }
     modal.classList.remove('hidden');
 }
 
-// FIX 2: Better Submit UI experience (No alert box)
+function closeModal(modalId) {
+    document.getElementById(modalId).classList.add('hidden');
+}
+
+// Handle real submission to FormSubmit.co
 function handleEvidenceSubmit(e) {
     e.preventDefault();
-    const btn = e.target.querySelector('button');
+    const form = e.target;
+    const btn = form.querySelector('button');
     const originalText = btn.innerText;
     
     // 1. Loading State
-    btn.innerText = "Submitting...";
+    btn.innerText = "Sending...";
     btn.disabled = true;
     btn.classList.add('opacity-50');
-    
-    // 2. Simulate Network Request
-    setTimeout(() => {
-        // 3. Success State (Replace Form Content)
-        const formContainer = e.target.parentElement;
+
+    // 2. Prepare Data
+    const formData = new FormData(form);
+
+    // 3. Send to FormSubmit (AJAX)
+    // Using your specific email address
+    fetch("https://formsubmit.co/ajax/markmilk20020610@gmail.com", { 
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        // 4. Success State
+        const formContainer = form.parentElement;
         formContainer.innerHTML = `
             <div class="text-center py-8 fade-in">
                 <div class="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4 text-green-500 text-3xl">
                     <i class="fa-solid fa-check"></i>
                 </div>
                 <h3 class="text-xl font-bold text-white mb-2">Report Received!</h3>
-                <p class="text-gray-400 text-sm">Thank you for contributing to the database.</p>
+                <p class="text-gray-400 text-sm">Thank you. We have logged your email.</p>
                 <p class="text-slate-600 text-xs mt-4">Case ID: #${Math.floor(Math.random() * 9000) + 1000}</p>
-                <button onclick="closeModal('evidence-modal'); window.location.reload();" class="mt-6 text-blue-400 text-sm font-bold hover:underline">Close</button>
+                <button onclick="location.reload()" class="mt-6 text-blue-400 text-sm font-bold hover:underline">Close</button>
             </div>
         `;
-    }, 1200);
+    })
+    .catch(error => {
+        alert("Something went wrong. Please try again.");
+        btn.innerText = originalText;
+        btn.disabled = false;
+        btn.classList.remove('opacity-50');
+        console.error('Error:', error);
+    });
 }
-
-function updateDate() {}
