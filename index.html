@@ -3,459 +3,311 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LaptopDetective - Forensic Risk Database</title>
+    <title>LaptopDetective - Forensic Risk Database (v19.0)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;800&family=Inter:wght@400;600;900&display=swap');
         
-        /* Custom Card Styles */
-        .deal-breaker-card { border-left: 4px solid #ef4444; background: #fff1f2; transition: all 0.3s; }
-        .solver-card { border-left: 4px solid #10b981; background: #ecfdf5; }
-        .value-card { border-left: 4px solid #f59e0b; background: #fffbeb; }
+        body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #e2e8f0; }
+        .mono { font-family: 'JetBrains Mono', monospace; }
         
+        /* Forensic Stamp Effect */
+        .verdict-stamp {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-12deg);
+            border: 4px solid #ef4444;
+            color: #ef4444;
+            font-size: 1.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            padding: 0.5rem 1rem;
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.3);
+            z-index: 20;
+            white-space: nowrap;
+            letter-spacing: 2px;
+            opacity: 0;
+            animation: stampIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards 0.3s;
+        }
+
+        @keyframes stampIn { from { opacity: 0; transform: translate(-50%, -50%) scale(2) rotate(-12deg); } to { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(-12deg); } }
+
+        /* Custom Cards */
+        .risk-card { background: #1e293b; border: 1px solid #334155; }
+        .solver-card { background: #064e3b; border: 1px solid #059669; }
+        .value-card { background: #422006; border: 1px solid #d97706; }
+        
+        /* Time Bomb Bar */
+        .hazard-stripe {
+            background: repeating-linear-gradient(
+                45deg,
+                #f59e0b,
+                #f59e0b 10px,
+                #000 10px,
+                #000 20px
+            );
+        }
+
         /* Animations */
-        .highlight-column { transform: scale(1.03) translateY(-10px); z-index: 20; border-width: 4px !important; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
         .fade-in { animation: fadeIn 0.5s ease-in; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .risk-bar { transition: width 1s ease-out; }
-        
-        /* Mobile Optimization */
-        select { -webkit-appearance: none; -moz-appearance: none; appearance: none; }
     </style>
 </head>
-<body class="p-4 md:p-8 text-gray-800 flex flex-col min-h-screen">
+<body class="p-4 md:p-8 flex flex-col min-h-screen selection:bg-red-500 selection:text-white">
 
-    <div class="max-w-4xl mx-auto mb-10 text-center">
-        <h1 class="text-4xl font-black mb-2 text-gray-900 tracking-tight">
-            <i class="fa-solid fa-magnifying-glass-chart text-red-600 mr-2"></i>LaptopDetective
+    <div class="max-w-5xl mx-auto mb-8 text-center">
+        <div class="inline-block bg-red-900 text-red-200 px-3 py-1 rounded-sm text-xs font-bold mono mb-4 border border-red-700">
+            <i class="fa-solid fa-file-contract mr-2"></i>CASE FILE: #2026-LD
+        </div>
+        <h1 class="text-4xl md:text-5xl font-black mb-2 tracking-tighter text-white">
+            <span class="text-red-500">Laptop</span>Detective<span class="text-gray-600">.exe</span>
         </h1>
-        <p class="text-gray-500 mb-6 font-medium">Forensic Analysis for Tech Buyers. Truth over Hype.</p>
-        
-        <div class="inline-block bg-gray-900 text-white px-4 py-1 rounded-full text-xs font-bold mb-6 shadow-md border border-gray-700">
-            <i class="fa-solid fa-clock-rotate-left mr-2 text-green-400"></i>
-            Database Verified: <span id="current-date">Loading...</span>
-        </div>
+        <p class="text-gray-400 mb-6 font-medium text-sm md:text-base">Forensic Analysis of Hardware Failures & Engineering Flaws.</p>
 
-        <div class="bg-white p-4 rounded-2xl shadow-lg border border-gray-200 text-left relative">
-            <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Select Model to Analyze:</label>
-            <div class="relative">
-                <select id="laptop-select" onchange="updateDashboard()" class="w-full p-4 bg-gray-50 border border-gray-300 rounded-xl text-lg font-bold focus:border-red-500 focus:ring-4 focus:ring-red-100 outline-none transition-all cursor-pointer text-gray-800 appearance-none">
-                    <option value="dell-xps-13-plus">Dell XPS 13 (9340 / New)</option>
-                    <option value="lenovo-legion-5">Lenovo Legion 5 (Gen 8)</option>
-                    <option value="razer-blade-15">Razer Blade 15 (2024)</option>
-                    <option value="hp-spectre-x360">HP Spectre x360 (14-inch)</option>
-                    <option value="asus-tuf-a15">ASUS TUF Gaming A15</option>
-                    <option value="msi-katana-gf63">Lenovo LOQ 15 (Intel)</option>
-                    <option value="surface-laptop-5">Microsoft Surface Laptop 5</option>
-                    <option value="acer-swift-go-14">Acer Swift Go 14</option>
-                    <option value="samsung-galaxy-book3">Samsung Galaxy Book 3</option>
-                    <option value="macbook-pro-13-m2">MacBook Pro 13 (M2 Old Chassis)</option>
-                </select>
-                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-700">
-                    <i class="fa-solid fa-chevron-down"></i>
-                </div>
+        <div class="bg-slate-800 p-2 rounded-xl border border-slate-600 max-w-lg mx-auto relative shadow-2xl">
+            <select id="laptop-select" onchange="updateDashboard()" class="w-full p-3 bg-slate-900 text-white rounded-lg text-lg font-bold border border-slate-700 focus:border-red-500 focus:ring-1 focus:ring-red-500 outline-none appearance-none cursor-pointer text-center">
+                <option value="dell-xps-13-plus">Dell XPS 13 Plus (9340)</option>
+                <option value="lenovo-legion-5">Lenovo Legion 5 (Gen 8)</option>
+                <option value="razer-blade-15">Razer Blade 15 (2024)</option>
+                <option value="hp-spectre-x360">HP Spectre x360</option>
+                <option value="asus-tuf-a15">ASUS TUF A15</option>
+                <option value="Lenovo LOQ">Lenovo LOQ 15 (Intel)</option>
+                <option value="surface-laptop-5">Surface Laptop 5</option>
+                <option value="acer-swift-go-14">Acer Swift Go 14</option>
+                <option value="samsung-galaxy-book3">Samsung Galaxy Book 3</option>
+                <option value="macbook-pro-13-m2">MacBook Pro 13 (M2)</option>
+            </select>
+            <div class="pointer-events-none absolute inset-y-0 right-4 flex items-center text-gray-400">
+                <i class="fa-solid fa-chevron-down"></i>
             </div>
-        </div>
-        
-        <div id="reject-message" class="hidden mt-6 bg-red-600 text-white p-3 text-center rounded-lg font-bold animate-bounce shadow-lg">
-            <i class="fa-solid fa-triangle-exclamation mr-2"></i> Critical Design Flaws Detected. See Alternatives.
         </div>
     </div>
 
-    <div id="arena" class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 items-start fade-in flex-grow">
+    <div id="arena" class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 items-start fade-in flex-grow w-full">
         </div>
 
-    <footer class="text-center mt-16 mb-4 pt-8 border-t border-gray-200">
-        <p class="text-xs text-gray-400">
-            Found a fix? Or a broken link? 
-            <a href="https://forms.gle/FcaWCnjdH2aoYvku9" target="_blank" class="text-gray-500 underline hover:text-gray-800 transition-colors">Report it here.</a>
-        </p>
-        <p class="text-[10px] text-gray-300 mt-2">Prices are estimates and may vary by region.</p>
+    <footer class="text-center mt-16 pt-8 border-t border-slate-800 text-slate-500 text-xs">
+        <p>Database Verified: <span id="current-date" class="text-slate-300"></span></p>
+        <p class="mt-2">Information based on aggregated user reports. Not official manufacturer advice. <br> As an Amazon Associate, I earn from qualifying purchases.</p>
     </footer>
 
-    <div id="antidote-modal" class="fixed inset-0 bg-black bg-opacity-80 hidden flex items-center justify-center z-50 p-4 backdrop-blur-sm transition-opacity duration-300">
-        <div class="bg-white rounded-2xl max-w-lg w-full p-6 text-center relative shadow-2xl transform scale-100">
-            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"><i class="fa-solid fa-xmark fa-2xl"></i></button>
-            
-            <div class="bg-red-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 border-4 border-red-100">
-                <i class="fa-solid fa-shield-virus text-4xl text-red-500"></i>
-            </div>
-            
-            <h2 class="text-2xl font-black text-gray-900 mb-2">Wait! Mandatory Fixes</h2>
-            <p id="modal-text" class="text-gray-600 mb-6 text-sm px-4">To survive the flaws of this laptop, our forensic team strongly recommends these add-ons:</p>
-            
-            <div id="antidote-list" class="space-y-3 text-left">
-                </div>
-            
-            <div class="mt-6 pt-4 border-t border-gray-100">
-                <p class="text-xs text-gray-400 italic">By proceeding, you acknowledge the hardware risks.</p>
-            </div>
+    <div id="antidote-modal" class="fixed inset-0 bg-black bg-opacity-90 hidden flex items-center justify-center z-50 p-4 backdrop-blur-sm">
+        <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-lg w-full p-6 text-center relative shadow-2xl">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i class="fa-solid fa-xmark fa-xl"></i></button>
+            <h2 class="text-2xl font-black text-white mb-2 text-red-500">MANDATORY SURVIVAL KIT</h2>
+            <p class="text-gray-400 mb-6 text-sm">Forensic analysis confirms you will need these to fix the hardware flaws:</p>
+            <div id="antidote-list" class="space-y-3 text-left"></div>
         </div>
     </div>
 
     <script>
         // =========================================================================
-        //  DATABASE: Forensic Risk Analysis v18.0 (Final Deployment)
-        //  ALL LINKS UPDATED FROM USER DATA
+        //  DATABASE v19.0 (User Provided Golden Source)
         // =========================================================================
         
-        // 1. DYNAMIC DATE LOGIC
-        const dateOptions = { year: 'numeric', month: 'long' };
-        document.getElementById('current-date').innerText = new Date().toLocaleDateString('en-US', dateOptions);
+        // Helper to handle the "$" sign in risk score
+        function parseScore(scoreStr) {
+            if(!scoreStr) return 0;
+            return parseInt(scoreStr.toString().replace('$', '').replace('%', ''));
+        }
 
         const laptopData = {
             "dell-xps-13-plus": {
-                name: "Dell XPS 13 (9340)", 
-                price: "~$1,400", 
-                img: "https://placehold.co/400x300/e2e8f0/1e293b?text=Dell+XPS+13+9340",
-                riskScore: 92, reviewCount: "2,100+ (Reddit)",
-                status: "❌ Headphone Jack Removed",
+                name: "Dell XPS 13 Plus (9320)", 
+                price: "$1,399",
+                riskScore: "$92", 
+                verdict: "DONGLE HELL",
+                persona: "Music Producers: No headphone jack means living in a dongle nightmare.",
+                timebomb: "Month 6: The capacitive touch function row starts registering phantom touches or freezes entirely.",
                 
-                db1: "Dongle Hell", 
-                p1: "Courage? No, greed. They removed the 3.5mm headphone jack. You cannot charge and use wired headphones at the same time without a dongle.", 
-                db2: "Capacitive Touch Nightmare", 
-                p2: "Function keys are still invisible touch buttons. Zero haptic feedback. You will accidentally hit 'Esc' constantly.", 
-                specWeight: "1.19 kg", specBat: "6-7 Hrs", specScreen: "OLED (PWM Flicker)",
+                db1: "Dongle Hell", p1: "Courage? No, greed. They removed the 3.5mm headphone jack. You cannot charge and use wired headphones at the same time without a dongle.",
+                db2: "Battery Anxiety", p2: "Battery life is laughable for a $1400 laptop. It barely lasts 5 hours on a Zoom call. You will be hugged to the wall outlet.",
                 
-                solver: "MacBook Air M2", 
-                sPrice: "~$1,099", 
-                sImg: "https://placehold.co/400x300/dcfce7/166534?text=MacBook+Air+M2",
-                s1: "Tactile Bliss: Real keys, zero typos.", 
-                s2: "Untethered: Forget the charger exists.", 
-                sWeight: "1.24 kg", sBat: "15-18 Hrs", sScreen: "Liquid Retina",
-                switchCount: "524",
+                solver: "MacBook Air M2", sReason: "15+ hours of real-world battery life. Real physical keys. Zero frustration.",
+                value: "Dell XPS 13 (9315)", vReason: "It has REAL function keys and saves you $400. Don't pay extra for a touch bar that doesn't work.",
                 
-                value: "Dell XPS 13 (9315)", 
-                vPrice: "~$900", 
-                vImg: "https://placehold.co/400x300/fef3c7/92400e?text=Dell+XPS+9315",
-                vReason: "Sanity Saver: Real keys + $400 cash kept.", 
-                vWeight: "1.17 kg", vBat: "8-9 Hrs", vScreen: "IPS (No PWM)",
-
-                a1: "Logitech MX Keys Mini", a1Desc: "Bypass the touch bar",
-                a2: "Anker Prime 200W", a2Desc: "Life support for battery",
-
-                // LINKS UPDATED
-                link_antidote1: "https://amzn.to/4aQsE0b", 
-                link_antidote2: "https://amzn.to/4kyVXsv", 
-                link_solver: "https://amzn.to/406zhWY", 
-                link_value: "https://amzn.to/4aLNfUh"
+                a1: "USB-C to Audio Adapter", l_a1: "https://amzn.to/4aQsE0b",
+                a2: "Anker Prime 200W", l_a2: "https://amzn.to/4kyVXsv",
+                l_solver: "https://amzn.to/4ax1iM6", l_value: "https://amzn.to/4aLNfUh"
             },
-
+            
             "lenovo-legion-5": {
-                name: "Lenovo Legion 5", 
-                price: "~$1,200", 
-                img: "https://placehold.co/400x300/e2e8f0/1e293b?text=Legion+5",
-                riskScore: 79, reviewCount: "4,200+ (Discord)",
-                status: "⚠️ Issue Persists in Gen 9",
-
-                db1: "The Realtek WiFi Gamble", 
-                p1: "Lenovo cost-cutting means you likely get a cheap Realtek card. Expect random ping spikes and disconnects in ranked matches.", 
-                db2: "The 300W Brick", 
-                p2: "The power adapter is massive and weighs almost as much as the laptop itself. It is impossible to carry to class comfortably.", 
-                specWeight: "2.4 kg (+1kg Brick)", specBat: "3-4 Hrs", specScreen: "IPS 165Hz",
-
-                solver: "ASUS Zephyrus G14", 
-                sPrice: "~$1,400", 
-                sImg: "https://placehold.co/400x300/dcfce7/166534?text=Zephyrus+G14",
-                s1: "Lag Killer: Intel WiFi 6E standard.", 
-                s2: "Featherweight: 1.65kg total carry.", 
-                sWeight: "1.65 kg", sBat: "8-9 Hrs", sScreen: "Mini-LED",
-                switchCount: "389",
-
-                value: "Lenovo Legion 5 (Gen 7)", 
-                vPrice: "~$900", 
-                vImg: "https://placehold.co/400x300/fef3c7/92400e?text=Legion+5+(Old)",
-                vReason: "Smart Money: Same GPU performance for $400 less.", 
-                vWeight: "2.4 kg", vBat: "3-4 Hrs", vScreen: "IPS 144Hz",
-
-                a1: "Intel AX210 WiFi Card", a1Desc: "Fixes lag spikes ($25)",
-                a2: "Legion Slim 135W Charger", a2Desc: "Cut weight by 60%",
-
-                // LINKS UPDATED
-                link_antidote1: "https://amzn.to/4kuLdLw", 
-                link_antidote2: "https://amzn.to/4qtEyCJ", 
-                link_solver: "https://amzn.to/463YrsV", 
-                link_value: "https://amzn.to/4coDAnN"
+                name: "Lenovo Legion 5 (Gen 8)", 
+                price: "$1,199",
+                riskScore: "$79", 
+                verdict: "WIFI LOTTERY",
+                persona: "Competitive Gamers: The Realtek WiFi card causes ping spikes that lose ranked matches.",
+                timebomb: "Month 12: The heavy 300W power brick cable often frays at the connector due to weight stress.",
+                
+                db1: "The WiFi Card Lottery", p1: "Lenovo cut costs by using a cheap Realtek/MediaTek WiFi card instead of Intel. Expect constant lag spikes and disconnects while gaming.",
+                db2: "The 300W Brick", p2: "The power adapter is massive and weighs almost as much as the laptop itself. It is impossible to carry to class comfortably.",
+                
+                solver: "ASUS ROG Zephyrus G14", sReason: "Weighs 1kg less and uses premium Intel WiFi components out of the box.",
+                value: "Lenovo Legion 5 (Gen 7 Used)", vReason: "Same GPU performance for $400 less. Just spend $20 to upgrade the WiFi card yourself.",
+                
+                a1: "Intel AX210 WiFi 6E Card", l_a1: "https://amzn.to/4kuLdLw",
+                a2: "Lenovo Legion Slim 135W Charger", l_a2: "https://amzn.to/4qtEyCJ",
+                l_solver: "https://amzn.to/463YrsV", l_value: "https://amzn.to/3OpuxsR"
             },
 
             "razer-blade-15": {
-                name: "Razer Blade 15", 
-                price: "~$2,500", 
-                img: "https://placehold.co/400x300/e2e8f0/1e293b?text=Razer+Blade+15",
-                riskScore: 95, reviewCount: "900+ (r/Razer)",
-                status: "🚫 Flaw Inherent to Chassis",
-
-                db1: "⏳ The 'Spicy Pillow' Timer", 
-                p1: "It's not 'if', it's 'when'. The chassis heat cooks the battery. Expect the trackpad to crack from battery swelling within 2 years.", 
-                db2: "Surface Lava", 
-                p2: "The aluminum body acts as a giant heatsink. The area above the keyboard hits 55°C (131°F) while gaming. You cannot touch it.", 
-                specWeight: "2.01 kg", specBat: "2-3 Hrs", specScreen: "QHD 240Hz",
-
-                solver: "ASUS Zephyrus G16", 
-                sPrice: "~$2,300", 
-                sImg: "https://placehold.co/400x300/dcfce7/166534?text=Zephyrus+G16",
-                s1: "Frosty: 10°C cooler airflow.", 
-                s2: "Safe Power: Battery protection works.", 
-                sWeight: "1.85 kg", sBat: "6-7 Hrs", sScreen: "Nebula HDR",
-                switchCount: "142",
-
-                value: "Razer Blade 14 (AMD)", 
-                vPrice: "~$1,900", 
-                vImg: "https://placehold.co/400x300/fef3c7/92400e?text=Razer+Blade+14",
-                vReason: "Cooler Head: AMD chip stays chill.", 
-                vWeight: "1.78 kg", vBat: "8-9 Hrs", vScreen: "QHD 165Hz",
-
-                a1: "IETS GT600 (New King)", a1Desc: "Drops temps by 15°C. Foam seal.",
-                a2: "Razer Huntsman Mini", a2Desc: "Don't touch the hot laptop",
-
-                // LINKS UPDATED
-                link_antidote1: "https://amzn.to/46IyRJZ", 
-                link_antidote2: "https://amzn.to/4aszZTn", 
-                link_solver: "https://amzn.to/4aoclHy", 
-                link_value: "https://amzn.to/3OCX12o"
+                name: "Razer Blade 15 (2024)", 
+                price: "$2,499",
+                riskScore: "$95", 
+                verdict: "SPICY PILLOW",
+                persona: "Dorm Students: Battery bloat is inevitable and dangerous in small rooms.",
+                timebomb: "Month 18: Battery swells due to heat, physically bending the aluminum chassis and cracking the trackpad.",
+                
+                db1: "The 'Spicy Pillow' Risk", p1: "The chassis gets so hot it literally cooks the battery. After 12-18 months, the battery swells up (bloats) and bends the trackpad. It's a ticking time bomb.",
+                db2: "Surface Lava", p2: "The aluminum body acts as a giant heatsink. The area above the keyboard hits 55°C (131°F) while gaming. You cannot touch it.",
+                
+                solver: "ASUS ROG Zephyrus G16", sReason: "Runs 10°C cooler thanks to better airflow. Battery protection software actually works.",
+                value: "Razer Blade 14 (AMD)", vReason: "AMD chips run much cooler than Intel. Less heat means a longer lifespan and zero battery bloat.",
+                
+                a1: "IETS GT600 (New King)", l_a1: "https://amzn.to/46IyRJZ",
+                a2: "Razer Huntsman Mini Keyboard", l_a2: "https://amzn.to/4aszZTn",
+                l_solver: "https://amzn.to/4aoclHy", l_value: "https://amzn.to/3OCX12o"
             },
 
             "hp-spectre-x360": {
-                name: "HP Spectre x360", 
-                price: "~$1,600", 
-                img: "https://placehold.co/400x300/e2e8f0/1e293b?text=HP+Spectre",
-                riskScore: 65, reviewCount: "420+",
-                status: "⚠️ Hinge Design Unchanged",
+                name: "HP Spectre x360 (14-inch)", 
+                price: "$1,599",
+                riskScore: "$65", 
+                verdict: "HINGE SNAP",
+                persona: "Digital Artists: Constant flipping to tablet mode stresses the ribbon cables.",
+                timebomb: "Month 14: One hinge loosens significantly, causing the screen to flop over when picked up.",
                 
-                db1: "⏳ Hinge-Gate Anxiety", 
-                p1: "Convertible hinges are fragile points of failure. Forums are full of reports about loose hinges or misaligned screens after 12 months.", 
-                db2: "Bloatware City", 
-                p2: "HP pre-installs 15+ useless apps (McAfee, HP Support, etc.) that run in the background and drain battery.", 
-                specWeight: "1.36 kg", specBat: "7-8 Hrs", specScreen: "OLED Touch",
-
-                solver: "Dell XPS 13 Plus", 
-                sPrice: "~$1,400", 
-                sImg: "https://placehold.co/400x300/dcfce7/166534?text=Dell+XPS+Plus",
-                s1: "Solid Hinge", s2: "Cleaner OS", sWeight: "1.23 kg", sBat: "6-7 Hrs", sScreen: "OLED",
-                switchCount: "89",
-
-                value: "Lenovo Yoga 9i", 
-                vPrice: "~$1,300", 
-                vImg: "https://placehold.co/400x300/fef3c7/92400e?text=Yoga+9i",
-                vReason: "Soundbar hinge is durable.", vWeight: "1.4 kg", vBat: "8-9 Hrs", vScreen: "OLED 4K",
-
-                a1: "HP 3-Year Care Pack", a1Desc: "Accidental Damage Protection",
-                a2: "Samsung T7 Shield SSD", a2Desc: "Clean Install Backup",
+                db1: "The 'Hinge-Gate' Anxiety", p1: "Convertible hinges are fragile points of failure. Forums are full of reports about loose hinges or misaligned screens after 12 months of flipping.",
+                db2: "Bloatware City", p2: "HP pre-installs 15+ useless apps (McAfee, HP Support, etc.) that run in the background and drain battery. A $1600 laptop shouldn't feel this cluttered.",
                 
-                // LINKS UPDATED
-                link_antidote1: "https://amzn.to/4aN0WCk", 
-                link_antidote2: "https://amzn.to/3Obi3oO", 
-                link_solver: "https://amzn.to/4kRtsXf", 
-                link_value: "https://amzn.to/3M6LAPV"
+                solver: "Dell XPS 13 Plus", sReason: "Solid hinge design (non-convertible) means less moving parts to break.",
+                value: "Lenovo Yoga 9i", vReason: "Better soundbar hinge design that is proven to be more durable.",
+                
+                a1: "HP 3-Year Care Pack (Accidental Damage)", l_a1: "https://amzn.to/4aN0WCk",
+                a2: "Samsung T7 Shield SSD (Clean Install Backup)", l_a2: "https://amzn.to/3Obi3oO",
+                l_solver: "https://amzn.to/4kRtsXf", l_value: "https://amzn.to/3M6LAPV"
             },
 
             "asus-tuf-a15": {
-                name: "ASUS TUF A15", 
-                price: "~$1,000", 
-                img: "https://placehold.co/400x300/e2e8f0/1e293b?text=ASUS+TUF+A15",
-                riskScore: 72, reviewCount: "1,100+",
-                status: "✅ Known Budget Trade-off",
+                name: "ASUS TUF Gaming A15", 
+                price: "$999",
+                riskScore: "$72", 
+                verdict: "JET ENGINE",
+                persona: "Library Users: Fans hit 55dB under load. You will be kicked out of quiet zones.",
+                timebomb: "Month 9: The cheap fan bearings start grinding, creating a permanent rattling noise.",
                 
-                db1: "Jet Engine Acoustics", 
-                p1: "Fans hit 55dB+. It sounds like a hair dryer next to your ear. Unusable in a library or shared dorm room.",
-                db2: "The 'Ghost' Screen", 
-                p2: "The base model screen has terrible response times (25ms+), causing 'ghosting' or blur in fast-paced shooter games.", 
-                specWeight: "2.2 kg", specBat: "4-5 Hrs", specScreen: "144Hz (Dim)",
-
-                solver: "Lenovo Legion 5", 
-                sPrice: "~$1,200", 
-                sImg: "https://placehold.co/400x300/dcfce7/166534?text=Legion+5",
-                s1: "Silent Mode that works", s2: "Crisp Motion", sWeight: "2.4 kg", sBat: "4 Hrs", sScreen: "165Hz (Bright)",
-                switchCount: "632",
-
-                value: "Acer Nitro V 15", 
-                vPrice: "~$900", 
-                vImg: "https://placehold.co/400x300/fef3c7/92400e?text=Acer+Nitro+V+15",
-                vReason: "Similar performance for $100 less.", vWeight: "2.1 kg", vBat: "3 Hrs", vScreen: "144Hz",
-
-                a1: "Razer BlackShark V2", a1Desc: "Noise Cancelling Headset",
-                a2: "BenQ Mobiuz Monitor", a2Desc: "Fixes ghosting",
-
-                // LINKS UPDATED
-                link_antidote1: "https://amzn.to/4ttHnGR", 
-                link_antidote2: "https://amzn.to/4rxSxZP", 
-                link_solver: "https://amzn.to/46wZnWM", 
-                link_value: "https://amzn.to/4rP6vGj"
+                db1: "The 'Jet Engine' Fans", p1: "To keep costs low, ASUS used loud, cheap fans. During gaming, it hits 55dB - loud enough to annoy anyone in the room (or your mic).",
+                db2: "The 'Ghost' Screen", p2: "The base model screen has terrible response times (25ms+), causing 'ghosting' or blur in fast-paced shooter games. It looks smeary.",
+                
+                solver: "Lenovo Legion 5", sReason: "Much better screen response times and quieter cooling profile.",
+                value: "Acer Nitro V 15", vReason: "Similar performance for $100 less. A reliable budget king.",
+                
+                a1: "Razer BlackShark V2 Headset", l_a1: "https://amzn.to/4ttHnGR",
+                a2: "BenQ Mobiuz 24 Gaming Monitor", l_a2: "https://amzn.to/4rxSxZP",
+                l_solver: "https://amzn.to/46wZnWM", l_value: "https://amzn.to/4rP6vGj"
             },
 
-            // REPLACED MSI WITH LENOVO LOQ (Using LOQ Text & Your New Links)
-            "msi-katana-gf63": {
+            "Lenovo LOQ": {
                 name: "Lenovo LOQ 15 (Intel)", 
-                price: "~$900", 
-                img: "https://placehold.co/400x300/e2e8f0/1e293b?text=Lenovo+LOQ+15",
-                riskScore: 85, reviewCount: "1,800+ (Discord)",
-                status: "⚠️ Motherboard Roulette", 
+                price: "$899",
+                riskScore: "$88", 
+                verdict: "MB SUICIDE",
+                persona: "Budget Gamers: If the motherboard dies out of warranty, you lose your entire $900 investment.",
+                timebomb: "Month 4: Motherboard VRM failure due to 13th/14th Gen Intel voltage issues. Laptop becomes a brick.",
                 
-                db1: "⏳ Motherboard Suicide", 
-                p1: "Specific 13th/14th Gen Intel HX CPUs are frying the motherboard VRMs. Users report dead laptops within 3-6 months.", 
-                db2: "Thermonuclear Heat", 
-                p2: "The single-fan cooling solution cannot handle modern GPUs. CPU temps frequently hit 95°C, causing performance throttling.",
-                specWeight: "2.4 kg", specBat: "3-4 Hrs", specScreen: "FHD 144Hz",
-
-                solver: "Acer Nitro 16", 
-                sPrice: "~$1,100", 
-                sImg: "https://placehold.co/400x300/dcfce7/166534?text=Acer+Nitro+16",
-                s1: "Superior dual-fan cooling", s2: "Reliable AMD Chip", switchCount: "412",
-                sWeight: "2.6 kg", sBat: "5-6 Hrs", sScreen: "165Hz",
-
-                value: "ASUS TUF F15", 
-                vPrice: "~$850", 
-                vImg: "https://placehold.co/400x300/fef3c7/92400e?text=ASUS+TUF+F15",
-                vReason: "Military-grade durability (MIL-STD-810H).", vWeight: "2.3 kg", vBat: "4 Hrs", vScreen: "144Hz",
-
-                a1: "Laptop Stand", a1Desc: "Keep it Open",
-                a2: "IETS GT300 Cooling Pad", a2Desc: "Prevents throttling",
-
-                // LINKS UPDATED (Mapped from your sheet's LOQ row)
-                link_antidote1: "https://amzn.to/3OaX19O", 
-                link_antidote2: "https://amzn.to/4kv8sFf", 
-                link_solver: "https://amzn.to/4bS0yDI", 
-                link_value: "https://amzn.to/4qymUhm"
+                db1: "Motherboard Suicide", p1: "Specific 13th/14th Gen Intel HX CPUs are frying the motherboard VRMs. Users report dead laptops within 3-6 months.",
+                db2: "Thermonuclear Heat", p2: "The single-fan cooling solution cannot handle modern GPUs. CPU temps frequently hit 95°C, causing performance throttling.",
+                
+                solver: "Acer Nitro 16", sReason: "Superior dual-fan cooling system prevents thermal throttling.",
+                value: "ASUS TUF F15", vReason: "Military-grade durability certification (MIL-STD-810H) means it won't snap.",
+                
+                a1: "Laptop Stand (Keep it Open)", l_a1: "https://amzn.to/3OaX19O",
+                a2: "IETS GT300 Cooling Pad", l_a2: "https://amzn.to/4kv8sFf",
+                l_solver: "https://amzn.to/4bS0yDI", l_value: "https://amzn.to/4qymUhm"
             },
 
             "surface-laptop-5": {
-                name: "Surface Laptop 5", 
-                price: "~$1,300", 
-                img: "https://placehold.co/400x300/e2e8f0/1e293b?text=Surface+Laptop+5",
-                riskScore: 68, reviewCount: "500+",
-                status: "⚠️ Material Flaw Unfixed",
+                name: "Microsoft Surface Laptop 5", 
+                price: "$1,299",
+                riskScore: "$68", 
+                verdict: "GLUE TRAP",
+                persona: "DIY Fixers: You cannot open it to clean dust or replace the battery without destroying it.",
+                timebomb: "Month 8: The Alcantara fabric keyboard deck turns yellow and absorbs sweat oils permanently.",
                 
-                db1: "The Glue Trap", 
-                p1: "Zero repairability. Battery and keyboard are glued down. If one part breaks, the whole laptop is e-waste.",
-                db2: "⏳ The Alcantara Stain", 
-                p2: "The fabric keyboard deck absorbs sweat and oils. It turns gross and yellow after 6 months. You can't clean it.",
-                specWeight: "1.27 kg", specBat: "8-9 Hrs", specScreen: "PixelSense",
-
-                solver: "Dell XPS 13", 
-                sPrice: "~$1,100", 
-                sImg: "https://placehold.co/400x300/dcfce7/166534?text=Dell+XPS+13",
-                s1: "Aluminum interior is easy to clean.", s2: "Premium Build", switchCount: "112",
-                sWeight: "1.17 kg", sBat: "9-10 Hrs", sScreen: "FHD+",
-
-                value: "Lenovo ThinkPad E14", 
-                vPrice: "~$650", 
-                vImg: "https://placehold.co/400x300/fef3c7/92400e?text=ThinkPad+E14",
-                vReason: "Upgradeable RAM/SSD. Built like a tank.", vWeight: "1.5 kg", vBat: "8-9 Hrs", vScreen: "IPS",
-
-                a1: "Microsoft Protection Plan", a1Desc: "Mandatory for repairs",
-                a2: "Logitech K380 Keyboard", a2Desc: "Avoid Alcantara stains",
-
-                // LINKS UPDATED
-                link_antidote1: "https://amzn.to/3Zu16Zb", 
-                link_antidote2: "https://amzn.to/4qDObPt", 
-                link_solver: "https://amzn.to/4qx0a16", 
-                link_value: "https://amzn.to/3MBbFXr"
+                db1: "The Glue Trap", p1: "Zero repairability. Battery and keyboard are glued down. If one part breaks, the whole laptop is e-waste.",
+                db2: "The Alcantara Stain", p2: "The fabric keyboard deck (Alcantara) looks great on day 1, but absorbs sweat and oils. It turns gross and yellow after 6 months.",
+                
+                solver: "Dell XPS 13", sReason: "Aluminum interior is easy to clean and won't stain like fabric.",
+                value: "Framework Laptop", vReason: "Completely repairable and upgradeable. The anti-Surface.",
+                
+                a1: "Protective Sleeve", l_a1: "https://amzn.to/3Zu16Zb",
+                a2: "Logitech K380 External Keyboard", l_a2: "https://amzn.to/4qDObPt",
+                l_solver: "https://amzn.to/4qx0a16", l_value: "https://amzn.to/3MBbFXr"
             },
 
             "acer-swift-go-14": {
                 name: "Acer Swift Go 14", 
-                price: "~$800", 
-                img: "https://placehold.co/400x300/e2e8f0/1e293b?text=Acer+Swift+Go",
-                riskScore: 60, reviewCount: "300+",
-                status: "✅ Acceptable for Price",
+                price: "$799",
+                riskScore: "$60", 
+                verdict: "WIFI DROP",
+                persona: "Remote Workers: Unstable MediaTek WiFi will drop you from important Zoom meetings.",
+                timebomb: "Month 6: The plastic trackpad surface wears down, becoming shiny, sticky, and inaccurate.",
                 
-                db1: "The WiFi Dropouts", 
-                p1: "Acer often uses cheaper MediaTek WiFi cards that struggle to maintain connection through walls. Expect random drops.", 
-                db2: "Plastic Trackpad Feel", 
-                p2: "The trackpad feels sticky and cheap compared to glass trackpads. Precision gestures often misfire or lag.", 
-                specWeight: "1.25 kg", specBat: "6-7 Hrs", specScreen: "OLED 90Hz",
-
-                solver: "MacBook Air M1", 
-                sPrice: "~$800", 
-                sImg: "https://placehold.co/400x300/dcfce7/166534?text=MacBook+Air+M1",
-                s1: "Rock Solid WiFi", s2: "Glass Trackpad", switchCount: "945",
-                sWeight: "1.29 kg", sBat: "15 Hrs", sScreen: "Retina",
-
-                value: "Asus Zenbook 14", 
-                vPrice: "~$850", 
-                vImg: "https://placehold.co/400x300/fef3c7/92400e?text=Asus+Zenbook",
-                vReason: "OLED screen and better build quality.", vWeight: "1.39 kg", vBat: "8-9 Hrs", vScreen: "OLED",
-
-                a1: "TP-Link USB WiFi", a1Desc: "Stable Connection",
-                a2: "Logitech MX Master 3S", a2Desc: "Better Mouse",
-
-                // LINKS UPDATED
-                link_antidote1: "https://amzn.to/462RKXU", 
-                link_antidote2: "https://amzn.to/4raPoP7", 
-                link_solver: "https://amzn.to/4rejrp5", 
-                link_value: "https://amzn.to/4kAUrGn"
+                db1: "The WiFi Dropouts", p1: "Acer often uses cheaper MediaTek WiFi cards that struggle to maintain connection through walls. Expect random zoom call drops.",
+                db2: "Plastic Trackpad Feel", p2: "The trackpad feels sticky and cheap compared to glass trackpads. Precision gestures often misfire or lag.",
+                
+                solver: "MacBook Air M1", sReason: "Glass trackpad perfection and zero WiFi issues for a similar price.",
+                value: "Asus Zenbook 14", vReason: "OLED screen and better build quality for just $50 more.",
+                
+                a1: "TP-Link USB WiFi Adapter", l_a1: "https://amzn.to/462RKXU",
+                a2: "Logitech MX Master 3S Mouse", l_a2: "https://amzn.to/4raPoP7",
+                l_solver: "https://amzn.to/4rejrp5", l_value: "https://amzn.to/4kAUrGn"
             },
 
             "samsung-galaxy-book3": {
                 name: "Samsung Galaxy Book 3", 
-                price: "~$1,100", 
-                img: "https://placehold.co/400x300/e2e8f0/1e293b?text=Galaxy+Book+3",
-                riskScore: 75, reviewCount: "250+",
-                status: "⚠️ Physical Structure Weak",
+                price: "$1,099",
+                riskScore: "$75", 
+                verdict: "CRACK GATE",
+                persona: "Frequent Travelers: The screen glass is too thin to survive a packed backpack.",
+                timebomb: "Month 3: Hairline cracks appear on the screen spontaneously just from opening the lid too fast.",
                 
-                db1: "The Crack-Gate Screen", 
-                p1: "To make it thin, Samsung made the glass too thin. Hundreds of users report screens cracking spontaneously.", 
-                db2: "The Wobble", 
-                p2: "The hinge is too weak for the screen size. The screen wobbles uncontrollably every time you type aggressively.", 
-                specWeight: "1.5 kg", specBat: "7-8 Hrs", specScreen: "AMOLED",
-
-                solver: "MacBook Air 15", 
-                sPrice: "~$1,300", 
-                sImg: "https://placehold.co/400x300/dcfce7/166534?text=MacBook+Air+15",
-                s1: "Solid Unibody", s2: "Zero Wobble", switchCount: "267",
-                sWeight: "1.51 kg", sBat: "15-18 Hrs", sScreen: "Liquid Retina",
-
-                value: "LG Gram 16", 
-                vPrice: "~$1,200", 
-                vImg: "https://placehold.co/400x300/fef3c7/92400e?text=LG+Gram+16",
-                vReason: "Ideally lighter and has a flexible magnesium chassis.", vWeight: "1.19 kg", vBat: "10-11 Hrs", vScreen: "IPS",
-
-                a1: "Hard Shell Laptop Case", a1Desc: "Screen Protection",
-                a2: "Bluetooth Keyboard", a2Desc: "Separate Typing",
-
-                // LINKS UPDATED
-                link_antidote1: "https://amzn.to/46ORImL", 
-                link_antidote2: "https://amzn.to/3MrfHkY", 
-                link_solver: "https://amzn.to/4cq58t4", 
-                link_value: "https://amzn.to/466tbt7"
+                db1: "The 'Crack-Gate' Screen", p1: "To make it thin, Samsung made the glass too thin. Hundreds of users report screens cracking spontaneously from simply opening the lid.",
+                db2: "The Wobble", p2: "The hinge is too weak for the screen size. The screen wobbles uncontrollably every time you type aggressively.",
+                
+                solver: "MacBook Air 15", sReason: "Solid unibody aluminum hinge with zero screen wobble.",
+                value: "LG Gram 16", vReason: "Ideally lighter and has a more flexible magnesium alloy chassis.",
+                
+                a1: "Hard Shell Laptop Case", l_a1: "https://amzn.to/46ORImL",
+                a2: "Bluetooth Keyboard (Separate Typing)", l_a2: "https://amzn.to/3MrfHkY",
+                l_solver: "https://amzn.to/4cq58t4", l_value: "https://amzn.to/466tbt7"
             },
 
             "macbook-pro-13-m2": {
-                name: "MacBook Pro 13 (M2)", 
-                price: "~$1,300", 
-                img: "https://placehold.co/400x300/e2e8f0/1e293b?text=MacBook+Pro+13",
-                riskScore: 90, reviewCount: "2,000+",
-                status: "⚠️ Discontinued Design",
+                name: "MacBook Pro 13 (M2 Old Chassis)", 
+                price: "$1,299",
+                riskScore: "$90", 
+                verdict: "ZOMBIE TECH",
+                persona: "Video Editors: The Touch Bar is dead tech and has no future OS support.",
+                timebomb: "Year 2: The 720p webcam looks ancient and grainy compared to modern 1080p standards.",
                 
-                db1: "The Zombie Touch Bar", 
-                p1: "You are paying for 2016 technology. The Touch Bar is dead. No MagSafe charging, old 720p webcam.", 
-                db2: "The 60Hz Time Machine", 
-                p2: "Spending $1300 for a standard 60Hz screen in 2026 is a crime. Scrolling feels choppy compared to any Pro iPhone.", 
-                specWeight: "1.4 kg", specBat: "18 Hrs", specScreen: "Retina 60Hz",
-
-                solver: "MacBook Pro 14 (M3)", 
-                sPrice: "~$1,600", 
-                sImg: "https://placehold.co/400x300/dcfce7/166534?text=MacBook+Pro+14",
-                s1: "Get the real Pro screen (120Hz)", s2: "MagSafe & HDMI", switchCount: "1,200+",
-                sWeight: "1.55 kg", sBat: "18-22 Hrs", sScreen: "XDR 120Hz",
-
-                value: "MacBook Air M2", 
-                vPrice: "~$1,000", 
-                vImg: "https://placehold.co/400x300/fef3c7/92400e?text=MacBook+Air+M2",
-                vReason: "Same chip, better webcam, MagSafe charging, and cheaper.", vWeight: "1.24 kg", vBat: "15-18 Hrs", vScreen: "Liquid Retina",
-
-                a1: "Anker 4K Webcam", a1Desc: "Fixes 720p cam",
-                a2: "External 144Hz Monitor", a2Desc: "Get high refresh rate",
-
-                // LINKS UPDATED
-                link_antidote1: "https://amzn.to/4adenvg", 
-                link_antidote2: "https://amzn.to/3OCuytw", 
-                link_solver: "https://amzn.to/3ZyvtO1", 
-                link_value: "https://amzn.to/3MsXTG7"
+                db1: "The Zombie Touch Bar", p1: "You are paying for 2016 technology. The Touch Bar is dead (Apple removed it from Pro models). No MagSafe charging, old 720p webcam.",
+                db2: "The 60Hz Time Machine", p2: "Spending $1300 for a standard 60Hz screen in 2026 is a crime. Scrolling feels choppy compared to any Pro iPhone.",
+                
+                solver: "MacBook Pro 14 (M3)", sReason: "Get the real Pro screen (120Hz), MagSafe, and HDMI port.",
+                value: "MacBook Air M2", vReason: "Same chip, better webcam, MagSafe charging, and cheaper.",
+                
+                a1: "Anker 4K Webcam", l_a1: "https://amzn.to/4adenvg",
+                a2: "External 144Hz Monitor", l_a2: "https://amzn.to/3OCuytw",
+                l_solver: "https://amzn.to/3ZyvtO1", l_value: "https://amzn.to/3MsXTG7"
             }
         };
+
+        const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('current-date').innerText = new Date().toLocaleDateString('en-US', dateOptions);
 
         function formatLink(link) {
             if (!link || link === '#' || link.includes('PUT_YOUR_LINK_HERE')) return '#';
@@ -466,169 +318,129 @@
             const key = document.getElementById('laptop-select').value;
             const data = laptopData[key] || laptopData['dell-xps-13-plus'];
             const arena = document.getElementById('arena');
-            document.getElementById('reject-message').classList.add('hidden');
-
-            // Default values if missing
-            const status = data.status || "⚠️ Known Issue in 2026 Model";
-            const switchCount = data.switchCount || "150+";
-
+            
+            // Clean Risk Score
+            const riskNum = parseScore(data.riskScore);
             let riskColor = "bg-red-600";
-            if(data.riskScore < 60) riskColor = "bg-yellow-500";
-
-            const safeLinkSolver = formatLink(data.link_solver);
-            const safeLinkValue = formatLink(data.link_value);
+            if(riskNum < 70) riskColor = "bg-yellow-500";
 
             arena.innerHTML = `
-                <div class="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden relative" id="col-accused">
-                    <div class="bg-gray-50 p-6 text-center border-b border-gray-100">
-                        <span class="bg-gray-900 text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest">Target Model</span>
-                        <h2 class="text-2xl font-black mt-3 text-gray-900 leading-tight">${data.name}</h2>
+                <div class="risk-card rounded-2xl overflow-hidden relative shadow-2xl fade-in lg:col-span-1">
+                    <div class="bg-slate-900 p-6 border-b border-slate-700 relative overflow-hidden">
+                        <div class="verdict-stamp">${data.verdict}</div>
                         
-                        <div class="mt-2 text-xs font-bold text-red-600 bg-red-50 inline-block px-2 py-1 rounded border border-red-200">
-                            ${status}
-                        </div>
-
-                        <p class="text-gray-500 font-mono mt-2 text-sm">${data.price}</p>
-
-                        <div class="mt-4 mb-2 px-4">
-                            <div class="flex justify-between text-xs font-bold text-gray-600 mb-1">
-                                <span>Failure Probability</span>
-                                <span class="text-red-600 font-black">${data.riskScore}%</span>
-                            </div>
-                            <div class="w-full bg-gray-200 rounded-full h-3">
-                                <div class="${riskColor} h-3 rounded-full risk-bar" style="width: ${data.riskScore}%"></div>
-                            </div>
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="bg-slate-800 text-slate-400 px-2 py-1 rounded text-xs mono">EVIDENCE #${key.toUpperCase().substring(0,4)}</span>
+                            <span class="text-slate-500 text-xs mono">${data.price}</span>
                         </div>
                         
-                        <img src="${data.img}" class="h-40 mx-auto mt-4 object-contain rounded-lg border border-gray-100 shadow-sm" alt="${data.name}">
+                        <h2 class="text-2xl font-black text-white leading-none mb-1">${data.name}</h2>
+                        <div class="w-full h-40 bg-slate-800 rounded-lg mt-4 flex items-center justify-center relative border border-slate-700">
+                             <img src="https://placehold.co/400x300/1e293b/475569?text=${encodeURIComponent(data.name)}" class="h-full object-contain opacity-75">
+                        </div>
+
+                        <div class="mt-6">
+                            <div class="flex justify-between text-xs font-bold text-slate-400 mb-1">
+                                <span>FAILURE PROBABILITY</span>
+                                <span class="text-red-500">${riskNum}% CRITICAL</span>
+                            </div>
+                            <div class="w-full bg-slate-800 rounded-full h-2">
+                                <div class="${riskColor} h-2 rounded-full" style="width: ${riskNum}%"></div>
+                            </div>
+                        </div>
                     </div>
-                    
-                    <div class="p-6 space-y-5">
-                        <div class="deal-breaker-card p-4 rounded-xl">
-                            <h3 class="font-bold text-red-700 text-xs uppercase tracking-wide flex items-center"><i class="fa-solid fa-bug mr-2"></i> Deal-Breaker #1</h3>
-                            <p class="font-black text-gray-900 text-lg leading-tight mt-1">${data.db1}</p>
-                            <p class="text-sm text-gray-600 italic mt-2 border-l-2 border-red-300 pl-3">"${data.p1}"</p>
-                            <p class="text-xs text-gray-400 mt-2 text-right"><i class="fa-brands fa-reddit-alien mr-1"></i> Based on ${data.reviewCount}</p>
-                        </div>
-                        
-                        <div class="deal-breaker-card p-4 rounded-xl">
-                            <h3 class="font-bold text-red-700 text-xs uppercase tracking-wide flex items-center"><i class="fa-solid fa-temperature-arrow-up mr-2"></i> Deal-Breaker #2</h3>
-                            <p class="font-black text-gray-900 text-lg leading-tight mt-1">${data.db2}</p>
-                            <p class="text-sm text-gray-600 italic mt-2 border-l-2 border-red-300 pl-3">"${data.p2}"</p>
+
+                    <div class="p-6 space-y-6">
+                        <div class="bg-red-900/20 border border-red-900/50 p-3 rounded-lg flex items-start">
+                            <i class="fa-solid fa-user-slash text-red-500 mt-1 mr-3"></i>
+                            <div>
+                                <h4 class="text-red-500 text-xs font-bold uppercase tracking-wide">DO NOT BUY IF YOU ARE:</h4>
+                                <p class="text-sm text-red-200 font-medium leading-snug mt-1">${data.persona.split(':')[0]}</p>
+                                <p class="text-xs text-red-300 mt-1 italic">"${data.persona.split(':')[1] || ''}"</p>
+                            </div>
                         </div>
 
-                        <div class="space-y-3 pt-2">
-                            <button onclick="rejectTarget()" class="w-full py-3 border-2 border-red-500 text-red-600 font-black rounded-lg hover:bg-red-50 transition-colors uppercase text-sm tracking-wide">
-                                I Can't Handle This <i class="fa-solid fa-xmark ml-1"></i>
-                            </button>
-                            <button onclick="acceptRisk('${key}')" class="w-full py-3 bg-gray-900 text-white font-black rounded-lg hover:bg-black shadow-lg hover:shadow-xl transition-all uppercase text-sm tracking-wide">
-                                I Accept The Risk <i class="fa-solid fa-check ml-1"></i>
-                            </button>
+                        <div class="space-y-4">
+                            <div>
+                                <h3 class="text-red-500 font-bold text-xs uppercase"><i class="fa-solid fa-skull mr-1"></i> Deal Breaker 1</h3>
+                                <p class="text-white font-bold">${data.db1}</p>
+                                <p class="text-slate-400 text-sm mt-1 border-l-2 border-slate-700 pl-3">"${data.p1}"</p>
+                            </div>
+                            <div>
+                                <h3 class="text-red-500 font-bold text-xs uppercase"><i class="fa-solid fa-temperature-arrow-up mr-1"></i> Deal Breaker 2</h3>
+                                <p class="text-white font-bold">${data.db2}</p>
+                                <p class="text-slate-400 text-sm mt-1 border-l-2 border-slate-700 pl-3">"${data.p2}"</p>
+                            </div>
                         </div>
-                        
-                        <div class="pt-4 mt-4 border-t border-gray-100 grid grid-cols-3 gap-2 text-center text-xs text-gray-500">
-                            <div><i class="fa-solid fa-weight-hanging block mb-1 text-gray-300"></i>${data.specWeight}</div>
-                            <div><i class="fa-solid fa-battery-half block mb-1 text-gray-300"></i>${data.specBat}</div>
-                            <div><i class="fa-solid fa-display block mb-1 text-gray-300"></i>${data.specScreen}</div>
+
+                        <div class="bg-yellow-900/20 border border-yellow-700 p-3 rounded-lg relative overflow-hidden">
+                            <div class="absolute top-0 left-0 w-full h-1 hazard-stripe"></div>
+                            <div class="flex items-center text-yellow-500 text-xs font-bold uppercase mb-1 mt-1">
+                                <i class="fa-solid fa-bomb mr-2"></i> Time Bomb Detected
+                            </div>
+                            <p class="text-xs text-yellow-200 mono">${data.timebomb}</p>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3 pt-2">
+                            <button onclick="document.getElementById('col-solver').scrollIntoView({behavior: 'smooth'})" class="py-3 border border-red-500 text-red-500 font-bold rounded-lg hover:bg-red-900/30 text-xs uppercase">
+                                I Can't Risk It
+                            </button>
+                            <button onclick="acceptRisk('${key}')" class="py-3 bg-slate-700 text-white font-bold rounded-lg hover:bg-slate-600 text-xs uppercase">
+                                I'm Buying Anyway
+                            </button>
                         </div>
                     </div>
                 </div>
 
-                <div id="col-solver" class="bg-white rounded-2xl shadow-xl border-2 border-green-400 overflow-hidden relative transform transition-all duration-500 z-10">
-                    <div class="absolute top-0 right-0 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg shadow-sm">TOP PICK</div>
-                    <div class="bg-green-50 p-6 text-center border-b border-green-100">
-                        <span class="text-green-700 font-bold text-xs uppercase tracking-widest"><i class="fa-solid fa-check-circle mr-1"></i> The Solver</span>
-                        <h2 class="text-2xl font-black mt-3 text-gray-900 leading-tight">${data.solver}</h2>
-                        
-                        <p class="text-gray-500 font-mono mt-2 text-sm">${data.sPrice}</p>
-
-                        <img src="${data.sImg}" class="h-40 mx-auto mt-8 object-contain rounded-lg border border-green-100 bg-white">
-                    </div>
-                    <div class="p-6 space-y-4">
-                        <div class="solver-card p-4 rounded-xl">
-                            <p class="text-sm font-bold text-green-800"><i class="fa-solid fa-check mr-2"></i>${data.s1}</p>
-                        </div>
-                        <div class="solver-card p-4 rounded-xl">
-                            <p class="text-sm font-bold text-green-800"><i class="fa-solid fa-check mr-2"></i>${data.s2}</p>
-                        </div>
-                        
-                        <a href="${safeLinkSolver}" target="_blank" class="block w-full text-center py-4 bg-green-500 text-white font-black rounded-lg hover:bg-green-600 shadow-lg hover:shadow-xl mt-4 uppercase tracking-wide transition-all">
-                            Buy The Solver <i class="fa-solid fa-arrow-right ml-2"></i>
-                        </a>
-
-                        <div class="text-center text-xs text-gray-500 mt-2 flex items-center justify-center">
-                            <i class="fa-solid fa-user-group mr-1"></i> ${switchCount} people switched this month
-                        </div>
-                        
-                        <div class="pt-4 mt-4 border-t border-green-100 grid grid-cols-3 gap-2 text-center text-xs text-gray-500">
-                            <div class="font-bold text-green-700">${data.sWeight}</div>
-                            <div class="font-bold text-green-700">${data.sBat}</div>
-                            <div class="font-bold text-green-700">${data.sScreen}</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="col-value" class="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden relative opacity-90 hover:opacity-100 transition-all duration-300">
-                    <div class="bg-yellow-50 p-6 text-center border-b border-yellow-100">
-                        <span class="text-yellow-700 font-bold text-xs uppercase tracking-widest"><i class="fa-solid fa-piggy-bank mr-1"></i> Smart Value</span>
-                        <h2 class="text-2xl font-black mt-3 text-gray-900 leading-tight">${data.value}</h2>
-                        
-                        <p class="text-gray-500 font-mono mt-2 text-sm">${data.vPrice}</p>
-
-                        <img src="${data.vImg}" class="h-40 mx-auto mt-8 object-contain rounded-lg border border-yellow-100 bg-white">
+                <div id="col-solver" class="solver-card rounded-2xl overflow-hidden shadow-xl lg:col-span-1 lg:mt-0 mt-8">
+                    <div class="bg-emerald-900/50 p-6 border-b border-emerald-800 text-center">
+                        <span class="bg-emerald-500 text-white px-3 py-1 rounded-full text-xs font-bold uppercase">Safe Alternative</span>
+                        <h2 class="text-xl font-bold mt-4 text-white">${data.solver}</h2>
+                        <img src="https://placehold.co/400x300/064e3b/10b981?text=Safe+Choice" class="h-32 mx-auto mt-4 rounded border border-emerald-800 object-contain">
                     </div>
                     <div class="p-6">
-                        <div class="value-card p-4 rounded-xl mb-8">
-                            <p class="text-sm text-yellow-900 font-medium italic">"${data.vReason}"</p>
-                        </div>
-                        
-                        <a href="${safeLinkValue}" target="_blank" class="block w-full text-center py-3 border-2 border-yellow-400 text-yellow-700 font-black rounded-lg hover:bg-yellow-50 mt-auto uppercase text-sm transition-colors">
-                            Check Smart Price
+                        <p class="text-emerald-100 font-medium text-sm text-center mb-6">"${data.sReason}"</p>
+                        <a href="${formatLink(data.l_solver)}" target="_blank" class="block w-full py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-black text-center rounded-lg uppercase tracking-wider shadow-lg transition-all">
+                            Check Safe Price <i class="fa-solid fa-arrow-right ml-2"></i>
                         </a>
+                    </div>
+                </div>
 
-                        <div class="pt-4 mt-8 border-t border-yellow-100 grid grid-cols-3 gap-2 text-center text-xs text-gray-500">
-                            <div>${data.vWeight}</div>
-                            <div>${data.vBat}</div>
-                            <div>${data.vScreen}</div>
-                        </div>
+                <div class="value-card rounded-2xl overflow-hidden shadow-xl lg:col-span-1 lg:mt-0 mt-8">
+                    <div class="bg-amber-900/30 p-6 border-b border-amber-800 text-center">
+                        <span class="text-amber-500 font-bold text-xs uppercase tracking-widest">Smart Value</span>
+                        <h2 class="text-xl font-bold mt-4 text-white">${data.value}</h2>
+                        <img src="https://placehold.co/400x300/451a03/d97706?text=Value+Pick" class="h-32 mx-auto mt-4 rounded border border-amber-800 object-contain">
+                    </div>
+                    <div class="p-6">
+                        <p class="text-amber-100 font-medium text-sm text-center mb-6">"${data.vReason}"</p>
+                        <a href="${formatLink(data.l_value)}" target="_blank" class="block w-full py-3 border border-amber-500 text-amber-500 hover:bg-amber-900/40 font-bold text-center rounded-lg uppercase text-sm transition-all">
+                            Check Deal Price
+                        </a>
                     </div>
                 </div>
             `;
         }
 
-        function rejectTarget() {
-            document.getElementById('col-accused').style.opacity = '0.3';
-            document.getElementById('col-accused').style.pointerEvents = 'none';
-            document.getElementById('col-solver').classList.add('highlight-column');
-            document.getElementById('col-value').classList.add('highlight-column');
-            document.getElementById('col-value').style.opacity = '1';
-            document.getElementById('reject-message').classList.remove('hidden');
-        }
-
         function acceptRisk(key) {
-            const data = laptopData[key] || laptopData['dell-xps-13-plus'];
-            const safeLinkA1 = formatLink(data.link_antidote1);
-            const safeLinkA2 = formatLink(data.link_antidote2);
-
-            document.getElementById('modal-text').innerHTML = `Since you chose <strong>${data.name}</strong>, forensic analysis indicates you WILL need these specific tools to fix its hardware defects:`;
-            
-            document.getElementById('antidote-list').innerHTML = `
-                <a href="${safeLinkA1}" target="_blank" class="block p-4 border border-gray-200 rounded-xl bg-gray-50 flex items-center hover:bg-white hover:shadow-md transition-all cursor-pointer group">
-                    <div class="bg-green-100 p-3 rounded-lg mr-4 group-hover:bg-green-200"><i class="fa-solid fa-wrench text-green-600"></i></div>
+            const data = laptopData[key];
+            const list = document.getElementById('antidote-list');
+            list.innerHTML = `
+                <a href="${formatLink(data.l_a1)}" target="_blank" class="block p-4 bg-slate-800 border border-slate-600 rounded-xl hover:bg-slate-700 transition flex items-center group">
+                    <div class="bg-red-900/50 p-3 rounded-lg mr-4 text-red-400"><i class="fa-solid fa-kit-medical"></i></div>
                     <div>
-                        <h4 class="font-bold text-gray-900">${data.a1}</h4>
-                        <p class="text-xs text-gray-500">${data.a1Desc}</p>
+                        <h4 class="font-bold text-white text-sm">${data.a1}</h4>
+                        <p class="text-xs text-gray-400">Essential Fix</p>
                     </div>
-                    <i class="fa-solid fa-chevron-right ml-auto text-gray-300 group-hover:text-green-500"></i>
+                    <i class="fa-solid fa-chevron-right ml-auto text-gray-600 group-hover:text-white"></i>
                 </a>
-                
-                <a href="${safeLinkA2}" target="_blank" class="block p-4 border border-gray-200 rounded-xl bg-gray-50 flex items-center hover:bg-white hover:shadow-md transition-all cursor-pointer group">
-                    <div class="bg-green-100 p-3 rounded-lg mr-4 group-hover:bg-green-200"><i class="fa-solid fa-plug text-green-600"></i></div>
+                <a href="${formatLink(data.l_a2)}" target="_blank" class="block p-4 bg-slate-800 border border-slate-600 rounded-xl hover:bg-slate-700 transition flex items-center group">
+                    <div class="bg-red-900/50 p-3 rounded-lg mr-4 text-red-400"><i class="fa-solid fa-shield-halved"></i></div>
                     <div>
-                        <h4 class="font-bold text-gray-900">${data.a2}</h4>
-                        <p class="text-xs text-gray-500">${data.a2Desc}</p>
+                        <h4 class="font-bold text-white text-sm">${data.a2}</h4>
+                        <p class="text-xs text-gray-400">Survival Gear</p>
                     </div>
-                    <i class="fa-solid fa-chevron-right ml-auto text-gray-300 group-hover:text-green-500"></i>
+                    <i class="fa-solid fa-chevron-right ml-auto text-gray-600 group-hover:text-white"></i>
                 </a>
             `;
             document.getElementById('antidote-modal').classList.remove('hidden');
@@ -636,7 +448,7 @@
 
         function closeModal() { document.getElementById('antidote-modal').classList.add('hidden'); }
 
-        // Initial Load
+        // Initialize
         updateDashboard();
     </script>
 </body>
