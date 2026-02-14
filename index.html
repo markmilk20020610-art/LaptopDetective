@@ -3,43 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechDetective - Forensic Hardware Analysis (v20.0)</title>
+    <title>TechDetective - Forensic Hardware Analysis (v21.0)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;800&family=Inter:wght@400;600;900&display=swap');
-        
         body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #e2e8f0; }
         .mono { font-family: 'JetBrains Mono', monospace; }
-        
-        /* Forensic Stamp Effect */
         .verdict-stamp {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%) rotate(-12deg);
-            border: 4px solid #ef4444; color: #ef4444;
-            font-size: 1.5rem; font-weight: 900; text-transform: uppercase;
-            padding: 0.5rem 1rem; background-color: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.3);
-            z-index: 20; white-space: nowrap; letter-spacing: 2px;
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-12deg);
+            border: 4px solid #ef4444; color: #ef4444; font-size: 1.5rem; font-weight: 900;
+            text-transform: uppercase; padding: 0.5rem 1rem; background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.3); z-index: 20; white-space: nowrap; letter-spacing: 2px;
             opacity: 0; animation: stampIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards 0.3s;
         }
         @keyframes stampIn { from { opacity: 0; transform: translate(-50%, -50%) scale(2) rotate(-12deg); } to { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(-12deg); } }
-
-        /* Custom Cards */
         .risk-card { background: #1e293b; border: 1px solid #334155; }
         .solver-card { background: #064e3b; border: 1px solid #059669; }
-        
-        /* Hazard Stripes */
-        .hazard-stripe {
-            background: repeating-linear-gradient(45deg, #f59e0b, #f59e0b 10px, #000 10px, #000 20px);
-        }
-        
-        /* Category Switcher Active State */
+        .hazard-stripe { background: repeating-linear-gradient(45deg, #f59e0b, #f59e0b 10px, #000 10px, #000 20px); }
         .cat-btn.active { background-color: #3b82f6; border-color: #60a5fa; color: white; box-shadow: 0 0 15px rgba(59, 130, 246, 0.5); }
         .cat-btn.inactive { background-color: #1e293b; color: #94a3b8; border-color: #334155; opacity: 0.7; }
-
-        /* Animations */
         .fade-in { animation: fadeIn 0.5s ease-in; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
@@ -48,9 +31,8 @@
 
     <div class="max-w-5xl mx-auto mb-8 text-center">
         <div class="inline-block bg-slate-800 text-slate-300 px-3 py-1 rounded-sm text-xs font-bold mono mb-6 border border-slate-600">
-            <i class="fa-solid fa-database mr-2"></i>DATABASE: v20.0 (MULTI-CATEGORY)
+            <i class="fa-solid fa-database mr-2"></i>DATABASE: v21.0
         </div>
-        
         <h1 class="text-4xl md:text-5xl font-black mb-2 tracking-tighter text-white">
             <span class="text-blue-500">Tech</span>Detective<span class="text-gray-600">.exe</span>
         </h1>
@@ -75,7 +57,7 @@
 
         <div id="user-profile-selector" class="hidden mt-4 flex justify-center gap-2 text-sm">
             <span class="text-gray-400 self-center mr-2">I am a:</span>
-            <button onclick="setUserProfile('Beginner')" id="btn-user-beginner" class="px-3 py-1 bg-blue-900 text-blue-200 rounded border border-blue-700">Beginner / Parent</button>
+            <button onclick="setUserProfile('Beginner')" id="btn-user-beginner" class="px-3 py-1 bg-blue-900 text-blue-200 rounded border border-blue-700 font-bold">Beginner / Parent</button>
             <button onclick="setUserProfile('Geek')" id="btn-user-geek" class="px-3 py-1 bg-slate-700 text-gray-400 rounded border border-slate-600">Geek / Tinkerer</button>
         </div>
     </div>
@@ -99,153 +81,210 @@
 
     <script>
         // =========================================================================
-        //  DATABASE v20.0 (10 Laptops + 5 Printers)
+        //  DATABASE v21.0 (COMPLETE DATA FROM USER)
         // =========================================================================
         
         let currentCategory = 'Laptop';
-        let currentUserProfile = 'Beginner'; // For 3D printers
+        let currentUserProfile = 'Beginner';
+
+        // Helper to handle currency strings like "$92"
+        function parseScore(score) {
+            if (typeof score === 'number') return score;
+            return parseInt(score.toString().replace(/[^0-9]/g, '')) || 0;
+        }
 
         const database = [
-            // --- LAPTOPS ---
+            // --- LAPTOPS (10 Models - Existing Data) ---
             {
-                category: "Laptop", id: "dell-xps-13-plus", name: "Dell XPS 13 Plus", price: "$1,399",
-                riskScore: 92, verdict: "DONGLE HELL",
-                persona: "Music Producers: No headphone jack means living in a dongle nightmare.",
-                timebomb: "Month 6: The capacitive touch function row freezes.",
-                db1: "Dongle Hell", p1: "No 3.5mm jack. Cannot charge and use wired audio same time.",
-                db2: "Battery Anxiety", p2: "Lasts barely 5 hours on Zoom.",
-                solver: "MacBook Air M2", sReason: "15+ hours battery. Real keys. Zero frustration.",
-                value: "Dell XPS 13 (9315)", vReason: "Has real function keys and saves $400.",
-                a1: "USB-C to Audio Adapter", l_a1: "https://amzn.to/4aQsE0b",
-                a2: "Anker Prime 200W", l_a2: "https://amzn.to/4kyVXsv",
-                l_solver: "https://amzn.to/4ax1iM6", l_value: "https://amzn.to/4aLNfUh"
+                category: "Laptop", id: "dell-xps-13-plus", name: "Dell XPS 13 Plus (9320)", price: "$1,399", riskScore: 92, verdict: "DONGLE HELL",
+                persona: "Music Producers: No headphone jack means living in a dongle nightmare.", timebomb: "Month 6: The capacitive touch function row starts registering phantom touches or freezes entirely.",
+                db1: "Dongle Hell", p1: "Courage? No, greed. They removed the 3.5mm headphone jack. You cannot charge and use wired headphones at the same time without a dongle.",
+                db2: "Battery Anxiety", p2: "Battery life is laughable for a $1400 laptop. It barely lasts 5 hours on a Zoom call. You will be hugged to the wall outlet.",
+                solver: "MacBook Air M2", sReason: "15+ hours of real-world battery life. Real physical keys. Zero frustration.",
+                value: "Dell XPS 13 (9315)", vReason: "It has REAL function keys and saves you $400. Don't pay extra for a touch bar that doesn't work.",
+                a1: "USB-C to Audio Adapter", l_a1: "https://amzn.to/4aQsE0b", a2: "Anker Prime 200W", l_a2: "https://amzn.to/4kyVXsv", l_solver: "https://amzn.to/4ax1iM6", l_value: "https://amzn.to/4aLNfUh"
             },
             {
-                category: "Laptop", id: "lenovo-loq", name: "Lenovo LOQ 15 (Intel)", price: "$899",
-                riskScore: 88, verdict: "MB SUICIDE",
-                persona: "Budget Gamers: If motherboard dies out of warranty, you lose $900.",
-                timebomb: "Month 4: VRM failure due to 13th/14th Gen Intel voltage issues.",
-                db1: "Motherboard Suicide", p1: "Specific Intel HX CPUs are frying VRMs. Dead laptops in 3 months.",
-                db2: "Thermonuclear Heat", p2: "Single fan cannot handle GPU. Temps hit 95°C.",
-                solver: "Acer Nitro 16", sReason: "Superior dual-fan cooling prevents throttling.",
-                value: "ASUS TUF F15", vReason: "Military-grade durability, won't snap.",
-                a1: "Laptop Stand", l_a1: "https://amzn.to/3OaX19O",
-                a2: "IETS GT300 Cooler", l_a2: "https://amzn.to/4kv8sFf",
-                l_solver: "https://amzn.to/4bS0yDI", l_value: "https://amzn.to/4qymUhm"
+                category: "Laptop", id: "lenovo-legion-5", name: "Lenovo Legion 5 (Gen 8)", price: "$1,199", riskScore: 79, verdict: "WIFI LOTTERY",
+                persona: "Competitive Gamers: The Realtek WiFi card causes ping spikes that lose ranked matches.", timebomb: "Month 12: The heavy 300W power brick cable often frays at the connector due to weight stress.",
+                db1: "The WiFi Card Lottery", p1: "Lenovo cut costs by using a cheap Realtek/MediaTek WiFi card instead of Intel. Expect constant lag spikes and disconnects while gaming.",
+                db2: "The 300W Brick", p2: "The power adapter is massive and weighs almost as much as the laptop itself. It is impossible to carry to class comfortably.",
+                solver: "ASUS ROG Zephyrus G14", sReason: "Weighs 1kg less and uses premium Intel WiFi components out of the box.",
+                value: "Lenovo Legion 5 (Gen 7 Used)", vReason: "Same GPU performance for $400 less. Just spend $20 to upgrade the WiFi card yourself.",
+                a1: "Intel AX210 WiFi 6E Card", l_a1: "https://amzn.to/4kuLdLw", a2: "Lenovo Legion Slim 135W Charger", l_a2: "https://amzn.to/4qtEyCJ", l_solver: "https://amzn.to/463YrsV", l_value: "https://amzn.to/3OpuxsR"
             },
-            { category: "Laptop", id: "razer-blade-15", name: "Razer Blade 15", riskScore: 95, verdict: "SPICY PILLOW", persona: "Students: Battery bloat is dangerous.", timebomb: "Month 18: Battery swells, bending chassis.", db1: "Battery Bloat", p1: "Chassis heat cooks the battery.", db2: "Surface Lava", p2: "Keyboard hits 55°C.", solver: "Zephyrus G16", sReason: "Runs 10°C cooler.", value: "Blade 14 AMD", vReason: "AMD runs cooler.", a1: "IETS GT600", l_a1: "https://amzn.to/46IyRJZ", a2: "Ext Keyboard", l_a2: "https://amzn.to/4aszZTn", l_solver: "https://amzn.to/4aoclHy", l_value: "https://amzn.to/3OCX12o" },
-            { category: "Laptop", id: "hp-spectre-x360", name: "HP Spectre x360", riskScore: 65, verdict: "HINGE SNAP", persona: "Artists: Flipping mode stresses cables.", timebomb: "Month 14: Hinge loosens.", db1: "Hinge Gate", p1: "Convertible hinges are fragile.", db2: "Bloatware", p2: "15+ useless pre-installed apps.", solver: "Dell XPS 13", sReason: "Non-convertible is stronger.", value: "Yoga 9i", vReason: "Better soundbar hinge.", a1: "Care Pack", l_a1: "https://amzn.to/4aN0WCk", a2: "Clean SSD", l_a2: "https://amzn.to/3Obi3oO", l_solver: "https://amzn.to/4kRtsXf", l_value: "https://amzn.to/3M6LAPV" },
-            { category: "Laptop", id: "asus-tuf-a15", name: "ASUS TUF A15", riskScore: 72, verdict: "JET ENGINE", persona: "Library Users: 55dB fans.", timebomb: "Month 9: Fan bearings grind.", db1: "Loud Fans", p1: "Cheap fans are noisy.", db2: "Ghost Screen", p2: "25ms response time causes blur.", solver: "Legion 5", sReason: "Better screen.", value: "Acer Nitro V 15", vReason: "Budget king.", a1: "Headset", l_a1: "https://amzn.to/4ttHnGR", a2: "Monitor", l_a2: "https://amzn.to/4rxSxZP", l_solver: "https://amzn.to/46wZnWM", l_value: "https://amzn.to/4rP6vGj" },
-            { category: "Laptop", id: "surface-laptop-5", name: "Surface Laptop 5", riskScore: 68, verdict: "GLUE TRAP", persona: "DIY Fixers: Zero repairability.", timebomb: "Month 8: Alcantara stains yellow.", db1: "Glue Trap", p1: "Battery glued down.", db2: "Fabric Stain", p2: "Keyboard absorbs sweat.", solver: "Dell XPS 13", sReason: "Aluminum is clean.", value: "Framework", vReason: "Repairable.", a1: "Sleeve", l_a1: "https://amzn.to/3Zu16Zb", a2: "Ext Keyboard", l_a2: "https://amzn.to/4qDObPt", l_solver: "https://amzn.to/4qx0a16", l_value: "https://amzn.to/3MBbFXr" },
-            { category: "Laptop", id: "acer-swift-go", name: "Acer Swift Go 14", riskScore: 60, verdict: "WIFI DROP", persona: "Remote Work: MediaTek wifi drops calls.", timebomb: "Month 6: Trackpad gets sticky.", db1: "Bad WiFi", p1: "Cheap card disconnects.", db2: "Cheap Trackpad", p2: "Plastic feel.", solver: "MacBook Air M1", sReason: "Glass trackpad.", value: "Zenbook 14", vReason: "OLED screen.", a1: "USB WiFi", l_a1: "https://amzn.to/462RKXU", a2: "Mouse", l_a2: "https://amzn.to/4raPoP7", l_solver: "https://amzn.to/4rejrp5", l_value: "https://amzn.to/4kAUrGn" },
-            { category: "Laptop", id: "galaxy-book-3", name: "Samsung Galaxy Book 3", riskScore: 75, verdict: "CRACK GATE", persona: "Travelers: Screen breaks in bags.", timebomb: "Month 3: Spontaneous screen cracks.", db1: "Thin Glass", p1: "Too thin to survive.", db2: "Wobble", p2: "Hinge too weak.", solver: "MacBook Air 15", sReason: "Solid unibody.", value: "LG Gram", vReason: "Magnesium alloy.", a1: "Hard Case", l_a1: "https://amzn.to/46ORImL", a2: "Bluetooth Key", l_a2: "https://amzn.to/3MrfHkY", l_solver: "https://amzn.to/4cq58t4", l_value: "https://amzn.to/466tbt7" },
-            { category: "Laptop", id: "macbook-pro-13", name: "MacBook Pro 13 M2", riskScore: 90, verdict: "ZOMBIE TECH", persona: "Editors: Touch Bar is dead.", timebomb: "Year 2: Webcam looks ancient.", db1: "Touch Bar", p1: "Dead tech.", db2: "60Hz Screen", p2: "Choppy scrolling.", solver: "MacBook Pro 14", sReason: "120Hz screen.", value: "MacBook Air M2", vReason: "Cheaper & better.", a1: "Webcam", l_a1: "https://amzn.to/4adenvg", a2: "Monitor", l_a2: "https://amzn.to/3OCuytw", l_solver: "https://amzn.to/3ZyvtO1", l_value: "https://amzn.to/3MsXTG7" },
-            { category: "Laptop", id: "legion-5", name: "Lenovo Legion 5", riskScore: 79, verdict: "WIFI LOTTERY", persona: "Gamers: Ping spikes.", timebomb: "Month 12: Power cable frays.", db1: "WiFi Card", p1: "Realtek card lags.", db2: "Heavy Brick", p2: "300W charger is heavy.", solver: "Zephyrus G14", sReason: "Lighter.", value: "Legion 5 Used", vReason: "Cheaper.", a1: "Intel AX210", l_a1: "https://amzn.to/4kuLdLw", a2: "Slim Charger", l_a2: "https://amzn.to/4qtEyCJ", l_solver: "https://amzn.to/463YrsV", l_value: "https://amzn.to/3OpuxsR" },
+            {
+                category: "Laptop", id: "razer-blade-15", name: "Razer Blade 15 (2024)", price: "$2,499", riskScore: 95, verdict: "SPICY PILLOW",
+                persona: "Dorm Students: Battery bloat is inevitable and dangerous in small rooms.", timebomb: "Month 18: Battery swells due to heat, physically bending the aluminum chassis and cracking the trackpad.",
+                db1: "The Spicy Pillow Risk", p1: "The chassis gets so hot it literally cooks the battery. After 12-18 months, the battery swells up (bloats) and bends the trackpad. It's a ticking time bomb.",
+                db2: "Surface Lava", p2: "The aluminum body acts as a giant heatsink. The area above the keyboard hits 55°C (131°F) while gaming. You cannot touch it.",
+                solver: "ASUS ROG Zephyrus G16", sReason: "Runs 10°C cooler thanks to better airflow. Battery protection software actually works.",
+                value: "Razer Blade 14 (AMD)", vReason: "AMD chips run much cooler than Intel. Less heat means a longer lifespan and zero battery bloat.",
+                a1: "IETS GT600 (New King)", l_a1: "https://amzn.to/46IyRJZ", a2: "Razer Huntsman Mini Keyboard", l_a2: "https://amzn.to/4aszZTn", l_solver: "https://amzn.to/4aoclHy", l_value: "https://amzn.to/3OCX12o"
+            },
+            {
+                category: "Laptop", id: "hp-spectre-x360", name: "HP Spectre x360 (14-inch)", price: "$1,599", riskScore: 65, verdict: "HINGE SNAP",
+                persona: "Digital Artists: Constant flipping to tablet mode stresses the ribbon cables.", timebomb: "Month 14: One hinge loosens significantly, causing the screen to flop over when picked up.",
+                db1: "The Hinge-Gate Anxiety", p1: "Convertible hinges are fragile points of failure. Forums are full of reports about loose hinges or misaligned screens after 12 months of flipping.",
+                db2: "Bloatware City", p2: "HP pre-installs 15+ useless apps (McAfee, HP Support, etc.) that run in the background and drain battery. A $1600 laptop shouldn't feel this cluttered.",
+                solver: "Dell XPS 13 Plus", sReason: "Solid hinge design (non-convertible) means less moving parts to break.",
+                value: "Lenovo Yoga 9i", vReason: "Better soundbar hinge design that is proven to be more durable.",
+                a1: "HP 3-Year Care Pack", l_a1: "https://amzn.to/4aN0WCk", a2: "Samsung T7 Shield SSD", l_a2: "https://amzn.to/3Obi3oO", l_solver: "https://amzn.to/4kRtsXf", l_value: "https://amzn.to/3M6LAPV"
+            },
+            {
+                category: "Laptop", id: "asus-tuf-a15", name: "ASUS TUF Gaming A15", price: "$999", riskScore: 72, verdict: "JET ENGINE",
+                persona: "Library Users: Fans hit 55dB under load. You will be kicked out of quiet zones.", timebomb: "Month 9: The cheap fan bearings start grinding, creating a permanent rattling noise.",
+                db1: "The Jet Engine Fans", p1: "To keep costs low, ASUS used loud, cheap fans. During gaming, it hits 55dB - loud enough to annoy anyone in the room (or your mic).",
+                db2: "The Ghost Screen", p2: "The base model screen has terrible response times (25ms+), causing 'ghosting' or blur in fast-paced shooter games. It looks smeary.",
+                solver: "Lenovo Legion 5", sReason: "Much better screen response times and quieter cooling profile.",
+                value: "Acer Nitro V 15", vReason: "Similar performance for $100 less. A reliable budget king.",
+                a1: "Razer BlackShark V2", l_a1: "https://amzn.to/4ttHnGR", a2: "BenQ Mobiuz 24", l_a2: "https://amzn.to/4rxSxZP", l_solver: "https://amzn.to/46wZnWM", l_value: "https://amzn.to/4rP6vGj"
+            },
+            {
+                category: "Laptop", id: "lenovo-loq", name: "Lenovo LOQ 15 (Intel)", price: "$899", riskScore: 88, verdict: "MB SUICIDE",
+                persona: "Budget Gamers: If the motherboard dies out of warranty, you lose your entire $900 investment.", timebomb: "Month 4: Motherboard VRM failure due to 13th/14th Gen Intel voltage issues. Laptop becomes a brick.",
+                db1: "Motherboard Suicide", p1: "Specific 13th/14th Gen Intel HX CPUs are frying the motherboard VRMs. Users report dead laptops within 3-6 months.",
+                db2: "Thermonuclear Heat", p2: "The single-fan cooling solution cannot handle modern GPUs. CPU temps frequently hit 95°C, causing performance throttling.",
+                solver: "Acer Nitro 16", sReason: "Superior dual-fan cooling system prevents thermal throttling.",
+                value: "ASUS TUF F15", vReason: "Military-grade durability certification (MIL-STD-810H) means it won't snap.",
+                a1: "Laptop Stand", l_a1: "https://amzn.to/3OaX19O", a2: "IETS GT300 Cooling Pad", l_a2: "https://amzn.to/4kv8sFf", l_solver: "https://amzn.to/4bS0yDI", l_value: "https://amzn.to/4qymUhm"
+            },
+            {
+                category: "Laptop", id: "surface-laptop-5", name: "Microsoft Surface Laptop 5", price: "$1,299", riskScore: 68, verdict: "GLUE TRAP",
+                persona: "DIY Fixers: You cannot open it to clean dust or replace the battery without destroying it.", timebomb: "Month 8: The Alcantara fabric keyboard deck turns yellow and absorbs sweat oils permanently.",
+                db1: "The Glue Trap", p1: "Zero repairability. Battery and keyboard are glued down. If one part breaks, the whole laptop is e-waste.",
+                db2: "The Alcantara Stain", p2: "The fabric keyboard deck (Alcantara) looks great on day 1, but absorbs sweat and oils. It turns gross and yellow after 6 months.",
+                solver: "Dell XPS 13", sReason: "Aluminum interior is easy to clean and won't stain like fabric.",
+                value: "Framework Laptop", vReason: "Completely repairable and upgradeable. The anti-Surface.",
+                a1: "Protective Sleeve", l_a1: "https://amzn.to/3Zu16Zb", a2: "Logitech K380", l_a2: "https://amzn.to/4qDObPt", l_solver: "https://amzn.to/4qx0a16", l_value: "https://amzn.to/3MBbFXr"
+            },
+            {
+                category: "Laptop", id: "acer-swift-go-14", name: "Acer Swift Go 14", price: "$799", riskScore: 60, verdict: "WIFI DROP",
+                persona: "Remote Workers: Unstable MediaTek WiFi will drop you from important Zoom meetings.", timebomb: "Month 6: The plastic trackpad surface wears down, becoming shiny, sticky, and inaccurate.",
+                db1: "The WiFi Dropouts", p1: "Acer often uses cheaper MediaTek WiFi cards that struggle to maintain connection through walls. Expect random zoom call drops.",
+                db2: "Plastic Trackpad Feel", p2: "The trackpad feels sticky and cheap compared to glass trackpads. Precision gestures often misfire or lag.",
+                solver: "MacBook Air M1", sReason: "Glass trackpad perfection and zero WiFi issues for a similar price.",
+                value: "Asus Zenbook 14", vReason: "OLED screen and better build quality for just $50 more.",
+                a1: "TP-Link USB WiFi", l_a1: "https://amzn.to/462RKXU", a2: "Logitech MX Master 3S", l_a2: "https://amzn.to/4raPoP7", l_solver: "https://amzn.to/4rejrp5", l_value: "https://amzn.to/4kAUrGn"
+            },
+            {
+                category: "Laptop", id: "samsung-galaxy-book3", name: "Samsung Galaxy Book 3", price: "$1,099", riskScore: 75, verdict: "CRACK GATE",
+                persona: "Frequent Travelers: The screen glass is too thin to survive a packed backpack.", timebomb: "Month 3: Hairline cracks appear on the screen spontaneously just from opening the lid too fast.",
+                db1: "The Crack-Gate Screen", p1: "To make it thin, Samsung made the glass too thin. Hundreds of users report screens cracking spontaneously from simply opening the lid.",
+                db2: "The Wobble", p2: "The hinge is too weak for the screen size. The screen wobbles uncontrollably every time you type aggressively.",
+                solver: "MacBook Air 15", sReason: "Solid unibody aluminum hinge with zero screen wobble.",
+                value: "LG Gram 16", vReason: "Ideally lighter and has a more flexible magnesium alloy chassis.",
+                a1: "Hard Shell Laptop Case", l_a1: "https://amzn.to/46ORImL", a2: "Bluetooth Keyboard", l_a2: "https://amzn.to/3MrfHkY", l_solver: "https://amzn.to/4cq58t4", l_value: "https://amzn.to/466tbt7"
+            },
+            {
+                category: "Laptop", id: "macbook-pro-13-m2", name: "MacBook Pro 13 (M2)", price: "$1,299", riskScore: 90, verdict: "ZOMBIE TECH",
+                persona: "Video Editors: The Touch Bar is dead tech and has no future OS support.", timebomb: "Year 2: The 720p webcam looks ancient and grainy compared to modern 1080p standards.",
+                db1: "The Zombie Touch Bar", p1: "You are paying for 2016 technology. The Touch Bar is dead (Apple removed it from Pro models). No MagSafe charging, old 720p webcam.",
+                db2: "The 60Hz Time Machine", p2: "Spending $1300 for a standard 60Hz screen in 2026 is a crime. Scrolling feels choppy compared to any Pro iPhone.",
+                solver: "MacBook Pro 14 (M3)", sReason: "Get the real Pro screen (120Hz), MagSafe, and HDMI port.",
+                value: "MacBook Air M2", vReason: "Same chip, better webcam, MagSafe charging, and cheaper.",
+                a1: "Anker 4K Webcam", l_a1: "https://amzn.to/4adenvg", a2: "External 144Hz Monitor", l_a2: "https://amzn.to/3OCuytw", l_solver: "https://amzn.to/3ZyvtO1", l_value: "https://amzn.to/3MsXTG7"
+            },
 
-            // --- 3D PRINTERS (New Schema) ---
+            // --- 3D PRINTERS (6 Models - New Data) ---
             {
-                category: "3D_Printer", id: "ender-3-v3-se", name: "Creality Ender 3 V3 SE", price: "$199",
-                riskScore: 85, verdict: "QC LOTTERY",
-                persona: "Parents: NOT A TOY. Requires mechanics skills.",
-                timebomb: "Month 3: Extruder gears wear out, causing failed prints.",
-                // 3D Specific
-                mechScore: 6, hotendScore: 8, firmScore: 7, 
-                easeUse: 6, repair: 9, reliable: 5,
-                
+                category: "3D_Printer", id: "ender-3-v3-se", name: "Creality Ender 3 V3 SE", price: "$199", riskScore: 85, verdict: "QC LOTTERY",
+                persona: "Parents: NOT A TOY. Requires constant mechanical maintenance and debugging.", timebomb: "Month 3: The extruder gears wear out, causing underextrusion and failed prints.",
+                // 3D Stats
+                mechScore: 6, hotendScore: 8, firmScore: 7, easeUse: 6, repair: 9, reliable: 5,
+                // Issues
                 db1: "Gantry Wobble", p1: "Cheap construction leads to Z-axis wobble and ugly lines.",
-                db2: "Blob of Death", p2: "Hotend leaks plastic, encasing the nozzle in a solid rock of plastic.",
-                
-                solver: "Bambu Lab A1 Mini", sReason: "Full auto-calibration. No paper leveling. Just works.",
-                value: "Sovol SV06", vReason: "Linear rails are more durable than wheels.",
-                
-                a1: "CR Touch Kit", l_a1: "https://amzn.to/3XYZ123", // Placeholder link
-                a2: "Filament Dryer", l_a2: "https://amzn.to/3ABC456",
-                l_solver: "https://amzn.to/3DEF789", l_value: "https://amzn.to/3GHI012"
+                db2: "The Spaghetti Monster", p2: "With no AI detection, a failed print will continue for 10 hours, creating a massive ball of plastic spaghetti and wasting $20 of filament.",
+                // Solutions (Links to be filled)
+                a1: "CR Touch Auto Leveling Kit", l_a1: "#PUT_LINK_HERE",
+                a2: "Sunlu Filament Dryer S1", l_a2: "#PUT_LINK_HERE",
+                solver: "Bambu Lab A1 Mini", sReason: "Full auto-calibration. No paper leveling. Just works out of the box.",
+                l_solver: "#PUT_LINK_HERE",
+                value: "Sovol SV06", vReason: "Linear rails are more durable than plastic wheels for the same price.",
+                l_value: "#PUT_LINK_HERE"
             },
             {
-                category: "3D_Printer", id: "anycubic-photon", name: "Anycubic Photon Mono 2", price: "$180",
-                riskScore: 90, verdict: "TOXIC HAZARD",
-                persona: "Apartment Users: Resin fumes are toxic.",
-                timebomb: "Month 6: LCD screen burns out from UV light.",
-                mechScore: 9, hotendScore: 1, firmScore: 4,
-                easeUse: 4, repair: 2, reliable: 6,
-                db1: "Toxic Resin", p1: "Requires gloves, masks, and ventilation. Dangerous for pets.",
-                db2: "FEP Tear", p2: "If film tears, resin destroys the screen permanently.",
-                solver: "Bambu Lab A1 Mini", sReason: "FDM is non-toxic and safer for home use.",
-                value: "Elegoo Mars 4", vReason: "Better air filter included.",
-                a1: "Wash & Cure Station", l_a1: "#", a2: "Screen Protector", l_a2: "#",
-                l_solver: "#", l_value: "#"
-            },
-            {
-                category: "3D_Printer", id: "elegoo-neptune", name: "Elegoo Neptune 4 Pro", price: "$280",
-                riskScore: 75, verdict: "FIRMWARE BUG",
-                persona: "Beginners: Z-offset bug may crash nozzle.",
-                timebomb: "Month 4: POM wheels wear out at high speeds.",
-                mechScore: 4, hotendScore: 5, firmScore: 8,
-                easeUse: 5, repair: 8, reliable: 6,
-                db1: "Z-Offset Bug", p1: "Printer forgets height settings, scratching the bed.",
-                db2: "Jet Engine Fan", p2: "Auxiliary fan is louder than a vacuum cleaner.",
-                solver: "Bambu Lab A1", sReason: "Stable firmware, quiet mode.",
-                value: "Ender 3 V3 KE", vReason: "Better software.",
-                a1: "PEI Plate", l_a1: "#", a2: "Noctua Fan", l_a2: "#",
-                l_solver: "#", l_value: "#"
-            },
-            {
-                category: "3D_Printer", id: "creality-k1", name: "Creality K1 (Gen 1)", price: "$399",
-                riskScore: 82, verdict: "EXTRUDER JAM",
-                persona: "Speed Demons: Gen 1 extruder fails at speed.",
-                timebomb: "Month 3: PTFE tube melts inside hotend.",
-                mechScore: 5, hotendScore: 9, firmScore: 6,
-                easeUse: 7, repair: 4, reliable: 5,
-                db1: "Underextrusion", p1: "Filament slips in gears, ruining long prints.",
-                db2: "VFA Ripples", p2: "Vibration artifacts make walls look ugly.",
-                solver: "Bambu Lab P1S", sReason: "The original reliable speed printer.",
-                value: "Flashforge 5M", vReason: "Cheaper coreXY.",
-                a1: "Ceramic Hotend", l_a1: "#", a2: "Paver Stone", l_a2: "#",
-                l_solver: "#", l_value: "#"
-            },
-            {
-                category: "3D_Printer", id: "bambu-a1-mini", name: "Bambu Lab A1 Mini", price: "$299",
-                riskScore: 15, verdict: "JUST WORKS",
-                persona: "Tinkerers: Closed system. Cannot modify.",
-                timebomb: "Year 2: Proprietary parts cost more.",
-                mechScore: 1, hotendScore: 1, firmScore: 3,
-                easeUse: 10, repair: 3, reliable: 10,
+                category: "3D_Printer", id: "bambu-a1-mini", name: "Bambu Lab A1 Mini", price: "$299", riskScore: 15, verdict: "JUST WORKS",
+                persona: "Tinkerers: Do not buy. It is a closed system. You cannot modify or upgrade it.", timebomb: "Year 2: Proprietary parts may become expensive if Bambu raises prices.",
+                mechScore: 1, hotendScore: 1, firmScore: 3, easeUse: 10, repair: 3, reliable: 10,
                 db1: "Too Small", p1: "180mm volume limits cosplay prints.",
-                db2: "Cloud Privacy", p2: "Prints go through Chinese servers.",
-                solver: "Prusa Mini+", sReason: "Open source, offline privacy.",
-                value: "AnkerMake M5C", vReason: "Faster for same price.",
-                a1: "Textured PEI", l_a1: "#", a2: "0.2mm Nozzle", l_a2: "#",
-                l_solver: "#", l_value: "#"
+                db2: "Cloud Privacy Risk", p2: "Your print files go through cloud servers. If the internet goes down, you lose app control. It is a data black box.",
+                a1: "Textured PEI Plate", l_a1: "#PUT_LINK_HERE",
+                a2: "eSun PLA+ Filament White", l_a2: "#PUT_LINK_HERE",
+                solver: "Prusa Mini+", sReason: "If you care about Open Source and offline privacy, get Prusa.",
+                l_solver: "#PUT_LINK_HERE",
+                value: "AnkerMake M5C", vReason: "Faster printing speeds and solid aluminum build for a similar price.",
+                l_value: "#PUT_LINK_HERE"
+            },
+            {
+                category: "3D_Printer", id: "anycubic-photon-mono", name: "Anycubic Photon Mono 2", price: "$180", riskScore: 90, verdict: "TOXIC HAZARD",
+                persona: "Apartment Users: Resin fumes are toxic. You cannot use this in a bedroom or living room.", timebomb: "Month 6: The LCD screen burns out from UV light and must be replaced ($50).",
+                mechScore: 9, hotendScore: 1, firmScore: 4, easeUse: 4, repair: 2, reliable: 6,
+                db1: "Toxic Resin", p1: "Requires gloves, masks, and ventilation. Dangerous for pets.",
+                db2: "FEP Film Tear", p2: "If the thin plastic film (FEP) tears during a print, liquid resin leaks onto the LCD screen and cures, permanently destroying your printer.",
+                a1: "Anycubic Wash & Cure Station", l_a1: "#PUT_LINK_HERE",
+                a2: "Anycubic Grey Resin 1kg", l_a2: "#PUT_LINK_HERE",
+                solver: "Bambu Lab A1 Mini (FDM)", sReason: "FDM printing is non-toxic, requires no gloves, and is safe for home use.",
+                l_solver: "#PUT_LINK_HERE",
+                value: "Elegoo Mars 4", vReason: "Comes with a built-in air filter to reduce the toxic smell.",
+                l_value: "#PUT_LINK_HERE"
+            },
+            {
+                category: "3D_Printer", id: "elegoo-neptune-4", name: "Elegoo Neptune 4 Pro", price: "$280", riskScore: 75, verdict: "FIRMWARE BUG",
+                persona: "Beginners: The Z-offset bug may crash the nozzle into the bed, destroying it instantly.", timebomb: "Month 4: POM wheels wear out quickly at high speeds, causing wobbly print lines.",
+                mechScore: 4, hotendScore: 5, firmScore: 8, easeUse: 5, repair: 8, reliable: 6,
+                db1: "Z-Offset Bug", p1: "Printer forgets height settings, scratching the bed.",
+                db2: "Jet Engine Noise", p2: "The massive auxiliary cooling fan hits 65dB+. It sounds like a vacuum cleaner running next to your ear. Unusable in a bedroom.",
+                a1: "PEI Magnetic Build Plate", l_a1: "#PUT_LINK_HERE",
+                a2: "Noctua Silent Fan Mod", l_a2: "#PUT_LINK_HERE",
+                solver: "Bambu Lab A1", sReason: "Stable firmware that doesn't crash the nozzle into the bed. Quiet mode included.",
+                l_solver: "#PUT_LINK_HERE",
+                value: "Creality Ender 3 V3 KE", vReason: "Better software experience and easier to repair.",
+                l_value: "#PUT_LINK_HERE"
+            },
+            {
+                category: "3D_Printer", id: "prusa-mini", name: "Prusa Mini+", price: "$429", riskScore: 40, verdict: "OLD TECH",
+                persona: "Value Seekers: You are paying 2024 prices for 2019 speeds. It is 4x slower than modern printers.", timebomb: "Year 1: USB port wears out and Bowden tube degrades.",
+                mechScore: 5, hotendScore: 4, firmScore: 2, easeUse: 8, repair: 10, reliable: 9,
+                db1: "Painfully Slow", p1: "It lacks Input Shaping. A standard 'Benchy' boat takes 1.5 hours. A Bambu Lab A1 does it in 18 minutes.",
+                db2: "Tiny Build Volume", p2: "180mm cube is too small for most cosplay helmets or useful organizers. You will outgrow this size in a month.",
+                a1: "Raspberry Pi 4 (For OctoPrint)", l_a1: "#PUT_LINK_HERE",
+                a2: "Bondtech Heatbreak", l_a2: "#PUT_LINK_HERE",
+                solver: "Bambu Lab A1 Mini", sReason: "It is 4x faster, has auto-calibration, multi-color support, and costs $130 less.",
+                l_solver: "#PUT_LINK_HERE",
+                value: "Sovol SV06", vReason: "Basically a Prusa MK3 clone with larger build volume for half the price.",
+                l_value: "#PUT_LINK_HERE"
+            },
+            {
+                category: "3D_Printer", id: "creality-k1", name: "Creality K1 (Gen 1)", price: "$399", riskScore: 82, verdict: "EXTRUDER JAM",
+                persona: "Speed Demons: The Gen 1 extruder cannot handle the speed. It jams constantly.", timebomb: "Month 3: PTFE tube melts inside hotend causing permanent clogs.",
+                mechScore: 5, hotendScore: 9, firmScore: 6, easeUse: 7, repair: 4, reliable: 5,
+                db1: "Underextrusion Lottery", p1: "Due to a design flaw in the extruder gears, the filament slips. Your 10-hour print will fail at hour 9.",
+                db2: "VFA (Vertical Artifacts)", p2: "The printer vibrates so much it leaves vertical ripple patterns on the walls. Prints look ugly.",
+                a1: "Micro Swiss FlowTech Hotend", l_a1: "#PUT_LINK_HERE",
+                a2: "Hyper PLA High Speed Filament", l_a2: "#PUT_LINK_HERE",
+                solver: "Flashforge 5M Pro", sReason: "Uses a stable quick-swap nozzle system and enclosed chamber that actually works.",
+                l_solver: "#PUT_LINK_HERE",
+                value: "QIDI Tech Q1 Pro", vReason: "Heated chamber for ABS printing, which the K1 lacks.",
+                l_value: "#PUT_LINK_HERE"
             }
         ];
 
-        // System Config
+        // Config & Initialization
         const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
         document.getElementById('current-date').innerText = new Date().toLocaleDateString('en-US', dateOptions);
 
-        // Core Functions
         function switchCategory(cat) {
             currentCategory = cat;
+            document.getElementById('btn-laptop').className = cat === 'Laptop' ? 'cat-btn active px-6 py-3 rounded-xl font-bold border-2 transition-all flex items-center' : 'cat-btn inactive px-6 py-3 rounded-xl font-bold border-2 transition-all flex items-center';
+            document.getElementById('btn-3d').className = cat === '3D_Printer' ? 'cat-btn active px-6 py-3 rounded-xl font-bold border-2 transition-all flex items-center' : 'cat-btn inactive px-6 py-3 rounded-xl font-bold border-2 transition-all flex items-center';
             
-            // Toggle Buttons
-            document.getElementById('btn-laptop').className = cat === 'Laptop' 
-                ? 'cat-btn active px-6 py-3 rounded-xl font-bold border-2 transition-all flex items-center' 
-                : 'cat-btn inactive px-6 py-3 rounded-xl font-bold border-2 transition-all flex items-center';
-                
-            document.getElementById('btn-3d').className = cat === '3D_Printer' 
-                ? 'cat-btn active px-6 py-3 rounded-xl font-bold border-2 transition-all flex items-center' 
-                : 'cat-btn inactive px-6 py-3 rounded-xl font-bold border-2 transition-all flex items-center';
-
-            // Show/Hide User Profile Selector
             const profileSel = document.getElementById('user-profile-selector');
-            if (cat === '3D_Printer') profileSel.classList.remove('hidden');
+            if(cat === '3D_Printer') profileSel.classList.remove('hidden');
             else profileSel.classList.add('hidden');
 
-            // Populate Dropdown
             const select = document.getElementById('product-select');
             select.innerHTML = '';
-            
             const filtered = database.filter(item => item.category === cat);
             filtered.forEach(item => {
                 const opt = document.createElement('option');
@@ -253,216 +292,132 @@
                 opt.innerText = item.name;
                 select.appendChild(opt);
             });
-
-            // Refresh Dashboard
             updateDashboard();
         }
 
         function setUserProfile(profile) {
             currentUserProfile = profile;
-            // Update button styles
-            document.getElementById('btn-user-beginner').className = profile === 'Beginner' 
-                ? 'px-3 py-1 bg-blue-900 text-blue-200 rounded border border-blue-700 font-bold' 
-                : 'px-3 py-1 bg-slate-700 text-gray-400 rounded border border-slate-600';
-            
-            document.getElementById('btn-user-geek').className = profile === 'Geek' 
-                ? 'px-3 py-1 bg-blue-900 text-blue-200 rounded border border-blue-700 font-bold' 
-                : 'px-3 py-1 bg-slate-700 text-gray-400 rounded border border-slate-600';
-
+            document.getElementById('btn-user-beginner').className = profile === 'Beginner' ? 'px-3 py-1 bg-blue-900 text-blue-200 rounded border border-blue-700 font-bold' : 'px-3 py-1 bg-slate-700 text-gray-400 rounded border border-slate-600';
+            document.getElementById('btn-user-geek').className = profile === 'Geek' ? 'px-3 py-1 bg-blue-900 text-blue-200 rounded border border-blue-700 font-bold' : 'px-3 py-1 bg-slate-700 text-gray-400 rounded border border-slate-600';
             updateDashboard();
         }
 
         function updateDashboard() {
             const select = document.getElementById('product-select');
-            // If empty (init), select first of category
-            if (!select.value) {
-                const first = database.find(i => i.category === currentCategory);
-                if(first) select.value = first.id;
-            }
-
+            if (!select.value) { const first = database.find(i => i.category === currentCategory); if(first) select.value = first.id; }
             const data = database.find(i => i.id === select.value);
             if (!data) return;
-
             const arena = document.getElementById('arena');
-            
-            // UI Logic: Laptop vs 3D Printer
-            if (data.category === 'Laptop') {
-                renderLaptop(data, arena);
-            } else {
-                renderPrinter(data, arena);
-            }
+            if (data.category === 'Laptop') renderLaptop(data, arena);
+            else renderPrinter(data, arena);
         }
 
-        // --- RENDERERS ---
-
         function renderLaptop(data, container) {
-            const riskColor = data.riskScore > 70 ? 'bg-red-600' : 'bg-yellow-500';
-            
+            const riskNum = parseScore(data.riskScore);
+            const riskColor = riskNum > 70 ? 'bg-red-600' : 'bg-yellow-500';
             container.innerHTML = `
                 <div class="risk-card rounded-2xl overflow-hidden relative shadow-2xl fade-in lg:col-span-1">
-                    <div class="bg-slate-900 p-6 border-b border-slate-700 relative overflow-hidden">
+                    <div class="bg-slate-900 p-6 border-b border-slate-700 relative">
                         <div class="verdict-stamp">${data.verdict}</div>
-                        <div class="flex justify-between items-start mb-4">
-                            <span class="bg-blue-900 text-blue-200 px-2 py-1 rounded text-xs mono">LAPTOP</span>
-                            <span class="text-slate-500 text-xs mono">${data.price}</span>
-                        </div>
+                        <div class="flex justify-between items-start mb-4"><span class="bg-blue-900 text-blue-200 px-2 py-1 rounded text-xs mono">LAPTOP</span><span class="text-slate-500 text-xs mono">${data.price}</span></div>
                         <h2 class="text-2xl font-black text-white leading-none mb-1">${data.name}</h2>
-                        <div class="w-full h-40 bg-slate-800 rounded-lg mt-4 flex items-center justify-center relative border border-slate-700">
-                             <img src="https://placehold.co/400x300/1e293b/475569?text=${encodeURIComponent(data.name)}" class="h-full object-contain opacity-75">
-                        </div>
-                        <div class="mt-6">
-                            <div class="flex justify-between text-xs font-bold text-slate-400 mb-1">
-                                <span>FAILURE RISK</span>
-                                <span class="${data.riskScore > 70 ? 'text-red-500' : 'text-yellow-500'}">${data.riskScore}% CRITICAL</span>
-                            </div>
-                            <div class="w-full bg-slate-800 rounded-full h-2">
-                                <div class="${riskColor} h-2 rounded-full" style="width: ${data.riskScore}%"></div>
-                            </div>
-                        </div>
+                        <div class="w-full h-40 bg-slate-800 rounded-lg mt-4 flex items-center justify-center relative border border-slate-700"><img src="https://placehold.co/400x300/1e293b/475569?text=${encodeURIComponent(data.name)}" class="h-full object-contain opacity-75"></div>
+                        <div class="mt-6"><div class="flex justify-between text-xs font-bold text-slate-400 mb-1"><span>FAILURE RISK</span><span class="${riskNum > 70 ? 'text-red-500' : 'text-yellow-500'}">${riskNum}% CRITICAL</span></div><div class="w-full bg-slate-800 rounded-full h-2"><div class="${riskColor} h-2 rounded-full" style="width: ${riskNum}%"></div></div></div>
                     </div>
                     <div class="p-6 space-y-6">
-                        <div class="bg-red-900/20 border border-red-900/50 p-3 rounded-lg">
-                            <h4 class="text-red-500 text-xs font-bold uppercase"><i class="fa-solid fa-user-slash mr-2"></i>DO NOT BUY IF YOU ARE:</h4>
-                            <p class="text-sm text-red-200 mt-1">${data.persona}</p>
-                        </div>
+                        <div class="bg-red-900/20 border border-red-900/50 p-3 rounded-lg"><h4 class="text-red-500 text-xs font-bold uppercase"><i class="fa-solid fa-user-slash mr-2"></i>DO NOT BUY IF YOU ARE:</h4><p class="text-sm text-red-200 mt-1">${data.persona}</p></div>
                         <div class="space-y-4">
                             <div><h3 class="text-red-500 font-bold text-xs uppercase">Deal Breaker 1</h3><p class="text-white font-bold">${data.db1}</p><p class="text-slate-400 text-sm">"${data.p1}"</p></div>
                             <div><h3 class="text-red-500 font-bold text-xs uppercase">Deal Breaker 2</h3><p class="text-white font-bold">${data.db2}</p><p class="text-slate-400 text-sm">"${data.p2}"</p></div>
                         </div>
-                        <div class="bg-yellow-900/20 border border-yellow-700 p-3 rounded-lg relative overflow-hidden">
-                            <div class="absolute top-0 left-0 w-full h-1 hazard-stripe"></div>
-                            <p class="text-xs text-yellow-200 mono mt-2"><i class="fa-solid fa-bomb mr-2"></i>${data.timebomb}</p>
-                        </div>
-                        <div class="grid grid-cols-2 gap-3 pt-2">
-                            <button onclick="document.getElementById('col-solver').scrollIntoView({behavior: 'smooth'})" class="py-3 border border-red-500 text-red-500 font-bold rounded-lg hover:bg-red-900/30 text-xs uppercase">I Can't Risk It</button>
-                            <button onclick="showAntidote('${data.id}')" class="py-3 bg-slate-700 text-white font-bold rounded-lg hover:bg-slate-600 text-xs uppercase">I'm Buying Anyway</button>
-                        </div>
+                        <div class="bg-yellow-900/20 border border-yellow-700 p-3 rounded-lg relative overflow-hidden"><div class="absolute top-0 left-0 w-full h-1 hazard-stripe"></div><p class="text-xs text-yellow-200 mono mt-2"><i class="fa-solid fa-bomb mr-2"></i>${data.timebomb}</p></div>
+                        <div class="grid grid-cols-2 gap-3 pt-2"><button onclick="document.getElementById('col-solver').scrollIntoView({behavior: 'smooth'})" class="py-3 border border-red-500 text-red-500 font-bold rounded-lg hover:bg-red-900/30 text-xs uppercase">I Can't Risk It</button><button onclick="showAntidote('${data.id}')" class="py-3 bg-slate-700 text-white font-bold rounded-lg hover:bg-slate-600 text-xs uppercase">I'm Buying Anyway</button></div>
                     </div>
                 </div>
-                ${renderSolver(data)}
-                ${renderValue(data)}
+                ${renderSolver(data, 'bg-emerald-500', 'bg-emerald-900/50', 'text-emerald-100', 'bg-emerald-600', 'border-emerald-800')}
+                ${renderValue(data, 'text-amber-500', 'bg-amber-900/20', 'text-amber-100', 'border-amber-500', 'border-amber-800/50')}
             `;
         }
 
         function renderPrinter(data, container) {
-            // Adjust verdict color based on user profile
-            let recommendation = "";
-            let recColor = "";
-            
+            let rec = "", recColor = "";
             if (currentUserProfile === 'Beginner') {
-                if (data.easeUse < 7) { recommendation = "BAD FOR BEGINNERS"; recColor = "text-red-500"; }
-                else { recommendation = "BEGINNER FRIENDLY"; recColor = "text-emerald-500"; }
+                if (data.easeUse < 7) { rec = "BAD FOR BEGINNERS"; recColor = "text-red-500"; } else { rec = "BEGINNER FRIENDLY"; recColor = "text-emerald-500"; }
             } else {
-                if (data.repair > 7) { recommendation = "GEEK APPROVED"; recColor = "text-emerald-500"; }
-                else { recommendation = "HARD TO MOD"; recColor = "text-yellow-500"; }
+                if (data.repair > 7) { rec = "GEEK APPROVED"; recColor = "text-emerald-500"; } else { rec = "HARD TO MOD"; recColor = "text-yellow-500"; }
             }
 
             container.innerHTML = `
                 <div class="risk-card rounded-2xl overflow-hidden relative shadow-2xl fade-in lg:col-span-1">
                     <div class="bg-slate-900 p-6 border-b border-slate-700 relative">
                         <div class="verdict-stamp">${data.verdict}</div>
-                        <div class="flex justify-between items-start mb-4">
-                            <span class="bg-purple-900 text-purple-200 px-2 py-1 rounded text-xs mono">3D PRINTER</span>
-                            <span class="text-slate-500 text-xs mono">${data.price}</span>
-                        </div>
+                        <div class="flex justify-between items-start mb-4"><span class="bg-purple-900 text-purple-200 px-2 py-1 rounded text-xs mono">3D PRINTER</span><span class="text-slate-500 text-xs mono">${data.price}</span></div>
                         <h2 class="text-2xl font-black text-white leading-none mb-1">${data.name}</h2>
-                        
                         <div class="grid grid-cols-3 gap-2 mt-6 mb-2">
-                            <div class="bg-slate-800 p-2 rounded text-center">
-                                <div class="text-[10px] text-slate-400 uppercase">Mech</div>
-                                <div class="font-bold ${data.mechScore > 5 ? 'text-red-400' : 'text-green-400'}">${data.mechScore}/10</div>
-                            </div>
-                            <div class="bg-slate-800 p-2 rounded text-center">
-                                <div class="text-[10px] text-slate-400 uppercase">Hotend</div>
-                                <div class="font-bold ${data.hotendScore > 5 ? 'text-red-400' : 'text-green-400'}">${data.hotendScore}/10</div>
-                            </div>
-                            <div class="bg-slate-800 p-2 rounded text-center">
-                                <div class="text-[10px] text-slate-400 uppercase">Firmware</div>
-                                <div class="font-bold ${data.firmScore > 5 ? 'text-red-400' : 'text-green-400'}">${data.firmScore}/10</div>
-                            </div>
+                            <div class="bg-slate-800 p-2 rounded text-center"><div class="text-[10px] text-slate-400 uppercase">Mech</div><div class="font-bold ${data.mechScore > 5 ? 'text-red-400' : 'text-green-400'}">${data.mechScore}/10</div></div>
+                            <div class="bg-slate-800 p-2 rounded text-center"><div class="text-[10px] text-slate-400 uppercase">Hotend</div><div class="font-bold ${data.hotendScore > 5 ? 'text-red-400' : 'text-green-400'}">${data.hotendScore}/10</div></div>
+                            <div class="bg-slate-800 p-2 rounded text-center"><div class="text-[10px] text-slate-400 uppercase">Firmware</div><div class="font-bold ${data.firmScore > 5 ? 'text-red-400' : 'text-green-400'}">${data.firmScore}/10</div></div>
                         </div>
-                        
-                        <div class="text-center mt-2 border-t border-slate-800 pt-2">
-                            <span class="text-xs font-bold ${recColor}"><i class="fa-solid fa-user-tag mr-1"></i>${recommendation}</span>
-                        </div>
+                        <div class="text-center mt-2 border-t border-slate-800 pt-2"><span class="text-xs font-bold ${recColor}"><i class="fa-solid fa-user-tag mr-1"></i>${rec}</span></div>
                     </div>
-
                     <div class="p-6 space-y-6">
                         <div class="space-y-4">
                             <div><h3 class="text-purple-400 font-bold text-xs uppercase"><i class="fa-solid fa-gears mr-1"></i> Failure Point 1</h3><p class="text-white font-bold">${data.db1}</p><p class="text-slate-400 text-sm">"${data.p1}"</p></div>
                             <div><h3 class="text-purple-400 font-bold text-xs uppercase"><i class="fa-solid fa-fire-burner mr-1"></i> Failure Point 2</h3><p class="text-white font-bold">${data.db2}</p><p class="text-slate-400 text-sm">"${data.p2}"</p></div>
                         </div>
-                        <div class="bg-yellow-900/20 border border-yellow-700 p-3 rounded-lg relative overflow-hidden">
-                             <div class="absolute top-0 left-0 w-full h-1 hazard-stripe"></div>
-                             <p class="text-xs text-yellow-200 mono mt-2"><i class="fa-solid fa-clock mr-2"></i>${data.timebomb}</p>
-                        </div>
-                        <div class="grid grid-cols-2 gap-3 pt-2">
-                            <button onclick="document.getElementById('col-solver').scrollIntoView({behavior: 'smooth'})" class="py-3 border border-purple-500 text-purple-500 font-bold rounded-lg hover:bg-purple-900/30 text-xs uppercase">Get Reliable One</button>
-                            <button onclick="showAntidote('${data.id}')" class="py-3 bg-slate-700 text-white font-bold rounded-lg hover:bg-slate-600 text-xs uppercase">Fix This Mess</button>
-                        </div>
+                        <div class="bg-yellow-900/20 border border-yellow-700 p-3 rounded-lg relative overflow-hidden"><div class="absolute top-0 left-0 w-full h-1 hazard-stripe"></div><p class="text-xs text-yellow-200 mono mt-2"><i class="fa-solid fa-clock mr-2"></i>${data.timebomb}</p></div>
+                        <div class="grid grid-cols-2 gap-3 pt-2"><button onclick="document.getElementById('col-solver').scrollIntoView({behavior: 'smooth'})" class="py-3 border border-purple-500 text-purple-500 font-bold rounded-lg hover:bg-purple-900/30 text-xs uppercase">Get Reliable One</button><button onclick="showAntidote('${data.id}')" class="py-3 bg-slate-700 text-white font-bold rounded-lg hover:bg-slate-600 text-xs uppercase">Fix This Mess</button></div>
                     </div>
                 </div>
-                ${renderSolver(data)}
-                ${renderValue(data)}
+                ${renderSolver(data, 'bg-emerald-500', 'bg-emerald-900/50', 'text-emerald-100', 'bg-emerald-600', 'border-emerald-800')}
+                ${renderValue(data, 'text-amber-500', 'bg-amber-900/20', 'text-amber-100', 'border-amber-500', 'border-amber-800/50')}
             `;
         }
 
-        function renderSolver(data) {
+        function renderSolver(data, badgeBg, cardBg, textCol, btnBg, borderCol) {
             return `
-                <div id="col-solver" class="solver-card rounded-2xl overflow-hidden shadow-xl lg:col-span-1 lg:mt-0 mt-8">
-                    <div class="bg-emerald-900/50 p-6 border-b border-emerald-800 text-center">
-                        <span class="bg-emerald-500 text-white px-3 py-1 rounded-full text-xs font-bold uppercase">The Solver</span>
+                <div id="col-solver" class="solver-card rounded-2xl overflow-hidden shadow-xl lg:col-span-1 lg:mt-0 mt-8" style="background-color: transparent;">
+                    <div class="${cardBg} p-6 border-b ${borderCol} text-center">
+                        <span class="${badgeBg} text-white px-3 py-1 rounded-full text-xs font-bold uppercase">The Solver</span>
                         <h2 class="text-xl font-bold mt-4 text-white">${data.solver}</h2>
-                        <img src="https://placehold.co/400x300/064e3b/10b981?text=Reliable+Choice" class="h-32 mx-auto mt-4 rounded border border-emerald-800 object-contain">
+                        <img src="https://placehold.co/400x300/064e3b/10b981?text=Reliable+Choice" class="h-32 mx-auto mt-4 rounded border ${borderCol} object-contain">
                     </div>
-                    <div class="p-6">
-                        <p class="text-emerald-100 font-medium text-sm text-center mb-6">"${data.sReason}"</p>
-                        <a href="${data.l_solver}" target="_blank" class="block w-full py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-black text-center rounded-lg uppercase tracking-wider shadow-lg transition-all">
-                            Check Price <i class="fa-solid fa-arrow-right ml-2"></i>
-                        </a>
+                    <div class="p-6 bg-slate-900 border-x border-b border-slate-700 rounded-b-2xl">
+                        <p class="${textCol} font-medium text-sm text-center mb-6">"${data.sReason}"</p>
+                        <a href="${data.l_solver}" target="_blank" class="block w-full py-4 ${btnBg} hover:opacity-90 text-white font-black text-center rounded-lg uppercase tracking-wider shadow-lg transition-all">Check Price <i class="fa-solid fa-arrow-right ml-2"></i></a>
                     </div>
-                </div>
-            `;
+                </div>`;
         }
 
-        function renderValue(data) {
+        function renderValue(data, badgeTextCol, cardBg, textCol, btnBorder, borderCol) {
             return `
-                <div class="bg-amber-900/20 border border-amber-800/50 rounded-2xl overflow-hidden shadow-xl lg:col-span-1 lg:mt-0 mt-8">
-                    <div class="p-6 border-b border-amber-800/30 text-center">
-                        <span class="text-amber-500 font-bold text-xs uppercase tracking-widest">Alternative</span>
+                <div class="${cardBg} border ${borderCol} rounded-2xl overflow-hidden shadow-xl lg:col-span-1 lg:mt-0 mt-8">
+                    <div class="p-6 border-b ${borderCol} text-center">
+                        <span class="${badgeTextCol} font-bold text-xs uppercase tracking-widest">Alternative</span>
                         <h2 class="text-xl font-bold mt-4 text-white">${data.value}</h2>
                     </div>
                     <div class="p-6">
-                        <p class="text-amber-100 font-medium text-sm text-center mb-6">"${data.vReason}"</p>
-                        <a href="${data.l_value}" target="_blank" class="block w-full py-3 border border-amber-500 text-amber-500 hover:bg-amber-900/40 font-bold text-center rounded-lg uppercase text-sm transition-all">
-                            View Deal
-                        </a>
+                        <p class="${textCol} font-medium text-sm text-center mb-6">"${data.vReason}"</p>
+                        <a href="${data.l_value}" target="_blank" class="block w-full py-3 border ${btnBorder} ${badgeTextCol} hover:bg-slate-800 font-bold text-center rounded-lg uppercase text-sm transition-all">View Deal</a>
                     </div>
-                </div>
-            `;
+                </div>`;
         }
 
         function showAntidote(id) {
             const data = database.find(i => i.id === id);
             const list = document.getElementById('antidote-list');
             list.innerHTML = `
-                <a href="${data.l_a1}" target="_blank" class="block p-4 bg-slate-800 border border-slate-600 rounded-xl hover:bg-slate-700 transition flex items-center group">
+                <a href="${data.l_a1}" target="_blank" class="block p-4 bg-slate-800 border border-slate-600 rounded-xl hover:bg-slate-700 transition flex items-center group mb-3">
                     <div class="bg-red-900/50 p-3 rounded-lg mr-4 text-red-400"><i class="fa-solid fa-kit-medical"></i></div>
-                    <div><h4 class="font-bold text-white text-sm">${data.a1}</h4><p class="text-xs text-gray-400">Essential Fix</p></div>
-                    <i class="fa-solid fa-chevron-right ml-auto text-gray-600 group-hover:text-white"></i>
+                    <div><h4 class="font-bold text-white text-sm">${data.a1}</h4><p class="text-xs text-gray-400">Essential Fix</p></div><i class="fa-solid fa-chevron-right ml-auto text-gray-600 group-hover:text-white"></i>
                 </a>
                 <a href="${data.l_a2}" target="_blank" class="block p-4 bg-slate-800 border border-slate-600 rounded-xl hover:bg-slate-700 transition flex items-center group">
                     <div class="bg-red-900/50 p-3 rounded-lg mr-4 text-red-400"><i class="fa-solid fa-shield-halved"></i></div>
-                    <div><h4 class="font-bold text-white text-sm">${data.a2}</h4><p class="text-xs text-gray-400">Survival Gear</p></div>
-                    <i class="fa-solid fa-chevron-right ml-auto text-gray-600 group-hover:text-white"></i>
-                </a>
-            `;
+                    <div><h4 class="font-bold text-white text-sm">${data.a2}</h4><p class="text-xs text-gray-400">Survival Gear</p></div><i class="fa-solid fa-chevron-right ml-auto text-gray-600 group-hover:text-white"></i>
+                </a>`;
             document.getElementById('antidote-modal').classList.remove('hidden');
         }
-
         function closeModal() { document.getElementById('antidote-modal').classList.add('hidden'); }
-
-        // Initialize
         switchCategory('Laptop');
     </script>
 </body>
