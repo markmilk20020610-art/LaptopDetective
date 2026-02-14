@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechDetective - Forensic Hardware Analysis (v21.0)</title>
+    <title>TechDetective - Forensic Hardware Analysis (v21.2)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -31,7 +31,7 @@
 
     <div class="max-w-5xl mx-auto mb-8 text-center">
         <div class="inline-block bg-slate-800 text-slate-300 px-3 py-1 rounded-sm text-xs font-bold mono mb-6 border border-slate-600">
-            <i class="fa-solid fa-database mr-2"></i>DATABASE: v21.0
+            <i class="fa-solid fa-database mr-2"></i>DATABASE: v21.2
         </div>
         <h1 class="text-4xl md:text-5xl font-black mb-2 tracking-tighter text-white">
             <span class="text-blue-500">Tech</span>Detective<span class="text-gray-600">.exe</span>
@@ -81,20 +81,19 @@
 
     <script>
         // =========================================================================
-        //  DATABASE v21.0 (COMPLETE DATA FROM USER)
+        //  DATABASE v21.2 (FINAL CORRECTED DATA)
         // =========================================================================
         
         let currentCategory = 'Laptop';
         let currentUserProfile = 'Beginner';
 
-        // Helper to handle currency strings like "$92"
         function parseScore(score) {
             if (typeof score === 'number') return score;
             return parseInt(score.toString().replace(/[^0-9]/g, '')) || 0;
         }
 
         const database = [
-            // --- LAPTOPS (10 Models - Existing Data) ---
+            // ================= LAPTOPS (10 Models) =================
             {
                 category: "Laptop", id: "dell-xps-13-plus", name: "Dell XPS 13 Plus (9320)", price: "$1,399", riskScore: 92, verdict: "DONGLE HELL",
                 persona: "Music Producers: No headphone jack means living in a dongle nightmare.", timebomb: "Month 6: The capacitive touch function row starts registering phantom touches or freezes entirely.",
@@ -102,7 +101,7 @@
                 db2: "Battery Anxiety", p2: "Battery life is laughable for a $1400 laptop. It barely lasts 5 hours on a Zoom call. You will be hugged to the wall outlet.",
                 solver: "MacBook Air M2", sReason: "15+ hours of real-world battery life. Real physical keys. Zero frustration.",
                 value: "Dell XPS 13 (9315)", vReason: "It has REAL function keys and saves you $400. Don't pay extra for a touch bar that doesn't work.",
-                a1: "USB-C to Audio Adapter", l_a1: "https://amzn.to/4aQsE0b", a2: "Anker Prime 200W", l_a2: "https://amzn.to/4kyVXsv", l_solver: "https://amzn.to/4ax1iM6", l_value: "https://amzn.to/4aLNfUh"
+                a1: "USB-C to Audio Adapter", l_a1: "#PUT_LINK_HERE", a2: "Anker Prime 200W", l_a2: "#PUT_LINK_HERE", l_solver: "#PUT_LINK_HERE", l_value: "#PUT_LINK_HERE"
             },
             {
                 category: "Laptop", id: "lenovo-legion-5", name: "Lenovo Legion 5 (Gen 8)", price: "$1,199", riskScore: 79, verdict: "WIFI LOTTERY",
@@ -111,7 +110,7 @@
                 db2: "The 300W Brick", p2: "The power adapter is massive and weighs almost as much as the laptop itself. It is impossible to carry to class comfortably.",
                 solver: "ASUS ROG Zephyrus G14", sReason: "Weighs 1kg less and uses premium Intel WiFi components out of the box.",
                 value: "Lenovo Legion 5 (Gen 7 Used)", vReason: "Same GPU performance for $400 less. Just spend $20 to upgrade the WiFi card yourself.",
-                a1: "Intel AX210 WiFi 6E Card", l_a1: "https://amzn.to/4kuLdLw", a2: "Lenovo Legion Slim 135W Charger", l_a2: "https://amzn.to/4qtEyCJ", l_solver: "https://amzn.to/463YrsV", l_value: "https://amzn.to/3OpuxsR"
+                a1: "Intel AX210 WiFi 6E Card", l_a1: "#PUT_LINK_HERE", a2: "Lenovo Legion Slim 135W Charger", l_a2: "#PUT_LINK_HERE", l_solver: "#PUT_LINK_HERE", l_value: "#PUT_LINK_HERE"
             },
             {
                 category: "Laptop", id: "razer-blade-15", name: "Razer Blade 15 (2024)", price: "$2,499", riskScore: 95, verdict: "SPICY PILLOW",
@@ -120,7 +119,7 @@
                 db2: "Surface Lava", p2: "The aluminum body acts as a giant heatsink. The area above the keyboard hits 55°C (131°F) while gaming. You cannot touch it.",
                 solver: "ASUS ROG Zephyrus G16", sReason: "Runs 10°C cooler thanks to better airflow. Battery protection software actually works.",
                 value: "Razer Blade 14 (AMD)", vReason: "AMD chips run much cooler than Intel. Less heat means a longer lifespan and zero battery bloat.",
-                a1: "IETS GT600 (New King)", l_a1: "https://amzn.to/46IyRJZ", a2: "Razer Huntsman Mini Keyboard", l_a2: "https://amzn.to/4aszZTn", l_solver: "https://amzn.to/4aoclHy", l_value: "https://amzn.to/3OCX12o"
+                a1: "IETS GT600 (New King)", l_a1: "#PUT_LINK_HERE", a2: "Razer Huntsman Mini Keyboard", l_a2: "#PUT_LINK_HERE", l_solver: "#PUT_LINK_HERE", l_value: "#PUT_LINK_HERE"
             },
             {
                 category: "Laptop", id: "hp-spectre-x360", name: "HP Spectre x360 (14-inch)", price: "$1,599", riskScore: 65, verdict: "HINGE SNAP",
@@ -129,7 +128,7 @@
                 db2: "Bloatware City", p2: "HP pre-installs 15+ useless apps (McAfee, HP Support, etc.) that run in the background and drain battery. A $1600 laptop shouldn't feel this cluttered.",
                 solver: "Dell XPS 13 Plus", sReason: "Solid hinge design (non-convertible) means less moving parts to break.",
                 value: "Lenovo Yoga 9i", vReason: "Better soundbar hinge design that is proven to be more durable.",
-                a1: "HP 3-Year Care Pack", l_a1: "https://amzn.to/4aN0WCk", a2: "Samsung T7 Shield SSD", l_a2: "https://amzn.to/3Obi3oO", l_solver: "https://amzn.to/4kRtsXf", l_value: "https://amzn.to/3M6LAPV"
+                a1: "HP 3-Year Care Pack", l_a1: "#PUT_LINK_HERE", a2: "Samsung T7 Shield SSD", l_a2: "#PUT_LINK_HERE", l_solver: "#PUT_LINK_HERE", l_value: "#PUT_LINK_HERE"
             },
             {
                 category: "Laptop", id: "asus-tuf-a15", name: "ASUS TUF Gaming A15", price: "$999", riskScore: 72, verdict: "JET ENGINE",
@@ -138,7 +137,7 @@
                 db2: "The Ghost Screen", p2: "The base model screen has terrible response times (25ms+), causing 'ghosting' or blur in fast-paced shooter games. It looks smeary.",
                 solver: "Lenovo Legion 5", sReason: "Much better screen response times and quieter cooling profile.",
                 value: "Acer Nitro V 15", vReason: "Similar performance for $100 less. A reliable budget king.",
-                a1: "Razer BlackShark V2", l_a1: "https://amzn.to/4ttHnGR", a2: "BenQ Mobiuz 24", l_a2: "https://amzn.to/4rxSxZP", l_solver: "https://amzn.to/46wZnWM", l_value: "https://amzn.to/4rP6vGj"
+                a1: "Razer BlackShark V2", l_a1: "#PUT_LINK_HERE", a2: "BenQ Mobiuz 24", l_a2: "#PUT_LINK_HERE", l_solver: "#PUT_LINK_HERE", l_value: "#PUT_LINK_HERE"
             },
             {
                 category: "Laptop", id: "lenovo-loq", name: "Lenovo LOQ 15 (Intel)", price: "$899", riskScore: 88, verdict: "MB SUICIDE",
@@ -147,7 +146,7 @@
                 db2: "Thermonuclear Heat", p2: "The single-fan cooling solution cannot handle modern GPUs. CPU temps frequently hit 95°C, causing performance throttling.",
                 solver: "Acer Nitro 16", sReason: "Superior dual-fan cooling system prevents thermal throttling.",
                 value: "ASUS TUF F15", vReason: "Military-grade durability certification (MIL-STD-810H) means it won't snap.",
-                a1: "Laptop Stand", l_a1: "https://amzn.to/3OaX19O", a2: "IETS GT300 Cooling Pad", l_a2: "https://amzn.to/4kv8sFf", l_solver: "https://amzn.to/4bS0yDI", l_value: "https://amzn.to/4qymUhm"
+                a1: "Laptop Stand", l_a1: "#PUT_LINK_HERE", a2: "IETS GT300 Cooling Pad", l_a2: "#PUT_LINK_HERE", l_solver: "#PUT_LINK_HERE", l_value: "#PUT_LINK_HERE"
             },
             {
                 category: "Laptop", id: "surface-laptop-5", name: "Microsoft Surface Laptop 5", price: "$1,299", riskScore: 68, verdict: "GLUE TRAP",
@@ -156,7 +155,7 @@
                 db2: "The Alcantara Stain", p2: "The fabric keyboard deck (Alcantara) looks great on day 1, but absorbs sweat and oils. It turns gross and yellow after 6 months.",
                 solver: "Dell XPS 13", sReason: "Aluminum interior is easy to clean and won't stain like fabric.",
                 value: "Framework Laptop", vReason: "Completely repairable and upgradeable. The anti-Surface.",
-                a1: "Protective Sleeve", l_a1: "https://amzn.to/3Zu16Zb", a2: "Logitech K380", l_a2: "https://amzn.to/4qDObPt", l_solver: "https://amzn.to/4qx0a16", l_value: "https://amzn.to/3MBbFXr"
+                a1: "Protective Sleeve", l_a1: "#PUT_LINK_HERE", a2: "Logitech K380", l_a2: "#PUT_LINK_HERE", l_solver: "#PUT_LINK_HERE", l_value: "#PUT_LINK_HERE"
             },
             {
                 category: "Laptop", id: "acer-swift-go-14", name: "Acer Swift Go 14", price: "$799", riskScore: 60, verdict: "WIFI DROP",
@@ -165,7 +164,7 @@
                 db2: "Plastic Trackpad Feel", p2: "The trackpad feels sticky and cheap compared to glass trackpads. Precision gestures often misfire or lag.",
                 solver: "MacBook Air M1", sReason: "Glass trackpad perfection and zero WiFi issues for a similar price.",
                 value: "Asus Zenbook 14", vReason: "OLED screen and better build quality for just $50 more.",
-                a1: "TP-Link USB WiFi", l_a1: "https://amzn.to/462RKXU", a2: "Logitech MX Master 3S", l_a2: "https://amzn.to/4raPoP7", l_solver: "https://amzn.to/4rejrp5", l_value: "https://amzn.to/4kAUrGn"
+                a1: "TP-Link USB WiFi", l_a1: "#PUT_LINK_HERE", a2: "Logitech MX Master 3S", l_a2: "#PUT_LINK_HERE", l_solver: "#PUT_LINK_HERE", l_value: "#PUT_LINK_HERE"
             },
             {
                 category: "Laptop", id: "samsung-galaxy-book3", name: "Samsung Galaxy Book 3", price: "$1,099", riskScore: 75, verdict: "CRACK GATE",
@@ -174,7 +173,7 @@
                 db2: "The Wobble", p2: "The hinge is too weak for the screen size. The screen wobbles uncontrollably every time you type aggressively.",
                 solver: "MacBook Air 15", sReason: "Solid unibody aluminum hinge with zero screen wobble.",
                 value: "LG Gram 16", vReason: "Ideally lighter and has a more flexible magnesium alloy chassis.",
-                a1: "Hard Shell Laptop Case", l_a1: "https://amzn.to/46ORImL", a2: "Bluetooth Keyboard", l_a2: "https://amzn.to/3MrfHkY", l_solver: "https://amzn.to/4cq58t4", l_value: "https://amzn.to/466tbt7"
+                a1: "Hard Shell Laptop Case", l_a1: "#PUT_LINK_HERE", a2: "Bluetooth Keyboard", l_a2: "#PUT_LINK_HERE", l_solver: "#PUT_LINK_HERE", l_value: "#PUT_LINK_HERE"
             },
             {
                 category: "Laptop", id: "macbook-pro-13-m2", name: "MacBook Pro 13 (M2)", price: "$1,299", riskScore: 90, verdict: "ZOMBIE TECH",
@@ -183,23 +182,24 @@
                 db2: "The 60Hz Time Machine", p2: "Spending $1300 for a standard 60Hz screen in 2026 is a crime. Scrolling feels choppy compared to any Pro iPhone.",
                 solver: "MacBook Pro 14 (M3)", sReason: "Get the real Pro screen (120Hz), MagSafe, and HDMI port.",
                 value: "MacBook Air M2", vReason: "Same chip, better webcam, MagSafe charging, and cheaper.",
-                a1: "Anker 4K Webcam", l_a1: "https://amzn.to/4adenvg", a2: "External 144Hz Monitor", l_a2: "https://amzn.to/3OCuytw", l_solver: "https://amzn.to/3ZyvtO1", l_value: "https://amzn.to/3MsXTG7"
+                a1: "Anker 4K Webcam", l_a1: "#PUT_LINK_HERE", a2: "External 144Hz Monitor", l_a2: "#PUT_LINK_HERE", l_solver: "#PUT_LINK_HERE", l_value: "#PUT_LINK_HERE"
             },
 
-            // --- 3D PRINTERS (6 Models - New Data) ---
+            // ================= 3D PRINTERS (6 Models) =================
             {
                 category: "3D_Printer", id: "ender-3-v3-se", name: "Creality Ender 3 V3 SE", price: "$199", riskScore: 85, verdict: "QC LOTTERY",
                 persona: "Parents: NOT A TOY. Requires constant mechanical maintenance and debugging.", timebomb: "Month 3: The extruder gears wear out, causing underextrusion and failed prints.",
-                // 3D Stats
                 mechScore: 6, hotendScore: 8, firmScore: 7, easeUse: 6, repair: 9, reliable: 5,
-                // Issues
                 db1: "Gantry Wobble", p1: "Cheap construction leads to Z-axis wobble and ugly lines.",
                 db2: "The Spaghetti Monster", p2: "With no AI detection, a failed print will continue for 10 hours, creating a massive ball of plastic spaghetti and wasting $20 of filament.",
-                // Solutions (Links to be filled)
+                
                 a1: "CR Touch Auto Leveling Kit", l_a1: "#PUT_LINK_HERE",
                 a2: "Sunlu Filament Dryer S1", l_a2: "#PUT_LINK_HERE",
-                solver: "Bambu Lab A1 Mini", sReason: "Full auto-calibration. No paper leveling. Just works out of the box.",
+                
+                // Solver: Flashforge 5M
+                solver: "Flashforge Adventurer 5M", sReason: "CoreXY structure, auto-leveling, and 600mm/s speed. The reliable workhorse.",
                 l_solver: "#PUT_LINK_HERE",
+                
                 value: "Sovol SV06", vReason: "Linear rails are more durable than plastic wheels for the same price.",
                 l_value: "#PUT_LINK_HERE"
             },
@@ -209,10 +209,13 @@
                 mechScore: 1, hotendScore: 1, firmScore: 3, easeUse: 10, repair: 3, reliable: 10,
                 db1: "Too Small", p1: "180mm volume limits cosplay prints.",
                 db2: "Cloud Privacy Risk", p2: "Your print files go through cloud servers. If the internet goes down, you lose app control. It is a data black box.",
+                
                 a1: "Textured PEI Plate", l_a1: "#PUT_LINK_HERE",
                 a2: "eSun PLA+ Filament White", l_a2: "#PUT_LINK_HERE",
+                
                 solver: "Prusa Mini+", sReason: "If you care about Open Source and offline privacy, get Prusa.",
                 l_solver: "#PUT_LINK_HERE",
+                
                 value: "AnkerMake M5C", vReason: "Faster printing speeds and solid aluminum build for a similar price.",
                 l_value: "#PUT_LINK_HERE"
             },
@@ -222,10 +225,14 @@
                 mechScore: 9, hotendScore: 1, firmScore: 4, easeUse: 4, repair: 2, reliable: 6,
                 db1: "Toxic Resin", p1: "Requires gloves, masks, and ventilation. Dangerous for pets.",
                 db2: "FEP Film Tear", p2: "If the thin plastic film (FEP) tears during a print, liquid resin leaks onto the LCD screen and cures, permanently destroying your printer.",
+                
                 a1: "Anycubic Wash & Cure Station", l_a1: "#PUT_LINK_HERE",
                 a2: "Anycubic Grey Resin 1kg", l_a2: "#PUT_LINK_HERE",
-                solver: "Bambu Lab A1 Mini (FDM)", sReason: "FDM printing is non-toxic, requires no gloves, and is safe for home use.",
+                
+                // Solver: Flashforge 5M
+                solver: "Flashforge Adventurer 5M", sReason: "Escape the toxicity. FDM printing requires no gloves, is safe for home, and auto-levels.",
                 l_solver: "#PUT_LINK_HERE",
+                
                 value: "Elegoo Mars 4", vReason: "Comes with a built-in air filter to reduce the toxic smell.",
                 l_value: "#PUT_LINK_HERE"
             },
@@ -235,10 +242,13 @@
                 mechScore: 4, hotendScore: 5, firmScore: 8, easeUse: 5, repair: 8, reliable: 6,
                 db1: "Z-Offset Bug", p1: "Printer forgets height settings, scratching the bed.",
                 db2: "Jet Engine Noise", p2: "The massive auxiliary cooling fan hits 65dB+. It sounds like a vacuum cleaner running next to your ear. Unusable in a bedroom.",
+                
                 a1: "PEI Magnetic Build Plate", l_a1: "#PUT_LINK_HERE",
                 a2: "Noctua Silent Fan Mod", l_a2: "#PUT_LINK_HERE",
-                solver: "Bambu Lab A1", sReason: "Stable firmware that doesn't crash the nozzle into the bed. Quiet mode included.",
+                
+                solver: "Creality K1C", sReason: "Updated reliable version. Fixes the Z-offset issues and adds a reliable Unicorn nozzle system.",
                 l_solver: "#PUT_LINK_HERE",
+                
                 value: "Creality Ender 3 V3 KE", vReason: "Better software experience and easier to repair.",
                 l_value: "#PUT_LINK_HERE"
             },
@@ -248,11 +258,15 @@
                 mechScore: 5, hotendScore: 4, firmScore: 2, easeUse: 8, repair: 10, reliable: 9,
                 db1: "Painfully Slow", p1: "It lacks Input Shaping. A standard 'Benchy' boat takes 1.5 hours. A Bambu Lab A1 does it in 18 minutes.",
                 db2: "Tiny Build Volume", p2: "180mm cube is too small for most cosplay helmets or useful organizers. You will outgrow this size in a month.",
+                
                 a1: "Raspberry Pi 4 (For OctoPrint)", l_a1: "#PUT_LINK_HERE",
                 a2: "Bondtech Heatbreak", l_a2: "#PUT_LINK_HERE",
-                solver: "Bambu Lab A1 Mini", sReason: "It is 4x faster, has auto-calibration, multi-color support, and costs $130 less.",
+                
+                // Solver: Flashforge 5M
+                solver: "Flashforge Adventurer 5M", sReason: "CoreXY structure, auto-leveling, and 600mm/s speed. The reliable workhorse.",
                 l_solver: "#PUT_LINK_HERE",
-                value: "Sovol SV06", vReason: "Basically a Prusa MK3 clone with larger build volume for half the price.",
+                
+                value: "Sovol SV07", vReason: "Faster Klipper speed and larger build volume for a lower price.",
                 l_value: "#PUT_LINK_HERE"
             },
             {
@@ -261,11 +275,16 @@
                 mechScore: 5, hotendScore: 9, firmScore: 6, easeUse: 7, repair: 4, reliable: 5,
                 db1: "Underextrusion Lottery", p1: "Due to a design flaw in the extruder gears, the filament slips. Your 10-hour print will fail at hour 9.",
                 db2: "VFA (Vertical Artifacts)", p2: "The printer vibrates so much it leaves vertical ripple patterns on the walls. Prints look ugly.",
-                a1: "Micro Swiss FlowTech Hotend", l_a1: "#PUT_LINK_HERE",
+                
+                a1: "Official Extruder Upgrade Kit (V3)", l_a1: "#PUT_LINK_HERE",
                 a2: "Hyper PLA High Speed Filament", l_a2: "#PUT_LINK_HERE",
-                solver: "Flashforge 5M Pro", sReason: "Uses a stable quick-swap nozzle system and enclosed chamber that actually works.",
+                
+                // Solver: Flashforge 5M Pro
+                solver: "Flashforge 5M Pro", sReason: "A truly reliable enclosed CoreXY printer. Its quick-swap nozzle system solves the K1's constant jamming issues.",
                 l_solver: "#PUT_LINK_HERE",
-                value: "QIDI Tech Q1 Pro", vReason: "Heated chamber for ABS printing, which the K1 lacks.",
+                
+                // Value: QIDI Tech Q1 Pro
+                value: "QIDI Tech Q1 Pro", vReason: "Features an active heated chamber (60°C) for warp-free ABS printing. Far superior build quality compared to K1.",
                 l_value: "#PUT_LINK_HERE"
             }
         ];
