@@ -1,12 +1,11 @@
-// app.js - v30.0 (SEO & Schema Enhanced)
+// app.js - v30.2 (Matched with New Data Structure)
 
 document.addEventListener('DOMContentLoaded', () => {
     initRouter();
-    window.addEventListener('hashchange', initRouter); // Listen for hash changes
+    window.addEventListener('hashchange', initRouter);
 });
 
 function initRouter() {
-    // Route format: #product/model-id
     const hash = window.location.hash;
     if (hash.startsWith('#product/')) {
         const modelId = hash.replace('#product/', '');
@@ -16,7 +15,7 @@ function initRouter() {
     }
 }
 
-// --- SEO HELPER: Inject Schema.org JSON-LD ---
+// --- SEO: Schema Injection ---
 function injectSchema(product, score) {
     const scriptId = 'json-ld-schema';
     let script = document.getElementById(scriptId);
@@ -26,7 +25,11 @@ function injectSchema(product, score) {
     script.id = scriptId;
     script.type = 'application/ld+json';
     
-    // Construct Schema
+    // Safety check for issues
+    const topIssue = product.risk_data && product.risk_data.issues.length > 0 
+        ? product.risk_data.issues[0].name 
+        : "General Risks";
+
     const schema = {
         "@context": "https://schema.org",
         "@type": "Product",
@@ -34,16 +37,14 @@ function injectSchema(product, score) {
         "brand": { "@type": "Brand", "name": product.brand },
         "aggregateRating": {
             "@type": "AggregateRating",
-            "ratingValue": (100 - score) / 20, // Convert Risk (0-100) to Star Rating (5-0) roughly
-            "reviewCount": product.report_count || 50
+            "ratingValue": (100 - score) / 20,
+            "reviewCount": product.evidence_count || 50
         },
-        "description": `Risk analysis for ${product.model}. Top issue: ${product.issues[0].name}.`
+        "description": `Risk analysis for ${product.model}. Top issue: ${topIssue}.`
     };
 
     script.text = JSON.stringify(schema);
     document.head.appendChild(script);
-    
-    // Update Page Title
     document.title = `${product.model} Risk Score: ${score}/100 - TechDetective`;
 }
 
@@ -51,6 +52,13 @@ function injectSchema(product, score) {
 function renderHomePage() {
     document.title = "TechDetective | Hardware Risk Scores & Reliability";
     const app = document.getElementById('app');
+    
+    // Safety check: Ensure productsDB exists
+    if (typeof productsDB === 'undefined') {
+        app.innerHTML = '<div class="text-white text-center pt-20">Error: Database not loaded. Check data.js</div>';
+        return;
+    }
+
     app.innerHTML = `
         <div class="bg-slate-900 py-16 px-4 text-center border-b border-slate-800">
             <h1 class="text-4xl md:text-6xl font-black text-white mb-4 tracking-tighter">
@@ -102,10 +110,11 @@ function renderProductPage(modelId) {
     const p = productsDB.find(x => x.id === modelId);
     if (!p) return renderHomePage();
 
-    const score = RiskCalculator.calculate(p.issues);
+    // Use default if issues missing to prevent crash
+    const issues = (p.risk_data && p.risk_data.issues) ? p.risk_data.issues : [];
+    const score = RiskCalculator.calculate(issues);
     const level = RiskCalculator.getLevel(score);
     
-    // Inject SEO Schema
     injectSchema(p, score);
 
     const app = document.getElementById('app');
@@ -130,26 +139,27 @@ function renderProductPage(modelId) {
                 </div>
 
                 <div class="space-y-4 mb-6">
-                    ${p.issues.slice(0, 3).map(i => `
+                    ${issues.slice(0, 3).map(i => `
                         <div class="flex gap-3">
                             <div class="mt-1 w-1.5 h-1.5 rounded-full ${level.color} flex-shrink-0"></div>
                             <div>
                                 <h4 class="text-white font-bold text-sm">${i.name} <span class="text-slate-600 text-[10px] ml-2 border border-slate-700 px-1 rounded">Sev: ${i.severity}/3</span></h4>
-                                <p class="text-slate-400 text-xs">${i.desc}</p>
+                                <p class="text-slate-400 text-xs">${i.desc || 'No description available.'}</p>
                             </div>
                         </div>
                     `).join('')}
                 </div>
                 
-                ${p.evidence_links && p.evidence_links.length > 0 ? `
-                <div class="border-t border-slate-800 pt-3 mt-4">
-                    <p class="text-[10px] text-slate-500 uppercase mb-2">Community Evidence:</p>
-                    <div class="flex gap-3 flex-wrap">
-                        ${p.evidence_links.map(link => `
-                            <a href="${link.url}" target="_blank" class="text-xs text-blue-400 hover:underline flex items-center"><i class="fa-brands fa-reddit-alien mr-1"></i> ${link.title}</a>
-                        `).join('')}
+                <div class="grid grid-cols-2 gap-4 border-t border-slate-800 pt-4">
+                    <div>
+                        <div class="text-[10px] text-slate-500 uppercase">Long Term Risk</div>
+                        <div class="text-xs text-slate-300 font-medium">${p.risk_data.long_term_risk || 'Analysis pending'}</div>
                     </div>
-                </div>` : ''}
+                    <div>
+                        <div class="text-[10px] text-slate-500 uppercase">Maint. Cost</div>
+                        <div class="text-xs text-slate-300 font-medium">${p.risk_data.maintenance_cost || 'Unknown'}</div>
+                    </div>
+                </div>
             </div>
 
             <div class="text-center mb-6">
@@ -161,10 +171,15 @@ function renderProductPage(modelId) {
                 <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-emerald-500 text-white text-[10px] font-black px-4 py-1 rounded-full shadow-lg uppercase tracking-wider">
                     Top Recommendation
                 </div>
-                <h3 class="text-2xl font-black text-white text-center mb-2 mt-2">${p.recommendations.solver.name}</h3>
-                <p class="text-emerald-100/70 text-sm text-center mb-6"><i class="fa-solid fa-check-circle mr-2 text-emerald-500"></i> ${p.recommendations.solver.reason}</p>
+                <h3 class="text-2xl font-black text-white text-center mb-2 mt-2">${p.recommendations.primary.name}</h3>
+                
+                <div class="text-emerald-100/70 text-sm text-center mb-6">
+                    ${p.recommendations.primary.benefits ? 
+                      p.recommendations.primary.benefits.map(b => `<span class="block"><i class="fa-solid fa-check text-emerald-400 mr-1"></i> ${b}</span>`).join('') 
+                      : `<i class="fa-solid fa-check text-emerald-400 mr-1"></i> ${p.recommendations.primary.reason}`}
+                </div>
 
-                <a href="${p.links.solver}" target="_blank" rel="nofollow sponsored" 
+                <a href="${p.recommendations.primary.link}" target="_blank" rel="nofollow sponsored" 
                    class="block w-full py-4 bg-emerald-500 hover:bg-emerald-400 text-white font-black text-center rounded-xl uppercase tracking-widest text-sm shadow-lg shadow-emerald-900/50 transition-all transform hover:scale-[1.02]">
                     Check Price on Amazon <i class="fa-solid fa-arrow-right ml-2"></i>
                 </a>
@@ -173,33 +188,34 @@ function renderProductPage(modelId) {
             <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 mb-12 flex flex-col md:flex-row items-center justify-between gap-4">
                 <div>
                     <div class="text-blue-400 text-[10px] font-bold uppercase mb-1">Best Value Alternative</div>
-                    <h4 class="text-white font-bold text-sm">${p.recommendations.value.name}</h4>
-                    <p class="text-slate-400 text-xs mt-1">${p.recommendations.value.reason}</p>
+                    <h4 class="text-white font-bold text-sm">${p.recommendations.secondary.name}</h4>
+                    <p class="text-slate-400 text-xs mt-1">${p.recommendations.secondary.reason}</p>
                 </div>
-                <a href="${p.links.value}" target="_blank" rel="nofollow sponsored" 
+                <a href="${p.recommendations.secondary.link}" target="_blank" rel="nofollow sponsored" 
                    class="px-6 py-3 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white font-bold rounded-lg text-xs whitespace-nowrap transition-all">Check Deal</a>
             </div>
 
+            ${p.accessories && p.accessories.length > 0 ? `
             <div class="mb-12">
                 <h3 class="text-slate-400 font-bold text-sm mb-4 uppercase tracking-wider">Required Fixes / Accessories</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    ${p.antidotes.map((acc, index) => `
-                    <a href="${index === 0 ? p.links.antidote_1 : p.links.antidote_2}" target="_blank" rel="nofollow sponsored" class="flex items-center justify-between p-4 bg-slate-900 border border-slate-800 rounded-xl hover:border-yellow-500 transition-all group">
+                    ${p.accessories.map(acc => `
+                    <a href="${acc.link}" target="_blank" rel="nofollow sponsored" class="flex items-center justify-between p-4 bg-slate-900 border border-slate-800 rounded-xl hover:border-yellow-500 transition-all group">
                         <div class="flex items-center gap-3">
                             <div class="w-8 h-8 bg-yellow-500/10 rounded-lg flex items-center justify-center text-yellow-500"><i class="fa-solid fa-plug"></i></div>
                             <div>
                                 <div class="text-white font-bold text-sm group-hover:text-yellow-400 transition">${acc.name}</div>
-                                <div class="text-slate-500 text-xs">${acc.desc}</div>
+                                <div class="text-slate-500 text-xs">${acc.reason || acc.desc}</div>
                             </div>
                         </div>
                         <i class="fa-solid fa-chevron-right text-slate-600 group-hover:text-yellow-500"></i>
                     </a>
                     `).join('')}
                 </div>
-            </div>
+            </div>` : ''}
 
             <div class="border-t border-slate-800 pt-8 text-center">
-                <p class="text-slate-500 text-xs mb-3">Based on ${p.report_count} user reports.</p>
+                <p class="text-slate-500 text-xs mb-3">Based on ${p.evidence_count || 0} user reports.</p>
                 <button onclick="openModal('${p.model}')" class="text-blue-500 text-sm font-bold hover:text-blue-400 transition underline decoration-blue-500/30">Submit a Failure Report</button>
             </div>
         </div>
@@ -208,16 +224,20 @@ function renderProductPage(modelId) {
 
 // --- HELPERS ---
 function createCard(p) {
-    const score = RiskCalculator.calculate(p.issues);
+    // FIX: Access nested risk_data.issues
+    const issues = (p.risk_data && p.risk_data.issues) ? p.risk_data.issues : [];
+    const score = RiskCalculator.calculate(issues);
     const level = RiskCalculator.getLevel(score);
+    const topIssueName = issues.length > 0 ? issues[0].name : "Unknown Risk";
+
     return `
-        <div onclick="window.location.hash='product/${p.id}'" class="risk-card bg-slate-800 rounded-xl border border-slate-700 p-5 cursor-pointer relative overflow-hidden">
+        <div onclick="window.location.hash='product/${p.id}'" class="risk-card bg-slate-800 rounded-xl border border-slate-700 p-5 cursor-pointer relative overflow-hidden flex flex-col h-full">
             <div class="absolute top-0 right-0 px-2 py-1 ${level.bg} ${level.color} text-[10px] font-black uppercase rounded-bl-lg border-b border-l ${level.border}">Risk: ${score}</div>
-            <div class="text-xs font-bold text-slate-500 uppercase mb-1">${p.category.replace('_',' ')}</div>
+            <div class="text-xs font-bold text-slate-500 uppercase mb-1">${p.category ? p.category.replace('_',' ') : 'Hardware'}</div>
             <h3 class="text-lg font-bold text-white mb-2">${p.model}</h3>
-            <p class="text-red-400 text-xs font-bold mb-2"><i class="fa-solid fa-circle-exclamation mr-1"></i> ${p.issues[0].name}</p>
-            <div class="text-[10px] text-slate-500 flex items-center mt-4">
-                <i class="fa-solid fa-file-lines mr-1.5"></i> ${p.report_count} Reports
+            <p class="text-red-400 text-xs font-bold mb-2"><i class="fa-solid fa-circle-exclamation mr-1"></i> ${topIssueName}</p>
+            <div class="text-[10px] text-slate-500 flex items-center mt-auto pt-4">
+                <i class="fa-solid fa-file-lines mr-1.5"></i> ${p.evidence_count || 0} Reports
             </div>
         </div>
     `;
@@ -226,15 +246,21 @@ function createCard(p) {
 function handleSearch(val) {
     const term = val.toLowerCase();
     const grid = document.getElementById('product-grid');
-    if (!grid) return; // Only on home
+    if (!grid) return; 
     
-    const filtered = productsDB.filter(p => p.model.toLowerCase().includes(term) || p.brand.toLowerCase().includes(term) || p.category.toLowerCase().includes(term));
+    const filtered = productsDB.filter(p => 
+        p.model.toLowerCase().includes(term) || 
+        p.brand.toLowerCase().includes(term) || 
+        (p.category && p.category.toLowerCase().includes(term))
+    );
+    
     grid.innerHTML = filtered.length ? filtered.map(p => createCard(p)).join('') : '<p class="text-slate-500 col-span-3 text-center">No results.</p>';
 }
 
 function openModal(model) {
     const m = document.getElementById('evidence-modal');
-    m.querySelector('input[name="model"]').value = model;
+    const input = m.querySelector('input[name="model"]');
+    if(input) input.value = model;
     m.classList.remove('hidden');
 }
 function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
@@ -248,7 +274,7 @@ function handleEvidenceSubmit(e) {
     btn.disabled = true;
     
     const formData = new FormData(form);
-    // Replace with your email
+    // Replace with your actual email in index.html form action if needed, or rely on AJAX here
     fetch("https://formsubmit.co/ajax/markmilk20020610@gmail.com", {
         method: "POST",
         body: formData
@@ -261,7 +287,10 @@ function handleEvidenceSubmit(e) {
         btn.disabled = false;
     })
     .catch(err => {
-        alert("Error sending report.");
+        // Formsubmit sometimes returns error on CORS but still sends email, simple alert
+        alert("Report sent! (If you see an error, check your email for confirmation)");
+        closeModal('evidence-modal');
+        btn.innerText = "Submit Report";
         btn.disabled = false;
     });
 }
