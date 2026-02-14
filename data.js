@@ -1,3 +1,4 @@
+console.log("TechDetective Database Loaded: v31.1");
 // data.js - v31.1 FIXED IMAGES & DESCRIPTIONS
 const productsDB = [
     // ================= LAPTOPS (10 Models) =================
@@ -572,3 +573,4 @@ const productsDB = [
         ]
     }
 ];
+
