@@ -1,7 +1,5 @@
-// risk.js - v30.0 Logic
+// risk.js - v30.2 (Anti-NaN Logic)
 const RiskCalculator = {
-    // Formula: Σ(frequency × severity × long_term_factor)
-    // Scale: 0 to 100
     calculate: function(issues) {
         if (!issues || issues.length === 0) return 10;
 
@@ -9,21 +7,22 @@ const RiskCalculator = {
         let maxPossible = 0;
 
         issues.forEach(i => {
-            // Severity (1-3) * Frequency (1-3) * LongTerm (1.0-2.0)
-            const impact = i.severity * i.frequency * i.long_term_factor;
+            // 安全检查：如果缺少数值，默认设为 1，防止 NaN 错误
+            const s = i.severity || 1;
+            const f = i.frequency || 1;
+            const l = i.long_term_factor || 1.0;
+
+            const impact = s * f * l;
             totalScore += impact;
-            // Max typical impact per issue is roughly 3*3*2 = 18
             maxPossible += 18; 
         });
 
-        // Normalize to 100-scale with a curve
-        // Base score increases quickly with first few issues
         let normalized = (totalScore / Math.max(maxPossible, 20)) * 100;
-        
-        // Add "Base Anxiety" (starting risk)
         normalized += 20;
 
-        return Math.min(Math.round(normalized), 99);
+        // 确保结果一定是数字
+        const final = Math.min(Math.round(normalized), 99);
+        return isNaN(final) ? 50 : final; // 如果还是算出NaN，强制返回50分
     },
 
     getLevel: function(score) {
