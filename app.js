@@ -1,11 +1,17 @@
-// app.js - v32.0 Bulletproof Edition
+// app.js - v32.0 Bulletproof Edition (Anti-White Screen)
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 强制检查数据是否存在
-    if (typeof productsDB === 'undefined' || !Array.isArray(productsDB)) {
-        document.body.innerHTML = '<div style="color:white;text-align:center;padding:50px;">❌ Critical Error: data.js is missing or broken.</div>';
+    // 1. 防呆检查：如果 data.js 没加载，直接在屏幕显示错误，而不是白屏
+    if (typeof productsDB === 'undefined') {
+        document.body.innerHTML = `
+            <div style="color:white; text-align:center; padding-top:50px;">
+                <h1>⚠️ Critical Error</h1>
+                <p>productsDB is missing. Please check if data.js is linked correctly.</p>
+            </div>`;
         return;
     }
+
+    console.log("App Started. Products found:", productsDB.length);
     initRouter();
     window.addEventListener('hashchange', initRouter);
 });
@@ -20,8 +26,18 @@ function initRouter() {
     }
 }
 
+// --- Image Error Handler (防止图片挂了导致难看) ---
+function imgError(image) {
+    image.onerror = "";
+    image.src = "https://placehold.co/600x400/1e293b/475569?text=Image+Unavailable";
+    return true;
+}
+
 // --- SEO Injection ---
 function injectSchema(product, score) {
+    // 安全检查，防止崩溃
+    if (!product) return;
+    
     const scriptId = 'json-ld-schema';
     let script = document.getElementById(scriptId);
     if (script) script.remove();
@@ -50,28 +66,20 @@ function injectSchema(product, score) {
 
     script.text = JSON.stringify(schema);
     document.head.appendChild(script);
-    document.title = `${product.model} Risk Analysis | TechDetective`;
-}
-
-// --- Image Fallback Handler ---
-function imgError(image) {
-    // 如果图片挂了，替换成深色占位图
-    image.onerror = "";
-    image.src = "https://placehold.co/600x400/1e293b/475569?text=Image+Unavailable";
-    return true;
 }
 
 // --- HOME PAGE ---
 function renderHomePage() {
-    document.title = "TechDetective | Hardware Risk Scores";
     const app = document.getElementById('app');
+    if (!app) return; // 再次防止崩溃
+
     app.innerHTML = `
         <div class="bg-slate-900 py-16 px-4 text-center border-b border-slate-800 relative">
             <h1 class="text-4xl md:text-6xl font-black text-white mb-4 tracking-tighter">
                 Hardware <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500">Risk Scores</span>
             </h1>
             <p class="text-xl text-slate-400 mb-8 max-w-2xl mx-auto">
-                Don't buy e-waste. Real-world failure ratings.
+                Real-world failure ratings. Don't buy e-waste.
             </p>
             
             <div class="relative max-w-lg mx-auto mb-8">
@@ -89,7 +97,6 @@ function renderHomePage() {
         </div>
 
         <div class="max-w-7xl mx-auto px-4 py-12">
-            <h3 class="text-white font-bold text-xl mb-6 flex items-center"><i class="fa-solid fa-fire text-red-500 mr-2"></i> Trending Investigations</h3>
             <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 ${productsDB.map(p => createCard(p)).join('')}
             </div>
@@ -102,7 +109,7 @@ function renderProductPage(modelId) {
     const p = productsDB.find(x => x.id === modelId);
     if (!p) return renderHomePage();
 
-    // 防崩溃：确保 issues 存在
+    // 防崩溃核心：如果没有 issues，给空数组
     const issues = (p.risk_data && p.risk_data.issues) ? p.risk_data.issues : [];
     const score = RiskCalculator.calculate(issues);
     const level = RiskCalculator.getLevel(score);
@@ -118,64 +125,23 @@ function renderProductPage(modelId) {
                 <div class="md:w-1/3 bg-slate-950 relative min-h-[200px]">
                     <img src="${p.image}" onerror="imgError(this)" class="absolute inset-0 w-full h-full object-cover opacity-80">
                 </div>
-                
                 <div class="md:w-2/3 p-6 md:p-8 flex flex-col justify-center">
                     <div class="flex justify-between items-start mb-2">
                         <span class="text-xs font-bold text-slate-500 uppercase tracking-widest">${p.brand}</span>
                         <div class="text-right">
                             <span class="text-4xl font-black ${level.color}">${score}</span>
-                            <span class="text-xs text-slate-500 block">RISK SCORE</span>
                         </div>
                     </div>
                     <h1 class="text-3xl font-black text-white mb-4 leading-none">${p.model}</h1>
-                    <div class="inline-flex items-center px-3 py-1 rounded ${level.bg} ${level.color} text-xs font-black border ${level.border} mb-4">
-                        <i class="fa-solid ${level.icon} mr-2"></i> ${level.label}
-                    </div>
                 </div>
-            </div>
-
-            <div class="bg-slate-900/50 rounded-xl border border-slate-800 p-6 mb-8">
-                <h3 class="text-slate-200 font-bold mb-4 flex items-center"><i class="fa-solid fa-list-ul mr-2 text-blue-500"></i> Failure Analysis</h3>
-                <div class="space-y-4">
-                    ${issues.map(i => `
-                        <div class="flex gap-4 p-3 bg-slate-900 rounded border border-slate-800">
-                            <div class="mt-1"><div class="w-2 h-2 rounded-full ${i.severity >= 3 ? 'bg-red-500' : 'bg-yellow-500'}"></div></div>
-                            <div>
-                                <h4 class="text-white font-bold text-sm">${i.name}</h4>
-                                <p class="text-slate-400 text-xs mt-1 leading-relaxed">${i.desc || 'Issue reported by community members.'}</p>
-                            </div>
-                        </div>
-                    `).join('')}
-                </div>
-            </div>
-
-            <div class="bg-gradient-to-br from-emerald-900/30 to-slate-900 border border-emerald-500/50 rounded-2xl p-6 mb-8 relative shadow-lg">
-                <div class="absolute -top-3 left-6 bg-emerald-500 text-white text-[10px] font-black px-3 py-1 rounded shadow-lg uppercase tracking-wider">Top Choice</div>
-                <h3 class="text-2xl font-black text-white text-center mb-2 mt-2">${p.recommendations.primary.name}</h3>
-                <a href="${p.links.solver}" target="_blank" class="block w-full py-4 bg-emerald-500 hover:bg-emerald-400 text-white font-black text-center rounded-xl uppercase tracking-widest text-sm shadow-lg mt-6 transition-all">
-                    Check Price on Amazon <i class="fa-solid fa-arrow-right ml-2"></i>
-                </a>
             </div>
             
-            ${p.accessories ? `
-            <div class="mb-12">
-                <h3 class="text-slate-400 font-bold text-sm mb-4 uppercase">Required Fixes</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    ${p.accessories.map(acc => `
-                    <a href="${acc.link}" target="_blank" class="flex items-center gap-4 p-4 bg-slate-900 border border-slate-800 rounded-xl hover:border-yellow-500 transition-all group">
-                        <div class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center text-yellow-500"><i class="fa-solid fa-wrench"></i></div>
-                        <div class="flex-grow">
-                            <div class="text-white font-bold text-sm">${acc.name}</div>
-                            <div class="text-slate-500 text-xs">${acc.desc || acc.reason}</div>
-                        </div>
-                        <i class="fa-solid fa-chevron-right text-slate-600 group-hover:text-white"></i>
-                    </a>
-                    `).join('')}
-                </div>
-            </div>` : ''}
-
-            <div class="text-center pt-8 border-t border-slate-800">
-                <button onclick="openModal('${p.model}')" class="text-blue-500 text-sm font-bold hover:underline">Submit Failure Report</button>
+            <div class="bg-gradient-to-br from-emerald-900/30 to-slate-900 border border-emerald-500/50 rounded-2xl p-6 mb-8">
+                <h3 class="text-xl font-bold text-white mb-2 text-center">Better Alternative</h3>
+                <h3 class="text-2xl font-black text-white text-center mb-4 text-emerald-400">${p.recommendations.primary.name}</h3>
+                <a href="${p.links.solver}" target="_blank" class="block w-full py-4 bg-emerald-500 hover:bg-emerald-400 text-white font-black text-center rounded-xl uppercase tracking-widest text-sm transition-all">
+                    Check Price on Amazon
+                </a>
             </div>
         </div>
     `;
@@ -183,49 +149,34 @@ function renderProductPage(modelId) {
 
 // --- HELPER: CARD ---
 function createCard(p) {
-    // 防崩溃：如果 risk_data 不存在，给一个空数组
+    // 即使 risk_data 缺失，也不会报错，而是显示 Unknown
     const issues = (p.risk_data && p.risk_data.issues) ? p.risk_data.issues : [];
     const score = RiskCalculator.calculate(issues);
     const level = RiskCalculator.getLevel(score);
-    // 防崩溃：如果 issues 为空，显示 Unknown
-    const topIssue = issues.length > 0 ? issues[0].name : "Unknown Risk";
+    const topIssue = issues.length > 0 ? issues[0].name : "Analysis Pending";
 
     return `
-        <div onclick="window.location.hash='product/${p.id}'" class="risk-card bg-slate-800 rounded-xl border border-slate-700 overflow-hidden cursor-pointer flex flex-col h-full group">
-            <div class="h-32 bg-slate-900 relative">
-                <img src="${p.image}" onerror="imgError(this)" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all">
+        <div onclick="window.location.hash='product/${p.id}'" class="risk-card bg-slate-800 rounded-xl border border-slate-700 overflow-hidden cursor-pointer flex flex-col h-full group hover:border-blue-500 transition-all">
+            <div class="h-40 bg-slate-950 relative">
+                <img src="${p.image}" onerror="imgError(this)" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-all">
                 <div class="absolute top-2 right-2 px-2 py-1 ${level.bg} ${level.color} text-[10px] font-black uppercase rounded border ${level.border} backdrop-blur-md">
-                    Risk: ${score}
+                    Score: ${score}
                 </div>
             </div>
-            <div class="p-5 flex-grow flex flex-col">
+            <div class="p-5 flex-grow">
                 <div class="text-[10px] font-bold text-slate-500 uppercase mb-1">${p.brand}</div>
-                <h3 class="text-lg font-bold text-white mb-2 leading-tight">${p.model}</h3>
-                <div class="mt-auto pt-4 border-t border-slate-700/50 flex justify-between items-center">
-                    <span class="text-[10px] text-red-400 font-bold truncate pr-2"><i class="fa-solid fa-triangle-exclamation mr-1"></i> ${topIssue}</span>
-                    <i class="fa-solid fa-arrow-right text-slate-600 text-xs"></i>
-                </div>
+                <h3 class="text-lg font-bold text-white mb-2">${p.model}</h3>
+                <p class="text-red-400 text-xs"><i class="fa-solid fa-triangle-exclamation mr-1"></i> ${topIssue}</p>
             </div>
         </div>
     `;
 }
 
-// ... (Search/Modal logic remains same) ...
+// --- Search Logic ---
 function handleSearch(val) {
     const term = val.toLowerCase();
     const grid = document.getElementById('product-grid');
     if (!grid) return; 
     const filtered = productsDB.filter(p => p.model.toLowerCase().includes(term) || p.brand.toLowerCase().includes(term));
     grid.innerHTML = filtered.length ? filtered.map(p => createCard(p)).join('') : '<p class="text-slate-500 col-span-3 text-center">No results.</p>';
-}
-function openModal(model) {
-    const m = document.getElementById('evidence-modal');
-    m.querySelector('input[name="model"]').value = model;
-    m.classList.remove('hidden');
-}
-function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
-function handleEvidenceSubmit(e) {
-    e.preventDefault();
-    alert("Report Submitted! Thank you.");
-    closeModal('evidence-modal');
 }
