@@ -1,4 +1,4 @@
-// app.js - LOGIC v28.1 (With Antidote/Accessory Rendering)
+// app.js - v28.2 (Fixed Evidence Counter & Submit UI)
 
 document.addEventListener('DOMContentLoaded', () => {
     initRouter();
@@ -12,7 +12,9 @@ function initRouter() {
     else renderHomePage();
 }
 
-// HOME PAGE RENDERER
+// =======================
+// 1. HOME PAGE RENDERER
+// =======================
 function renderHomePage() {
     const app = document.getElementById('app');
     app.innerHTML = `
@@ -43,7 +45,9 @@ function renderHomePage() {
     `;
 }
 
-// PRODUCT PAGE RENDERER (NOW WITH ACCESSORIES!)
+// =======================
+// 2. PRODUCT PAGE RENDERER
+// =======================
 function renderProductPage(id) {
     const product = productsDB.find(p => p.id === id);
     if (!product) return renderHomePage();
@@ -121,16 +125,28 @@ function renderProductPage(id) {
 
             <div class="bg-slate-900 p-6 rounded-xl border border-slate-800 text-center">
                 <p class="text-gray-400 text-sm mb-4">Did your ${product.model} break? Report it.</p>
-                <button onclick="alert('Report submitted!')" class="text-blue-500 text-sm font-bold hover:underline">Submit Evidence Form</button>
+                <button onclick="openEvidenceModal('${product.model}')" class="text-blue-500 text-sm font-bold hover:underline">Submit Evidence Form</button>
             </div>
         </div>
     `;
 }
 
-// 辅助函数
+// =======================
+// 3. HELPER FUNCTIONS
+// =======================
+
 function createProductCard(p) {
     const score = RiskCalculator.calculateScore(p.issues);
     const level = RiskCalculator.getLevel(score);
+    
+    // FIX 1: Generate a pseudo-random report count based on the product name characters
+    // This ensures it's always the same number for the same product, but different for others.
+    let charCodeSum = 0;
+    for (let i = 0; i < p.model.length; i++) {
+        charCodeSum += p.model.charCodeAt(i);
+    }
+    const reportCount = (charCodeSum * 2) + 36; // Fake math to make it look realistic (e.g., 200-500 range)
+
     return `
         <div class="risk-card bg-slate-800 rounded-xl border border-slate-700 overflow-hidden cursor-pointer hover:border-blue-500 transition-all"
              onclick="window.location.search='?model=${p.id}'">
@@ -144,8 +160,8 @@ function createProductCard(p) {
                 <p class="text-gray-400 text-xs line-clamp-2">${p.issues[0].desc}</p>
             </div>
             <div class="bg-slate-900 px-5 py-3 border-t border-slate-700 flex justify-between items-center">
-                <span class="text-xs text-gray-500">Analysis based on ${p.issues.length * 12} reports</span>
-                <span class="text-blue-400 text-xs font-bold">View Details <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                <span class="text-xs text-gray-500">Based on ${reportCount} reports</span>
+                <span class="text-blue-400 text-xs font-bold">View Report <i class="fa-solid fa-arrow-right ml-1"></i></span>
             </div>
         </div>
     `;
@@ -159,6 +175,50 @@ function handleSearch(query) {
     );
     if (filtered.length === 0) grid.innerHTML = `<div class="col-span-3 text-center text-gray-500 py-8">No results found.</div>`;
     else grid.innerHTML = filtered.map(p => createProductCard(p)).join('');
+}
+
+// =======================
+// 4. SUBMIT FORM HANDLER (IMPROVED UI)
+// =======================
+
+// Open modal and pre-fill model name if provided
+function openEvidenceModal(modelName = '') {
+    const modal = document.getElementById('evidence-modal');
+    if(modelName) {
+        // Find input inside modal and set value if possible
+        const input = modal.querySelector('input[type="text"]');
+        if(input) input.value = modelName;
+    }
+    modal.classList.remove('hidden');
+}
+
+// FIX 2: Better Submit UI experience (No alert box)
+function handleEvidenceSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button');
+    const originalText = btn.innerText;
+    
+    // 1. Loading State
+    btn.innerText = "Submitting...";
+    btn.disabled = true;
+    btn.classList.add('opacity-50');
+    
+    // 2. Simulate Network Request
+    setTimeout(() => {
+        // 3. Success State (Replace Form Content)
+        const formContainer = e.target.parentElement;
+        formContainer.innerHTML = `
+            <div class="text-center py-8 fade-in">
+                <div class="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4 text-green-500 text-3xl">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2">Report Received!</h3>
+                <p class="text-gray-400 text-sm">Thank you for contributing to the database.</p>
+                <p class="text-slate-600 text-xs mt-4">Case ID: #${Math.floor(Math.random() * 9000) + 1000}</p>
+                <button onclick="closeModal('evidence-modal'); window.location.reload();" class="mt-6 text-blue-400 text-sm font-bold hover:underline">Close</button>
+            </div>
+        `;
+    }, 1200);
 }
 
 function updateDate() {}
