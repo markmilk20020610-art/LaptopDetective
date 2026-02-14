@@ -1,4 +1,4 @@
-// data.js - v30.3 FIXED DESCRIPTIONS
+// data.js - v31.0 VISUAL ENHANCED
 const productsDB = [
     // ================= LAPTOPS (10 Models) =================
     {
@@ -9,6 +9,7 @@ const productsDB = [
         price: "$1,399",
         release_year: 2023,
         evidence_count: 420,
+        image: "https://images.unsplash.com/photo-1593642632823-8f7856677741?auto=format&fit=crop&w=800&q=80", // XPS Style
         links: {
             solver: "https://amzn.to/4ax1iM6",
             value: "https://amzn.to/4aLNfUh",
@@ -28,6 +29,10 @@ const productsDB = [
                 { type: "Battery", name: "Battery Degradation", desc: "Battery health drops below 80% within 14 months.", severity: 2, frequency: 3, long_term_factor: 1.2 }
             ]
         },
+        evidence_links: [
+            { source: "Reddit", title: "Touchbar keeps freezing", url: "#" },
+            { source: "YouTube", title: "Don't buy this laptop", url: "#" }
+        ],
         accessories: [
             { name: "USB-C Hub", link: "https://amzn.to/4kD8XgK", desc: "Required for usability." },
             { name: "Anker 200W", link: "https://amzn.to/4kyVXsv", desc: "Backup power." }
@@ -41,6 +46,7 @@ const productsDB = [
         price: "$899",
         release_year: 2024,
         evidence_count: 850,
+        image: "https://images.unsplash.com/photo-1603302576837-37561b2e2302?auto=format&fit=crop&w=800&q=80", // Gaming Style
         links: {
             solver: "https://amzn.to/4bS0yDI",
             value: "https://amzn.to/4qymUhm",
@@ -60,6 +66,9 @@ const productsDB = [
                 { type: "Power", name: "Battery Drain", desc: "Drains battery even while plugged in.", severity: 2, frequency: 2, long_term_factor: 1.0 }
             ]
         },
+        evidence_links: [
+            { source: "Reddit", title: "LOQ Motherboard dead in 2 months", url: "#" }
+        ],
         accessories: [
             { name: "Laptop Stand", link: "https://amzn.to/3OaX19O", desc: "Airflow is mandatory." },
             { name: "Cooling Pad", link: "https://amzn.to/4kv8sFf", desc: "Force air cooling." }
@@ -73,6 +82,7 @@ const productsDB = [
         price: "$2,499",
         release_year: 2024,
         evidence_count: 610,
+        image: "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?auto=format&fit=crop&w=800&q=80", // Razer Style
         links: {
             solver: "https://amzn.to/4aoclHy",
             value: "https://amzn.to/3OCX12o",
@@ -92,6 +102,9 @@ const productsDB = [
                 { type: "Support", name: "Bad RMA", desc: "Support takes weeks to respond to failures.", severity: 2, frequency: 2, long_term_factor: 1.0 }
             ]
         },
+        evidence_links: [
+            { source: "Reddit", title: "Spicy Pillow megathread", url: "#" }
+        ],
         accessories: [
             { name: "IETS GT600", link: "https://amzn.to/46IyRJZ", desc: "Prevent bloat." },
             { name: "Mini Keyboard", link: "https://amzn.to/4aszZTn", desc: "Don't burn hands." }
@@ -105,6 +118,7 @@ const productsDB = [
         price: "$1,599",
         release_year: 2023,
         evidence_count: 230,
+        image: "https://images.unsplash.com/photo-1544731612-de7f96afe55f?auto=format&fit=crop&w=800&q=80", // Sleek
         links: {
             solver: "https://amzn.to/4kRtsXf",
             value: "https://amzn.to/3M6LAPV",
@@ -124,6 +138,7 @@ const productsDB = [
                 { type: "Thermal", name: "Tablet Heat", desc: "Uncomfortable to hold in tablet mode.", severity: 2, frequency: 2, long_term_factor: 1.0 }
             ]
         },
+        evidence_links: [],
         accessories: [
             { name: "Care Pack", link: "https://amzn.to/4aN0WCk", desc: "Extend warranty." },
             { name: "Samsung SSD", link: "https://amzn.to/3Obi3oO", desc: "Clean Backup" }
@@ -137,6 +152,7 @@ const productsDB = [
         price: "$999",
         release_year: 2023,
         evidence_count: 1100,
+        image: "https://images.unsplash.com/photo-1592910147690-37965706222b?auto=format&fit=crop&w=800&q=80", // TUF
         links: {
             solver: "https://amzn.to/46wZnWM",
             value: "https://amzn.to/4rP6vGj",
@@ -156,6 +172,7 @@ const productsDB = [
                 { type: "Build", name: "Plastic Flex", desc: "Chassis feels cheap and flexes under typing.", severity: 1, frequency: 2, long_term_factor: 1.0 }
             ]
         },
+        evidence_links: [],
         accessories: [
             { name: "Headset", link: "https://amzn.to/4ttHnGR", desc: "Block fan noise." },
             { name: "Monitor", link: "https://amzn.to/4rxSxZP", desc: "Fix ghosting." }
@@ -169,6 +186,7 @@ const productsDB = [
         price: "$1,299",
         release_year: 2022,
         evidence_count: 180,
+        image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca4?auto=format&fit=crop&w=800&q=80", // Surface
         links: {
             solver: "https://amzn.to/4qx0a16",
             value: "https://amzn.to/3MBbFXr",
@@ -188,6 +206,7 @@ const productsDB = [
                 { type: "Design", name: "Thick Bezels", desc: "Design looks outdated compared to competition.", severity: 1, frequency: 3, long_term_factor: 1.0 }
             ]
         },
+        evidence_links: [],
         accessories: [
             { name: "Sleeve", link: "https://amzn.to/3Zu16Zb", desc: "Protect fabric." },
             { name: "Keyboard", link: "https://amzn.to/4qDObPt", desc: "Keep clean." }
@@ -201,6 +220,7 @@ const productsDB = [
         price: "$799",
         release_year: 2023,
         evidence_count: 450,
+        image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=800&q=80", // Silver Laptop
         links: {
             solver: "https://amzn.to/4rejrp5",
             value: "https://amzn.to/4kAUrGn",
@@ -220,6 +240,7 @@ const productsDB = [
                 { type: "Software", name: "Bloatware", desc: "Popups and ads out of the box.", severity: 1, frequency: 3, long_term_factor: 1.0 }
             ]
         },
+        evidence_links: [],
         accessories: [
             { name: "USB WiFi", link: "https://amzn.to/462RKXU", desc: "Stable internet." },
             { name: "Mouse", link: "https://amzn.to/4raPoP7", desc: "Fix trackpad." }
@@ -233,6 +254,7 @@ const productsDB = [
         price: "$1,099",
         release_year: 2023,
         evidence_count: 310,
+        image: "https://images.unsplash.com/photo-1531297461136-82lwDe43q568?auto=format&fit=crop&w=800&q=80", // Slim
         links: {
             solver: "https://amzn.to/4cq58t4",
             value: "https://amzn.to/466tbt7",
@@ -252,6 +274,7 @@ const productsDB = [
                 { type: "Cosmetic", name: "Fingerprints", desc: "Midnight blue chassis looks dirty instantly.", severity: 1, frequency: 3, long_term_factor: 1.0 }
             ]
         },
+        evidence_links: [],
         accessories: [
             { name: "Hard Case", link: "https://amzn.to/46ORImL", desc: "Prevent cracks." },
             { name: "Keyboard", link: "https://amzn.to/3MrfHkY", desc: "Desk setup." }
@@ -265,6 +288,7 @@ const productsDB = [
         price: "$1,199",
         release_year: 2023,
         evidence_count: 980,
+        image: "https://images.unsplash.com/photo-1616588589676-60b30c3c53fc?auto=format&fit=crop&w=800&q=80", // Gaming
         links: {
             solver: "https://amzn.to/463YrsV",
             value: "https://amzn.to/3OpuxsR",
@@ -284,6 +308,7 @@ const productsDB = [
                 { type: "Cosmetic", name: "Paint Chip", desc: "Palm rest paint wears off quickly.", severity: 1, frequency: 2, long_term_factor: 1.0 }
             ]
         },
+        evidence_links: [],
         accessories: [
             { name: "Intel WiFi", link: "https://amzn.to/4kuLdLw", desc: "Fix lag spikes." },
             { name: "Slim Charger", link: "https://amzn.to/4qtEyCJ", desc: "Portability." }
@@ -297,6 +322,7 @@ const productsDB = [
         price: "$1,299",
         release_year: 2022,
         evidence_count: 720,
+        image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca4?auto=format&fit=crop&w=800&q=80", // Mac
         links: {
             solver: "https://amzn.to/3ZyvtO1",
             value: "https://amzn.to/3MsXTG7",
@@ -316,6 +342,7 @@ const productsDB = [
                 { type: "Cam", name: "720p Webcam", desc: "Grainy video quality.", severity: 1, frequency: 3, long_term_factor: 1.0 }
             ]
         },
+        evidence_links: [],
         accessories: [
             { name: "4K Webcam", link: "https://amzn.to/4adenvg", desc: "Look better." },
             { name: "Monitor", link: "https://amzn.to/3OCuytw", desc: "More space." }
@@ -331,6 +358,7 @@ const productsDB = [
         price: "$199",
         release_year: 2023,
         evidence_count: 2400,
+        image: "https://images.unsplash.com/photo-1631541909061-71e349d1f203?auto=format&fit=crop&w=800&q=80", // 3D Printer
         links: {
             solver: "https://amzn.to/4rO30zE",
             value: "https://amzn.to/4bV0DGS",
@@ -350,6 +378,9 @@ const productsDB = [
                 { type: "Fail", name: "Spaghetti", desc: "No AI detection for failed prints.", severity: 2, frequency: 2, long_term_factor: 1.0 }
             ]
         },
+        evidence_links: [
+            { source: "Reddit", title: "r/Ender3: Gantry sag issues", url: "#" }
+        ],
         accessories: [
             { name: "CR Touch", link: "https://amzn.to/4avRTV1", desc: "Fix leveling." },
             { name: "Filament Dryer", link: "https://amzn.to/4rieR9m", desc: "Better prints." }
@@ -363,6 +394,7 @@ const productsDB = [
         price: "$299",
         release_year: 2023,
         evidence_count: 920,
+        image: "https://images.unsplash.com/photo-1599354607485-697669ae5073?auto=format&fit=crop&w=800&q=80", // 3D Printer
         links: {
             solver: "https://amzn.to/3MIGFVp",
             value: "https://amzn.to/4agB7KS",
@@ -382,6 +414,7 @@ const productsDB = [
                 { type: "Repair", name: "Proprietary", desc: "Cannot use generic cheap parts.", severity: 1, frequency: 3, long_term_factor: 1.2 }
             ]
         },
+        evidence_links: [],
         accessories: [
             { name: "PEI Plate", link: "https://amzn.to/4kyuwPk", desc: "Better adhesion." },
             { name: "eSun PLA+", link: "https://amzn.to/4ataRvx", desc: "Reliable filament." }
@@ -395,6 +428,7 @@ const productsDB = [
         price: "$180",
         release_year: 2023,
         evidence_count: 310,
+        image: "https://images.unsplash.com/photo-1595804368594-e8f000302196?auto=format&fit=crop&w=800&q=80", // Resin
         links: {
             solver: "https://amzn.to/4tCngpS",
             value: "https://amzn.to/469PUEF",
@@ -414,6 +448,7 @@ const productsDB = [
                 { type: "Maintenance", name: "Messy Cleanup", desc: "Requires isopropyl alcohol washing.", severity: 2, frequency: 3, long_term_factor: 1.0 }
             ]
         },
+        evidence_links: [],
         accessories: [
             { name: "Wash & Cure", link: "https://amzn.to/4tCG87Y", desc: "Safety essential." },
             { name: "Grey Resin", link: "https://amzn.to/4sblM4z", desc: "Standard material." }
@@ -427,6 +462,7 @@ const productsDB = [
         price: "$280",
         release_year: 2023,
         evidence_count: 580,
+        image: "https://images.unsplash.com/photo-1628133287823-34e45e993309?auto=format&fit=crop&w=800&q=80", // 3D
         links: {
             solver: "https://amzn.to/4rhuAFL",
             value: "https://amzn.to/4rhu1M9",
@@ -446,6 +482,7 @@ const productsDB = [
                 { type: "Wear", name: "Wheel Dust", desc: "POM wheels wear out at high speeds.", severity: 2, frequency: 2, long_term_factor: 1.2 }
             ]
         },
+        evidence_links: [],
         accessories: [
             { name: "PEI Plate", link: "https://amzn.to/4ctaUtW", desc: "Spare plate." },
             { name: "Noctua Fan", link: "https://amzn.to/4rgiixg", desc: "Silence it." }
@@ -459,6 +496,7 @@ const productsDB = [
         price: "$429",
         release_year: 2019,
         evidence_count: 1200,
+        image: "https://images.unsplash.com/photo-1616627547584-bf28cee9629e?auto=format&fit=crop&w=800&q=80", // Orange
         links: {
             solver: "https://amzn.to/3MEIa77",
             value: "https://amzn.to/3OcjO5b",
@@ -478,6 +516,7 @@ const productsDB = [
                 { type: "Value", name: "Overpriced", desc: "Paying premium for 2019 tech.", severity: 1, frequency: 3, long_term_factor: 1.0 }
             ]
         },
+        evidence_links: [],
         accessories: [
             { name: "Raspberry Pi", link: "https://amzn.to/4awdywx", desc: "OctoPrint" },
             { name: "Heatbreak", link: "https://amzn.to/4qG8n3c", desc: "Fix jams." }
@@ -491,6 +530,7 @@ const productsDB = [
         price: "$399",
         release_year: 2023,
         evidence_count: 750,
+        image: "https://images.unsplash.com/photo-1581092921461-eab6245b0262?auto=format&fit=crop&w=800&q=80", // Industrial
         links: {
             solver: "https://amzn.to/3Of1sjT",
             value: "https://amzn.to/3ZF3Oen",
@@ -510,6 +550,9 @@ const productsDB = [
                 { type: "Design", name: "Tube Melt", desc: "PTFE tube melts inside the hotend.", severity: 2, frequency: 2, long_term_factor: 1.5 }
             ]
         },
+        evidence_links: [
+            { source: "Reddit", title: "r/Creality: K1 Gen 1 extruder fix", url: "#" }
+        ],
         accessories: [
             { name: "Extruder Kit", link: "https://amzn.to/4kyx6F0", desc: "Essential fix." },
             { name: "Hyper PLA", link: "https://amzn.to/3ZCCYU7", desc: "High speed." }
