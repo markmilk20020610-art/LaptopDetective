@@ -1,6 +1,6 @@
-// data.js - v42.0 LOCAL IMAGES FINAL (16 Products)
+// data.js - v44.0 MERGED EDITION (24 Products: 16 Old + 8 New)
 const productsDB = [
-    // ================= LAPTOPS (10 Models) =================
+    // ================= [EXISTING] LAPTOPS (10 Models) =================
     {
         id: "dell-xps-13-plus",
         category: "laptop",
@@ -9,7 +9,7 @@ const productsDB = [
         price: "$1,399",
         release_year: 2023,
         evidence_count: 420,
-        image: "images/dell-xps-13-plus.jpg", // ✅ 本地图片路径
+        image: "images/dell-xps-13-plus.jpg",
         links: {
             solver: "https://amzn.to/4ax1iM6",
             value: "https://amzn.to/4aLNfUh",
@@ -50,7 +50,7 @@ const productsDB = [
         price: "$899",
         release_year: 2024,
         evidence_count: 850,
-        image: "images/lenovo-loq-15.jpg", // ✅ 本地图片路径
+        image: "images/lenovo-loq-15.jpg",
         links: {
             solver: "https://amzn.to/4bS0yDI",
             value: "https://amzn.to/4qymUhm",
@@ -91,7 +91,7 @@ const productsDB = [
         price: "$2,499",
         release_year: 2024,
         evidence_count: 610,
-        image: "images/razer-blade-15.jpg", // ✅ 本地图片路径
+        image: "images/razer-blade-15.jpg",
         links: {
             solver: "https://amzn.to/4aoclHy",
             value: "https://amzn.to/3OCX12o",
@@ -132,7 +132,7 @@ const productsDB = [
         price: "$1,599",
         release_year: 2023,
         evidence_count: 230,
-        image: "images/hp-spectre-x360.jpg", // ✅ 本地图片路径
+        image: "images/hp-spectre-x360.jpg",
         links: {
             solver: "https://amzn.to/4kRtsXf",
             value: "https://amzn.to/3M6LAPV",
@@ -173,7 +173,7 @@ const productsDB = [
         price: "$999",
         release_year: 2023,
         evidence_count: 1100,
-        image: "images/asus-tuf-a15.jpg", // ✅ 本地图片路径
+        image: "images/asus-tuf-a15.jpg",
         links: {
             solver: "https://amzn.to/46wZnWM",
             value: "https://amzn.to/4rP6vGj",
@@ -214,7 +214,7 @@ const productsDB = [
         price: "$1,299",
         release_year: 2022,
         evidence_count: 180,
-        image: "images/surface-laptop-5.jpg", // ✅ 本地图片路径
+        image: "images/surface-laptop-5.jpg",
         links: {
             solver: "https://amzn.to/4qx0a16",
             value: "https://amzn.to/3MBbFXr",
@@ -248,14 +248,14 @@ const productsDB = [
         ]
     },
     {
-        id: "acer-swift-go-14",
+        id: "acer-swift-go-14-old",
         category: "laptop",
         brand: "Acer",
-        model: "Swift Go 14",
+        model: "Swift Go 14 (2023)",
         price: "$799",
         release_year: 2023,
         evidence_count: 450,
-        image: "images/acer-swift-go-14.jpg", // ✅ 本地图片路径
+        image: "images/acer-swift-go-14.jpg",
         links: {
             solver: "https://amzn.to/4rejrp5",
             value: "https://amzn.to/4kAUrGn",
@@ -296,7 +296,7 @@ const productsDB = [
         price: "$1,099",
         release_year: 2023,
         evidence_count: 310,
-        image: "images/samsung-galaxy-book3.jpg", // ✅ 本地图片路径
+        image: "images/samsung-galaxy-book3.jpg",
         links: {
             solver: "https://amzn.to/4cq58t4",
             value: "https://amzn.to/466tbt7",
@@ -337,7 +337,7 @@ const productsDB = [
         price: "$1,199",
         release_year: 2023,
         evidence_count: 980,
-        image: "images/lenovo-legion-5.jpg", // ✅ 本地图片路径
+        image: "images/lenovo-legion-5.jpg",
         links: {
             solver: "https://amzn.to/463YrsV",
             value: "https://amzn.to/3OpuxsR",
@@ -378,7 +378,7 @@ const productsDB = [
         price: "$1,299",
         release_year: 2022,
         evidence_count: 720,
-        image: "images/macbook-pro-13-m2.jpg", // ✅ 本地图片路径
+        image: "images/macbook-pro-13-m2.jpg",
         links: {
             solver: "https://amzn.to/3ZyvtO1",
             value: "https://amzn.to/3MsXTG7",
@@ -412,7 +412,345 @@ const productsDB = [
         ]
     },
 
-    // ================= 3D PRINTERS (6 Models) =================
+    // ================= [NEW] LAPTOPS (8 Models - Placeholder Links) =================
+    {
+        id: "macbook-air-15-m3",
+        category: "laptop",
+        brand: "Apple",
+        model: "MacBook Air 15 (M3)",
+        price: "$1,299",
+        release_year: 2026,
+        evidence_count: 3400,
+        image: "images/apple-macbook-air-15.jpg",
+        links: {
+            solver: "https://amzn.to/3IZ1234",
+            value: "https://amzn.to/3IZ5678",
+            antidote_1: "https://amzn.to/placeholder_case",
+            antidote_2: "https://amzn.to/placeholder_hub"
+        },
+        recommendations: {
+            primary: { name: "MacBook Pro 14", link: "https://amzn.to/placeholder_mbp", benefits: ["Active Cooling", "120Hz Screen", "HDMI Port"] },
+            secondary: { name: "Air 13 (M2)", link: "https://amzn.to/placeholder_air2", reason: "Better value for casual use." }
+        },
+        description_summary: "The 15-inch MacBook Air M3 pairs an exceptional chip with a fanless chassis, creating a specific long-term reliability profile. While the build quality is industry-leading, the lack of active cooling leads to significant thermal saturation during sustained workloads.",
+        risk_data: {
+            long_term_risk: "Logic board failure is a total loss. Zero repairability.",
+            maintenance_cost: "Total Loss",
+            issues: [
+                { name: "Crack-Gate", severity: 3, frequency: 2, desc: "Thin screen cracks easily with keyboard debris." },
+                { name: "No Fan", severity: 2, frequency: 3, desc: "Performance drops 20% during long tasks." },
+                { name: "SSD Wear", severity: 2, frequency: 2, desc: "Soldered SSD means data is lost if board dies." }
+            ]
+        },
+        long_term_analysis: "The fanless design is great for silence but introduces long-term risks if you consistently push the M3 chip. Heat buildup spreads through the chassis, degrading the battery cells faster than actively cooled models.",
+        maintenance_cost_analysis: "Total Loss ($700+). Screen or board replacement costs exceed the value of a used unit.",
+        who_should_avoid: "Video editors, 3D renders, and multitaskers who need sustained performance without throttling.",
+        faq_section: [
+            { q: "Does it overheat?", a: "It gets hot and throttles performance to stay safe." },
+            { q: "Is the screen fragile?", a: "Yes, the 15-inch glass is very thin and prone to pressure cracks." },
+            { q: "Can I repair it myself?", a: "No, components are soldered and glued." }
+        ],
+        accessories: [
+            { name: "Hard Shell Case", link: "https://amzn.to/3TMxxxx", desc: "Protect the screen." },
+            { name: "Thermal Pad Mod", link: "https://amzn.to/placeholder", desc: "Help dissipate heat." }
+        ]
+    },
+    {
+        id: "thinkpad-x1-carbon-gen12",
+        category: "laptop",
+        brand: "Lenovo",
+        model: "ThinkPad X1 Carbon Gen 12",
+        price: "$1,899",
+        release_year: 2025,
+        evidence_count: 1250,
+        image: "images/lenovo-thinkpad-x1.jpg",
+        links: {
+            solver: "https://amzn.to/3TPL8u1",
+            value: "https://amzn.to/3vxM5qL",
+            antidote_1: "https://amzn.to/placeholder_sleeve",
+            antidote_2: "https://amzn.to/placeholder_dock"
+        },
+        recommendations: {
+            primary: { name: "Framework Laptop 13", link: "https://amzn.to/placeholder_frame", benefits: ["Modular Ports", "User Repairable", "Cheaper RAM"] },
+            secondary: { name: "ThinkPad T14 (AMD)", link: "https://amzn.to/placeholder_t14", reason: "Better thermals & value." }
+        },
+        description_summary: "The corporate standard for durability, yet the Gen 12 suffers from modern 'thinness' trends. Long-term reliability analysis shows that the premium 'soft-touch' coating degrades and becomes sticky after 18 months.",
+        risk_data: {
+            long_term_risk: "Soft-touch coating turns sticky. Soldered RAM limits longevity.",
+            maintenance_cost: "Medium",
+            issues: [
+                { name: "Coating Peel", severity: 2, frequency: 3, desc: "Rubberized coating degrades and peels after 18 months." },
+                { name: "Thermal Throttle", severity: 2, frequency: 3, desc: "Ultra-thin chassis struggles to cool Core Ultra chips." },
+                { name: "Soldered RAM", severity: 1, frequency: 3, desc: "Cannot upgrade memory later." }
+            ]
+        },
+        long_term_analysis: "While durable against drops, the cosmetic durability is poor. The rubberized paint absorbs oils and becomes sticky or peels at the corners. The cooling system is undersized for the CPU.",
+        maintenance_cost_analysis: "Medium ($150-$300). Keyboard replacement is difficult as it is riveted to the palm rest.",
+        who_should_avoid: "Users who keep laptops for 5+ years and need cosmetic perfection or RAM upgrades.",
+        faq_section: [
+            { q: "Can I upgrade RAM?", a: "No, it is completely soldered." },
+            { q: "Does the paint peel?", a: "Yes, heavily on corners after 1-2 years." },
+            { q: "Is the fan loud?", a: "Yes, it spins up frequently due to the thin chassis." }
+        ],
+        accessories: [
+            { name: "Laptop Sleeve", link: "https://amzn.to/49nXxyz", desc: "Prevent coating wear." },
+            { name: "Thunderbolt Dock", link: "https://amzn.to/placeholder", desc: "Expand connectivity." }
+        ]
+    },
+    {
+        id: "dell-xps-13-plus-2026",
+        category: "laptop",
+        brand: "Dell",
+        model: "XPS 13 Plus (2026)",
+        price: "$1,499",
+        release_year: 2026,
+        evidence_count: 560,
+        image: "images/dell-xps-13-plus-2026.jpg",
+        links: {
+            solver: "https://amzn.to/3xEplaceholder",
+            value: "https://amzn.to/4aFplaceholder",
+            antidote_1: "https://amzn.to/placeholder_hub",
+            antidote_2: "https://amzn.to/placeholder_pad"
+        },
+        recommendations: {
+            primary: { name: "MacBook Air M3", link: "https://amzn.to/placeholder_air", benefits: ["Physical Keys", "Better Battery", "Cooler"] },
+            secondary: { name: "ThinkPad Z13", link: "https://amzn.to/placeholder_z13", reason: "More durable OLED." }
+        },
+        description_summary: "A beautiful disaster of design over function. The XPS 13 Plus (2026) continues to plague users with its experimental capacitive touch bar and invisible trackpad. Common complaints focus on the touch row freezing or registering phantom inputs.",
+        risk_data: {
+            long_term_risk: "Invisible trackpad failure and OLED burn-in.",
+            maintenance_cost: "High",
+            issues: [
+                { name: "Touch Bar Dead", severity: 3, frequency: 3, desc: "Function row LEDs die or freeze." },
+                { name: "Invisible Pad", severity: 2, frequency: 3, desc: "Haptic trackpad drifts over time." },
+                { name: "Heat Trap", severity: 2, frequency: 3, desc: "Glass deck traps heat, degrading battery." }
+            ]
+        },
+        long_term_analysis: "Form strictly over function. The capacitive function row is a point of failure that requires replacing the entire top deck. The heat trapped by the glass palm rest degrades the battery health rapidly.",
+        maintenance_cost_analysis: "High ($500+). Requires replacing the entire top glass assembly and palm rest.",
+        who_should_avoid: "Developers (need physical F-keys), writers, and users in warm climates.",
+        faq_section: [
+            { q: "Are keys physical?", a: "No, the top row is capacitive touch." },
+            { q: "Battery life?", a: "Poor due to OLED power draw and heat degradation." },
+            { q: "Does the trackpad fail?", a: "Yes, the haptic motor can drift or fail." }
+        ],
+        accessories: [
+            { name: "USB-C Hub", link: "https://amzn.to/3vvplaceholder", desc: "You need ports." },
+            { name: "Bluetooth Keyboard", link: "https://amzn.to/placeholder", desc: "Backup input." }
+        ]
+    },
+    {
+        id: "hp-spectre-x360-14-amd",
+        category: "laptop",
+        brand: "HP",
+        model: "Spectre x360 14 (Ryzen AI)",
+        price: "$1,649",
+        release_year: 2026,
+        evidence_count: 410,
+        image: "images/hp-spectre-x360-14.jpg",
+        links: {
+            solver: "https://amzn.to/3VYplaceholder",
+            value: "https://amzn.to/4c9placeholder",
+            antidote_1: "https://amzn.to/placeholder_pen",
+            antidote_2: "https://amzn.to/placeholder_care"
+        },
+        recommendations: {
+            primary: { name: "Lenovo Yoga 9i", link: "https://amzn.to/placeholder_yoga", benefits: ["Better Soundbar", "Sturdier Hinge"] },
+            secondary: { name: "LG Gram 2-in-1", link: "https://amzn.to/placeholder_gram", reason: "Lighter weight." }
+        },
+        description_summary: "The HP Spectre x360 offers a fantastic screen and Ryzen AI performance, but remains plagued by mechanical hinge issues. Long-term usage reports indicate that the 360-degree hinges lose tension after 12-18 months of daily flipping.",
+        risk_data: {
+            long_term_risk: "Hinge wobble and OLED burn-in.",
+            maintenance_cost: "Medium",
+            issues: [
+                { name: "Hinge Play", severity: 2, frequency: 3, desc: "Screen wobbles when typing after 1 year." },
+                { name: "PWM Flicker", severity: 1, frequency: 2, desc: "Headaches at low brightness." },
+                { name: "Rubber Feet", severity: 1, frequency: 3, desc: "Bottom strips peel off easily." }
+            ]
+        },
+        long_term_analysis: "Mechanical hinges are the specific weak point here. Frequent flipping wears out the resistance mechanisms. While the Ryzen chip runs cooler than Intel, the condensed layout still leads to hot spots.",
+        maintenance_cost_analysis: "Medium ($300). Hinge tightening is difficult; usually requires full assembly replacement.",
+        who_should_avoid: "Users sensitive to screen flicker (PWM) and heavy typists who hate screen wobble.",
+        faq_section: [
+            { q: "Is the hinge durable?", a: "It loosens significantly with daily flipping." },
+            { q: "Is it good for eyes?", a: "PWM flickering can cause strain at low brightness." },
+            { q: "Does it get hot?", a: "Warm, but Ryzen manages heat better than Intel." }
+        ],
+        accessories: [
+            { name: "Stylus Pen", link: "https://amzn.to/3xkplaceholder", desc: "Reduce hinge stress." },
+            { name: "Super Glue", link: "https://amzn.to/placeholder", desc: "For rubber feet." }
+        ]
+    },
+    {
+        id: "asus-zephyrus-g14-2025",
+        category: "laptop",
+        brand: "ASUS",
+        model: "ROG Zephyrus G14 (2025)",
+        price: "$1,599",
+        release_year: 2025,
+        evidence_count: 1500,
+        image: "images/asus-rog-zephyrus-g14.jpg",
+        links: {
+            solver: "https://amzn.to/4cLplaceholder",
+            value: "https://amzn.to/3vsplaceholder",
+            antidote_1: "https://amzn.to/placeholder_cooler",
+            antidote_2: "https://amzn.to/placeholder_paste"
+        },
+        recommendations: {
+            primary: { name: "Razer Blade 14", link: "https://amzn.to/placeholder_blade", benefits: ["Stiffer Chassis", "Vapor Chamber"] },
+            secondary: { name: "Lenovo Legion Slim", link: "https://amzn.to/placeholder_legion", reason: "Cooler VRMs." }
+        },
+        description_summary: "The king of 14-inch gaming brings incredible performance but runs at volcanic temperatures. The compact chassis simply cannot dissipate the heat from high-end components effectively. Reliability analysis shows a high risk of 'Liquid Metal Pump-out'.",
+        risk_data: {
+            long_term_risk: "Overheating components and liquid metal pump-out.",
+            maintenance_cost: "Medium",
+            issues: [
+                { name: "Surface Lava", severity: 2, frequency: 3, desc: "Keyboard hits 50°C+ during use." },
+                { name: "Liquid Metal", severity: 3, frequency: 1, desc: "Can leak or pump out, requiring repaste." },
+                { name: "Coil Whine", severity: 1, frequency: 3, desc: "Electrical buzzing noise is audible." }
+            ]
+        },
+        long_term_analysis: "Components degrade faster when running at 95°C constantly. The liquid metal thermal compound requires checking after 1-2 years, which is risky for users to DIY.",
+        maintenance_cost_analysis: "Medium ($100-$200). Fans are replaceable, but repasting liquid metal is dangerous.",
+        who_should_avoid: "Users who keep laptops on their laps and those uncomfortable with high temperatures.",
+        faq_section: [
+            { q: "Is it hot?", a: "Extremely. It is uncomfortable to touch under load." },
+            { q: "Is it loud?", a: "Yes, fans scream in Turbo mode." },
+            { q: "Is the screen good?", a: "Yes, OLED is beautiful but risks burn-in with static HUDs." }
+        ],
+        accessories: [
+            { name: "Cooling Pad", link: "https://amzn.to/3xplaceholder", desc: "Mandatory for gaming." },
+            { name: "External Keyboard", link: "https://amzn.to/placeholder", desc: "Avoid burning fingers." }
+        ]
+    },
+    {
+        id: "surface-pro-11",
+        category: "laptop",
+        brand: "Microsoft",
+        model: "Surface Pro 11",
+        price: "$1,199",
+        release_year: 2026,
+        evidence_count: 650,
+        image: "images/microsoft-surface-pro-11.jpg",
+        links: {
+            solver: "https://amzn.to/3IXplaceholder",
+            value: "https://amzn.to/3TNplaceholder",
+            antidote_1: "https://amzn.to/placeholder_case",
+            antidote_2: "https://amzn.to/placeholder_kb"
+        },
+        recommendations: {
+            primary: { name: "iPad Pro M4", link: "https://amzn.to/placeholder_ipad", benefits: ["Better Tablet App", "Resale Value"] },
+            secondary: { name: "Dell XPS 13 2-in-1", link: "https://amzn.to/placeholder_xps2in1", reason: "Better repairability." }
+        },
+        description_summary: "A repair nightmare wrapped in a sleek shell. The Surface Pro 11 continues Microsoft's trend of gluing everything together. The battery is buried under the fragile screen and motherboard, making replacement nearly impossible without breaking the display.",
+        risk_data: {
+            long_term_risk: "Battery swelling pushes screen out. Unrepairable.",
+            maintenance_cost: "Impossible",
+            issues: [
+                { name: "Glue Design", severity: 3, frequency: 3, desc: "Opened only by risking screen breakage." },
+                { name: "Keyboard Peel", severity: 2, frequency: 3, desc: "Alcantara keyboard cover frays." },
+                { name: "Battery Bloat", severity: 3, frequency: 2, desc: "Heat kills battery quickly." }
+            ]
+        },
+        long_term_analysis: "Once the battery degrades (typically 2-3 years), replacing it is not a viable option for most users. Microsoft stores typically offer a 'swap' for a high fee rather than a repair.",
+        maintenance_cost_analysis: "Impossible. Microsoft replaces the unit for a ~$500 fee.",
+        who_should_avoid: "Eco-conscious users, right-to-repair advocates, and heavy daily users.",
+        faq_section: [
+            { q: "Can I replace the battery?", a: "Extremely difficult and risky." },
+            { q: "Is the keyboard included?", a: "No, costs $180 extra and wears out." },
+            { q: "Does it overheat?", a: "Yes, the back gets very hot." }
+        ],
+        accessories: [
+            { name: "Rugged Case", link: "https://amzn.to/3PEplaceholder", desc: "Protect glass." },
+            { name: "Type Cover", link: "https://amzn.to/placeholder", desc: "Essential purchase." }
+        ]
+    },
+    {
+        id: "acer-swift-go-14-new",
+        category: "laptop",
+        brand: "Acer",
+        model: "Swift Go 14",
+        price: "$899",
+        release_year: 2025,
+        evidence_count: 980,
+        image: "images/acer-swift-go-14.jpg",
+        links: {
+            solver: "https://amzn.to/3TKplaceholder",
+            value: "https://amzn.to/3vyplaceholder",
+            antidote_1: "https://amzn.to/placeholder_wifi",
+            antidote_2: "https://amzn.to/placeholder_mouse"
+        },
+        recommendations: {
+            primary: { name: "MacBook Air M1", link: "https://amzn.to/placeholder_airm1", benefits: ["Better Build", "Resale Value"] },
+            secondary: { name: "Asus Zenbook 14", link: "https://amzn.to/placeholder_zenbook", reason: "Better chassis rigidity." }
+        },
+        description_summary: "High specs for a cheap price, paid for by build quality. The Acer Swift Go 14 is a budget king that feels like a budget toy after a year. Long-term reliability issues plague the plastic trackpad, which wears down to a glossy, sticky mess.",
+        risk_data: {
+            long_term_risk: "Chassis flex, Wi-Fi failure, and fan bearing noise.",
+            maintenance_cost: "Low",
+            issues: [
+                { name: "Fan Noise", severity: 2, frequency: 3, desc: "Whining noise develops after 9 months." },
+                { name: "WiFi Drop", severity: 2, frequency: 3, desc: "MediaTek card is unreliable." },
+                { name: "Bloatware", severity: 1, frequency: 3, desc: "Ad-supported OS experience." }
+            ]
+        },
+        long_term_analysis: "The cooling fans are the weak link, often failing early. The chassis flexes significantly, potentially causing motherboard stress over time. Software bloatware requires a fresh install to get acceptable performance.",
+        maintenance_cost_analysis: "Low ($30). Fans and WiFi card are cheap and easy to DIY swap.",
+        who_should_avoid: "Students who need silence in libraries and those needing stable internet.",
+        faq_section: [
+            { q: "Is it loud?", a: "Yes, fans are high-pitched." },
+            { q: "Is WiFi good?", a: "No, swap the card for an Intel AX210 immediately." },
+            { q: "Does it feel cheap?", a: "Yes, plastic build quality." }
+        ],
+        accessories: [
+            { name: "Intel WiFi Card", link: "https://amzn.to/4cJplaceholder", desc: "Fix connectivity." },
+            { name: "Wireless Mouse", link: "https://amzn.to/placeholder", desc: "Fix trackpad issues." }
+        ]
+    },
+    {
+        id: "samsung-galaxy-book4-edge",
+        category: "laptop",
+        brand: "Samsung",
+        model: "Galaxy Book4 Edge",
+        price: "$1,349",
+        release_year: 2026,
+        evidence_count: 220,
+        image: "images/samsung-galaxy-book4.jpg",
+        links: {
+            solver: "https://amzn.to/49kplaceholder",
+            value: "https://amzn.to/4aLplaceholder",
+            antidote_1: "https://amzn.to/3vAplaceholder",
+            antidote_2: "https://amzn.to/placeholder_sleeve"
+        },
+        recommendations: {
+            primary: { name: "LG Gram 16", link: "https://amzn.to/placeholder_gram", benefits: ["Lighter", "Matte Screen Option"] },
+            secondary: { name: "MacBook Air 15", link: "https://amzn.to/placeholder_air15", reason: "Better chassis rigidity." }
+        },
+        description_summary: "Incredibly thin, incredibly fragile. Samsung continues to prioritize thinness over structural integrity, leading to the continuation of 'Crack-gate'. The ultra-thin AMOLED panels are highly susceptible to cracking from chassis flex.",
+        risk_data: {
+            long_term_risk: "Screen cracking from chassis flex.",
+            maintenance_cost: "High",
+            issues: [
+                { name: "Screen Crack", severity: 3, frequency: 2, desc: "Cracks inside backpacks from pressure." },
+                { name: "Chassis Flex", severity: 2, frequency: 3, desc: "Bends under pressure." },
+                { name: "Touchpad Click", severity: 1, frequency: 2, desc: "Accidental clicks when lifting." }
+            ]
+        },
+        long_term_analysis: "The internal torsion from opening the lid can crack the glass over time. The cooling is minimal, leading to hot spots. It is a device designed for a desk, not a backpack.",
+        maintenance_cost_analysis: "High ($400+). AMOLED screens are premium parts and expensive to replace.",
+        who_should_avoid: "Students, commuters with packed bags, and clumsy users.",
+        faq_section: [
+            { q: "Is it fragile?", a: "Yes, very. Screen cracks are common." },
+            { q: "Is battery good?", a: "Excellent, but fragile build." },
+            { q: "Does the screen wobble?", a: "Yes, hinges are weak for the size." }
+        ],
+        accessories: [
+            { name: "Hard Sleeve", link: "https://amzn.to/3vAplaceholder", desc: "Must have protection." },
+            { name: "Screen Protector", link: "https://amzn.to/placeholder", desc: "Extra layer of safety." }
+        ]
+    },
+
+    // ================= [EXISTING] 3D PRINTERS (6 Models) =================
     {
         id: "ender-3-v3-se",
         category: "3d_printer",
@@ -421,7 +759,7 @@ const productsDB = [
         price: "$199",
         release_year: 2023,
         evidence_count: 2400,
-        image: "images/ender-3-v3-se.jpg", // ✅ 本地图片路径
+        image: "images/ender-3-v3-se.jpg",
         links: {
             solver: "https://amzn.to/4rO30zE",
             value: "https://amzn.to/4bV0DGS",
@@ -432,22 +770,22 @@ const productsDB = [
             primary: { name: "Flashforge 5M", link: "https://amzn.to/4rO30zE", benefits: ["CoreXY Speed", "Auto-Leveling", "Reliable"] },
             secondary: { name: "Sovol SV06", link: "https://amzn.to/4bV0DGS", reason: "Linear rails (durable)." }
         },
-        description_summary: "Gantry wobble and plastic gears degrade print quality after 500 hours.",
+        description_summary: "Budget king but suffers from mechanical wear. Gantry wobble and plastic gears degrade print quality after 500 hours.",
         risk_data: {
-            long_term_risk: "Gantry wobble and extruder wear.",
+            long_term_risk: "Gantry wobble and extruder wear degrade quality over time.",
             maintenance_cost: "Medium",
             issues: [
-                { name: "Gantry Wobble", desc: "X-gantry sagging.", severity: 2, frequency: 3 },
-                { name: "Gear Wear", desc: "Plastic gears strip.", severity: 2, frequency: 2 },
-                { name: "Spaghetti", desc: "No AI detection.", severity: 2, frequency: 2 }
+                { name: "Gantry Wobble", severity: 2, frequency: 3, desc: "Single Z-axis motor leads to X-gantry sagging on the right side." },
+                { name: "Gear Wear", severity: 2, frequency: 2, desc: "Plastic extruder gears strip when using retractions heavily." },
+                { name: "Spaghetti", severity: 2, frequency: 2, desc: "No AI detection for failed prints." }
             ]
         },
-        long_term_analysis: "Plastic frame mounts loosen. Wheels wear out creating slop.",
-        maintenance_cost_analysis: "Low ($20–$50). Time cost is high.",
-        who_should_avoid: "Schools needing reliability.",
+        long_term_analysis: "Plastic frame mounts and soft aluminum extrusions loosen from vibration. High-speed printing accelerates wear on the V-wheels, creating 'slop' in the motion system.",
+        maintenance_cost_analysis: "Low ($20–$50). Parts are cheap, but the 'time cost' is high. You will spend hours recalibrating.",
+        who_should_avoid: "Print farms and schools needing reliability.",
         faq_section: [
-            { q: "What is gantry sag?", a: "Print arm droops." },
-            { q: "Is it reliable?", a: "Requires tinkering." }
+            { q: "What is gantry sag?", a: "The print arm droops on one side, making prints crooked." },
+            { q: "Is it reliable?", a: "Only if you tinker with it constantly." }
         ],
         accessories: [
             { name: "CR Touch", link: "https://amzn.to/4avRTV1", desc: "Fix leveling." },
@@ -462,7 +800,7 @@ const productsDB = [
         price: "$299",
         release_year: 2023,
         evidence_count: 920,
-        image: "images/bambu-a1-mini.jpg", // ✅ 本地图片路径
+        image: "images/bambu-a1-mini.jpg",
         links: {
             solver: "https://amzn.to/3MIGFVp",
             value: "https://amzn.to/4agB7KS",
@@ -473,22 +811,22 @@ const productsDB = [
             primary: { name: "Prusa Mini+", link: "https://amzn.to/3MIGFVp", benefits: ["Open Source", "Offline Privacy", "Moddable"] },
             secondary: { name: "AnkerMake M5C", link: "https://amzn.to/4agB7KS", reason: "Faster & Metal." }
         },
-        description_summary: "Proprietary 'Walled Garden'. 100% reliance on Bambu for parts.",
+        description_summary: "Mechanically excellent but 'Walled Garden'. You rely 100% on Bambu for parts, and the 180mm volume is limiting.",
         risk_data: {
-            long_term_risk: "Proprietary parts.",
+            long_term_risk: "Proprietary parts mean you rely 100% on Bambu for repairs.",
             maintenance_cost: "Medium",
             issues: [
-                { name: "Cloud Logs", desc: "Privacy concerns.", severity: 2, frequency: 2 },
-                { name: "Small Volume", desc: "180mm limit.", severity: 1, frequency: 3 },
-                { name: "Proprietary", desc: "No generic parts.", severity: 1, frequency: 3 }
+                { name: "Cloud Logs", desc: "Print logs sent to cloud servers.", severity: 2, frequency: 2 },
+                { name: "Small Volume", desc: "180mm cube limits cosplay prints.", severity: 1, frequency: 3 },
+                { name: "Proprietary", desc: "Cannot use generic cheap parts.", severity: 1, frequency: 3 }
             ]
         },
-        long_term_analysis: "Reliable, but ecosystem lock-in is the risk. Small build volume limits use.",
-        maintenance_cost_analysis: "Medium. Parts expensive.",
-        who_should_avoid: "Privacy-conscious users.",
+        long_term_analysis: "Mechanically reliable, but if Bambu Lab changes their parts catalog, the printer loses functionality. The 180mm build volume often causes buyer's remorse after 6 months.",
+        maintenance_cost_analysis: "Medium. Proprietary parts cost 3x more than generic Ender parts. You are locked into their ecosystem.",
+        who_should_avoid: "Privacy-conscious users and cosplay makers who need larger parts.",
         faq_section: [
-            { q: "Is it too small?", a: "Yes, for helmets." },
-            { q: "Generic parts?", a: "No." }
+            { q: "Is it too small?", a: "Yes, for helmets or large props." },
+            { q: "Can I use generic nozzles?", a: "No, you need Bambu hotends." }
         ],
         accessories: [
             { name: "PEI Plate", link: "https://amzn.to/4kyuwPk", desc: "Better adhesion." },
@@ -503,7 +841,7 @@ const productsDB = [
         price: "$180",
         release_year: 2023,
         evidence_count: 310,
-        image: "images/anycubic-photon-mono.jpg", // ✅ 本地图片路径
+        image: "images/anycubic-photon-mono.jpg",
         links: {
             solver: "https://amzn.to/4tCngpS",
             value: "https://amzn.to/469PUEF",
@@ -514,22 +852,22 @@ const productsDB = [
             primary: { name: "Flashforge 5M", link: "https://amzn.to/4tCngpS", benefits: ["Non-Toxic", "Easy Setup", "Safe for Home"] },
             secondary: { name: "Elegoo Mars 4", link: "https://amzn.to/469PUEF", reason: "Built-in Air Filter." }
         },
-        description_summary: "Resin printing is hazardous. FEP leaks and toxic fumes.",
+        description_summary: "Resin printing is hazardous. FEP leaks can ruin the screen, and ventilation is mandatory. High maintenance effort.",
         risk_data: {
-            long_term_risk: "LCD burnout and health hazards.",
+            long_term_risk: "LCD screen is a consumable. Resin fumes are hazardous.",
             maintenance_cost: "High",
             issues: [
-                { name: "Toxic Fumes", desc: "Requires ventilation.", severity: 3, frequency: 3 },
-                { name: "FEP Leak", desc: "Resin cures on screen.", severity: 3, frequency: 1 },
-                { name: "Messy Cleanup", desc: "Isopropyl washing.", severity: 2, frequency: 3 }
+                { name: "Toxic Fumes", desc: "Resin fumes require ventilation.", severity: 3, frequency: 3 },
+                { name: "FEP Leak", desc: "Resin leaks cure on the screen.", severity: 3, frequency: 1 },
+                { name: "Messy Cleanup", desc: "Requires isopropyl alcohol washing.", severity: 2, frequency: 3 }
             ]
         },
-        long_term_analysis: "LCD screen burns out after 2000 hours. FEP leaks are catastrophic.",
-        maintenance_cost_analysis: "High ($50+). Screen replacement.",
-        who_should_avoid: "Apartment dwellers.",
+        long_term_analysis: "The LCD screen is a 'consumable' component that burns out after ~2000 hours of UV exposure. FEP film leaks are a catastrophic failure mode that can ruin the screen and motor.",
+        maintenance_cost_analysis: "High ($50+). Screen replacement is expensive. A spill can total the machine.",
+        who_should_avoid: "Apartment dwellers without dedicated ventilation, families with pets/kids, and anyone unwilling to handle toxic chemicals.",
         faq_section: [
-            { q: "Is it safe?", a: "No, fumes are toxic." },
-            { q: "Screen life?", a: "Consumable." }
+            { q: "Is it safe?", a: "No, resin fumes are toxic without ventilation." },
+            { q: "Does the screen last?", a: "No, it burns out eventually." }
         ],
         accessories: [
             { name: "Wash & Cure", link: "https://amzn.to/4tCG87Y", desc: "Safety essential." },
@@ -544,7 +882,7 @@ const productsDB = [
         price: "$280",
         release_year: 2023,
         evidence_count: 580,
-        image: "images/elegoo-neptune-4.jpg", // ✅ 本地图片路径
+        image: "images/elegoo-neptune-4.jpg",
         links: {
             solver: "https://amzn.to/4rhuAFL",
             value: "https://amzn.to/4rhu1M9",
@@ -555,22 +893,22 @@ const productsDB = [
             primary: { name: "Creality K1C", link: "https://amzn.to/4rhuAFL", benefits: ["Stable Firmware", "Enclosed", "Faster"] },
             secondary: { name: "Ender 3 V3 KE", link: "https://amzn.to/4rhu1M9", reason: "Easier to fix." }
         },
-        description_summary: "Klipper firmware bugs cause nozzle crashes. Very loud.",
+        description_summary: "Fast but buggy. Klipper firmware issues often cause the nozzle to crash into the bed. Fans are incredibly loud.",
         risk_data: {
-            long_term_risk: "Firmware bugs and wheel wear.",
+            long_term_risk: "Firmware bugs cause nozzle crashes. Wheels wear out.",
             maintenance_cost: "Medium",
             issues: [
-                { name: "Z-Offset Bug", desc: "Nozzle crashes into bed.", severity: 3, frequency: 2 },
-                { name: "Loud Fans", desc: "Jet engine noise.", severity: 2, frequency: 3 },
-                { name: "Wheel Dust", desc: "POM wheels wear out.", severity: 2, frequency: 2 }
+                { name: "Z-Offset Bug", desc: "Printer forgets height, crashes into bed.", severity: 3, frequency: 2 },
+                { name: "Loud Fans", desc: "Auxiliary fans sound like a jet engine.", severity: 2, frequency: 3 },
+                { name: "Wheel Dust", desc: "POM wheels wear out at high speeds.", severity: 2, frequency: 2 }
             ]
         },
-        long_term_analysis: "Z-Offset bug causes physical damage. POM wheels wear down fast.",
-        maintenance_cost_analysis: "Medium ($30+). Bed sheets.",
-        who_should_avoid: "Beginners.",
+        long_term_analysis: "Long term stability is poor; the 'Z-Offset' bug often causes the nozzle to crash into the print bed, destroying the PEI sheet. The proprietary POM wheels wear down faster than standard V-wheels.",
+        maintenance_cost_analysis: "Medium ($30+). Bed sheets need replacement often due to crashes.",
+        who_should_avoid: "Beginners who don't know how to edit config files, and anyone who values a quiet working environment.",
         faq_section: [
-            { q: "Is it buggy?", a: "Yes, firmware is unstable." },
-            { q: "Quiet?", a: "No, very loud." }
+            { q: "Is it buggy?", a: "Yes, firmware loses settings often." },
+            { q: "Is it quiet?", a: "No, it is extremely loud." }
         ],
         accessories: [
             { name: "PEI Plate", link: "https://amzn.to/4ctaUtW", desc: "Spare plate." },
@@ -585,7 +923,7 @@ const productsDB = [
         price: "$429",
         release_year: 2019,
         evidence_count: 1200,
-        image: "images/prusa-mini.jpg", // ✅ 本地图片路径
+        image: "images/prusa-mini.jpg",
         links: {
             solver: "https://amzn.to/3MEIa77",
             value: "https://amzn.to/3OcjO5b",
@@ -596,22 +934,22 @@ const productsDB = [
             primary: { name: "Flashforge 5M", link: "https://amzn.to/3MEIa77", benefits: ["4x Faster", "Modern Tech", "Cheaper"] },
             secondary: { name: "Sovol SV07", link: "https://amzn.to/3OcjO5b", reason: "Larger & Faster." }
         },
-        description_summary: "Reliable tank but obsolete. Slow speeds make it poor value.",
+        description_summary: "Reliable tank but obsolete. Slow speeds and old tech make it a poor value proposition in 2025.",
         risk_data: {
-            long_term_risk: "Obsolete technology.",
+            long_term_risk: "Obsolete technology. Very slow compared to modern printers.",
             maintenance_cost: "Low",
             issues: [
-                { name: "Slow Speed", desc: "No input shaping.", severity: 2, frequency: 3 },
-                { name: "Bowden Jam", desc: "Tube gap jams.", severity: 2, frequency: 2 },
-                { name: "Overpriced", desc: "Paying for old tech.", severity: 1, frequency: 3 }
+                { name: "Slow Speed", desc: "No input shaping. Very slow prints.", severity: 2, frequency: 3 },
+                { name: "Bowden Jam", desc: "Gap in bowden tube causes jams.", severity: 2, frequency: 2 },
+                { name: "Overpriced", desc: "Paying premium for 2019 tech.", severity: 1, frequency: 3 }
             ]
         },
-        long_term_analysis: "Reliable but extremely slow and overpriced compared to modern printers.",
-        maintenance_cost_analysis: "Low. Parts are standard.",
-        who_should_avoid: "Value seekers.",
+        long_term_analysis: "The long-term risk isn't hardware failure, but obsolescence. You are paying a premium price for speeds that are 4x slower than modern competitors. Reliability is excellent, but 'Value Risk' is extreme.",
+        maintenance_cost_analysis: "Low. Parts are standard and open source. Support is legendary.",
+        who_should_avoid: "Value seekers (it's overpriced) and speed demons (it's slow).",
         faq_section: [
-            { q: "Is it fast?", a: "No, very slow." },
-            { q: "Reliable?", a: "Yes." }
+            { q: "Is it fast?", a: "No, it is very slow by modern standards." },
+            { q: "Is it reliable?", a: "Yes, extremely reliable." }
         ],
         accessories: [
             { name: "Raspberry Pi", link: "https://amzn.to/4awdywx", desc: "OctoPrint" },
@@ -626,7 +964,7 @@ const productsDB = [
         price: "$399",
         release_year: 2023,
         evidence_count: 750,
-        image: "images/creality-k1.jpg", // ✅ 本地图片路径
+        image: "images/creality-k1.jpg",
         links: {
             solver: "https://amzn.to/3Of1sjT",
             value: "https://amzn.to/3ZF3Oen",
@@ -637,22 +975,22 @@ const productsDB = [
             primary: { name: "Flashforge 5M Pro", link: "https://amzn.to/3Of1sjT", benefits: ["Reliable Nozzle", "Better QC", "Plug & Play"] },
             secondary: { name: "QIDI Tech Q1", link: "https://amzn.to/3ZF3Oen", reason: "Heated Chamber." }
         },
-        description_summary: "Beta test product. Gen 1 extruders jam constantly.",
+        description_summary: "A beta test sold to the public. Gen 1 extruders jam constantly. VFA ripples on prints are common.",
         risk_data: {
-            long_term_risk: "Gen 1 extruder jamming.",
+            long_term_risk: "Gen 1 extruder and hotend are prone to jamming.",
             maintenance_cost: "High (Upgrades needed)",
             issues: [
-                { name: "Extruder Jam", desc: "Fails to grip filament.", severity: 3, frequency: 3 },
-                { name: "VFA Ripples", desc: "Artifacts on walls.", severity: 1, frequency: 3 },
-                { name: "Tube Melt", desc: "PTFE melt.", severity: 2, frequency: 2 }
+                { name: "Extruder Jam", desc: "Gen 1 extruder fails to grip filament.", severity: 3, frequency: 3 },
+                { name: "VFA Ripples", desc: "Vertical artifacts on walls due to belts.", severity: 1, frequency: 3 },
+                { name: "Tube Melt", desc: "PTFE tube melts inside the hotend.", severity: 2, frequency: 2 }
             ]
         },
-        long_term_analysis: "High failure rates in Gen 1 extruder. VFA ripples common.",
-        maintenance_cost_analysis: "High ($40+). Needs new extruder.",
-        who_should_avoid: "Users wanting hassle-free.",
+        long_term_analysis: "Long term analysis shows high failure rates in the extruder (filament slipping) and the hotend (error codes). Vertical Fine Artifacts (VFA) on walls are common due to pulley issues.",
+        maintenance_cost_analysis: "High ($40+). You need to buy the upgraded Extruder Kit and Unicorn Nozzle to make it reliable.",
+        who_should_avoid: "Users who want a 'unboxing and print' experience. This machine requires upgrades to be stable.",
         faq_section: [
-            { q: "Does it jam?", a: "Yes, Gen 1 jams often." },
-            { q: "Can I fix it?", a: "Yes, buy Gen 2 kit." }
+            { q: "Does it jam?", a: "Yes, Gen 1 extruders jam often." },
+            { q: "Is the print quality good?", a: "No, VFA ripples are visible." }
         ],
         accessories: [
             { name: "Extruder Kit", link: "https://amzn.to/4kyx6F0", desc: "Essential fix." },
