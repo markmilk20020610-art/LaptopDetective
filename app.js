@@ -1,6 +1,6 @@
-// app.js - v37.0 ENHANCED (Sorting, Stats, Top Lists, Visuals)
+// app.js - v39.0 SPLIT SIDEBAR & LOCAL IMAGES SUPPORT
 
-let currentSort = 'risk-desc'; // 默认排序：风险从高到低
+let currentSort = 'risk-desc';
 
 document.addEventListener('DOMContentLoaded', () => {
     if (typeof productsDB === 'undefined' || !Array.isArray(productsDB)) {
@@ -23,12 +23,13 @@ function initRouter() {
 }
 
 function imgError(image) {
+    // 如果图片挂了，显示一个深色的默认占位图
     image.onerror = "";
-    image.src = "https://placehold.co/600x400/1e293b/475569?text=Image+Unavailable";
+    image.src = "https://placehold.co/600x400/1e293b/475569?text=Image+Missing";
     return true;
 }
 
-// --- HELPER: Sorting Logic (Part 1) ---
+// --- HELPER: Sorting Logic ---
 function getSortedProducts(products) {
     let sorted = [...products];
     switch (currentSort) {
@@ -45,7 +46,7 @@ function getSortedProducts(products) {
     }
 }
 
-// --- HELPER: Statistics Calculation (Part 2) ---
+// --- HELPER: Statistics ---
 function getDbStats() {
     const totalModels = productsDB.length;
     const totalIssues = productsDB.reduce((acc, p) => acc + (p.risk_data.issues ? p.risk_data.issues.length : 0), 0);
@@ -53,20 +54,17 @@ function getDbStats() {
     return { totalModels, totalIssues, date };
 }
 
-// --- HELPER: Get Top Lists (Part 3) ---
+// --- HELPER: Top Lists (Separated by Category) ---
 function getTopLists() {
-    // Calculate scores for all products
-    const withScores = productsDB.map(p => ({
-        ...p,
-        score: RiskCalculator.calculate(p.risk_data.issues)
-    }));
-    
-    // Sort High to Low for Risk
-    const highRisk = [...withScores].sort((a, b) => b.score - a.score).slice(0, 5);
-    // Sort Low to High for Reliable
-    const reliable = [...withScores].sort((a, b) => a.score - b.score).slice(0, 5);
-    
-    return { highRisk, reliable };
+    // 1. Separate products by category
+    const laptops = productsDB.filter(p => p.category === 'laptop').map(p => ({...p, score: RiskCalculator.calculate(p.risk_data.issues)}));
+    const printers = productsDB.filter(p => p.category === '3d_printer').map(p => ({...p, score: RiskCalculator.calculate(p.risk_data.issues)}));
+
+    // 2. Sort High Risk (Descending Score)
+    const riskyLaptops = [...laptops].sort((a, b) => b.score - a.score).slice(0, 3);
+    const riskyPrinters = [...printers].sort((a, b) => b.score - a.score).slice(0, 3);
+
+    return { riskyLaptops, riskyPrinters };
 }
 
 // --- RENDER HOME PAGE ---
@@ -75,22 +73,22 @@ function renderHomePage() {
     if (!app) return;
 
     const stats = getDbStats();
-    const { highRisk, reliable } = getTopLists();
+    const { riskyLaptops, riskyPrinters } = getTopLists();
 
     app.innerHTML = `
         <div class="bg-slate-950 border-b border-slate-800 py-3 px-4">
             <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center text-[10px] uppercase tracking-widest font-bold text-slate-500">
-                <span><i class="fa-solid fa-database mr-2 text-blue-500"></i> ${stats.totalModels} Models Tracked</span>
-                <span><i class="fa-solid fa-bug mr-2 text-red-500"></i> ${stats.totalIssues} Failure Patterns</span>
+                <span><i class="fa-solid fa-database mr-2 text-blue-500"></i> ${stats.totalModels} Models</span>
+                <span><i class="fa-solid fa-bug mr-2 text-red-500"></i> ${stats.totalIssues} Issues</span>
                 <span class="hidden md:inline"><i class="fa-solid fa-clock mr-2 text-emerald-500"></i> Updated: ${stats.date}</span>
             </div>
         </div>
 
-        <div class="bg-slate-900 py-16 px-4 text-center border-b border-slate-800 relative">
-            <h1 class="text-4xl md:text-6xl font-black text-white mb-4 tracking-tighter">
+        <div class="bg-slate-900 py-12 px-4 text-center border-b border-slate-800 relative">
+            <h1 class="text-4xl md:text-5xl font-black text-white mb-4 tracking-tighter">
                 Hardware <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500">Risk Scores</span>
             </h1>
-            <p class="text-xl text-slate-400 mb-8 max-w-2xl mx-auto">
+            <p class="text-lg text-slate-400 mb-8 max-w-xl mx-auto">
                 Real-world failure ratings based on community evidence.
             </p>
             
@@ -103,8 +101,8 @@ function renderHomePage() {
 
             <div class="flex flex-col md:flex-row justify-center gap-4 text-sm z-10 relative">
                 <div class="flex items-center justify-center gap-2">
-                    <span class="text-slate-500 font-bold text-xs uppercase">Sort By:</span>
-                    <select onchange="changeSort(this.value)" class="bg-slate-800 text-white text-xs p-2 rounded border border-slate-700 outline-none hover:border-blue-500 cursor-pointer">
+                    <span class="text-slate-500 font-bold text-xs uppercase">Sort:</span>
+                    <select onchange="changeSort(this.value)" class="bg-slate-800 text-white text-xs p-2 rounded border border-slate-700 outline-none cursor-pointer">
                         <option value="risk-desc" ${currentSort === 'risk-desc' ? 'selected' : ''}>Risk: High to Low</option>
                         <option value="risk-asc" ${currentSort === 'risk-asc' ? 'selected' : ''}>Risk: Low to High</option>
                         <option value="price-asc" ${currentSort === 'price-asc' ? 'selected' : ''}>Price: Low to High</option>
@@ -112,9 +110,9 @@ function renderHomePage() {
                     </select>
                 </div>
                 <div class="flex items-center justify-center gap-4 text-slate-500 font-bold">
-                    <span class="text-slate-700 hidden md:inline">|</span>
-                    <button onclick="handleSearch('laptop')" class="hover:text-white transition flex items-center"><i class="fa-solid fa-laptop mr-2"></i> Laptops</button>
-                    <button onclick="handleSearch('printer')" class="hover:text-white transition flex items-center"><i class="fa-solid fa-print mr-2"></i> Printers</button>
+                    <span class="text-slate-700">|</span>
+                    <button onclick="handleSearch('laptop')" class="hover:text-white transition"><i class="fa-solid fa-laptop mr-1"></i> Laptops</button>
+                    <button onclick="handleSearch('printer')" class="hover:text-white transition"><i class="fa-solid fa-print mr-1"></i> Printers</button>
                 </div>
             </div>
         </div>
@@ -129,11 +127,11 @@ function renderHomePage() {
 
             <div class="hidden lg:block lg:col-span-1 space-y-8">
                 <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
-                    <h3 class="text-red-400 font-bold text-xs uppercase mb-4 flex items-center"><i class="fa-solid fa-triangle-exclamation mr-2"></i> High Risk Models</h3>
+                    <h3 class="text-red-400 font-bold text-xs uppercase mb-4 flex items-center"><i class="fa-solid fa-laptop mr-2"></i> Risky Laptops</h3>
                     <ul class="space-y-3">
-                        ${highRisk.map(p => `
+                        ${riskyLaptops.map(p => `
                             <li onclick="window.location.hash='product/${p.id}'" class="cursor-pointer hover:bg-slate-800 p-2 rounded transition flex justify-between items-center group">
-                                <span class="text-slate-300 text-xs font-bold group-hover:text-white">${p.model}</span>
+                                <span class="text-slate-300 text-xs font-bold group-hover:text-white truncate pr-2">${p.model}</span>
                                 <span class="bg-red-500/20 text-red-400 text-[10px] font-black px-1.5 py-0.5 rounded">${p.score}</span>
                             </li>
                         `).join('')}
@@ -141,12 +139,12 @@ function renderHomePage() {
                 </div>
 
                 <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
-                    <h3 class="text-emerald-400 font-bold text-xs uppercase mb-4 flex items-center"><i class="fa-solid fa-shield-heart mr-2"></i> Most Reliable</h3>
+                    <h3 class="text-orange-400 font-bold text-xs uppercase mb-4 flex items-center"><i class="fa-solid fa-print mr-2"></i> Risky Printers</h3>
                     <ul class="space-y-3">
-                        ${reliable.map(p => `
+                        ${riskyPrinters.map(p => `
                             <li onclick="window.location.hash='product/${p.id}'" class="cursor-pointer hover:bg-slate-800 p-2 rounded transition flex justify-between items-center group">
-                                <span class="text-slate-300 text-xs font-bold group-hover:text-white">${p.model}</span>
-                                <span class="bg-emerald-500/20 text-emerald-400 text-[10px] font-black px-1.5 py-0.5 rounded">${p.score}</span>
+                                <span class="text-slate-300 text-xs font-bold group-hover:text-white truncate pr-2">${p.model}</span>
+                                <span class="bg-orange-500/20 text-orange-400 text-[10px] font-black px-1.5 py-0.5 rounded">${p.score}</span>
                             </li>
                         `).join('')}
                     </ul>
@@ -159,7 +157,6 @@ function renderHomePage() {
                 <p class="text-xs text-slate-500 uppercase tracking-widest mb-4 font-bold">Transparency Statement</p>
                 <p class="text-sm text-slate-400 leading-relaxed">
                     TechDetective is a <strong>community-driven reliability database</strong>. 
-                    We do not accept free review units from manufacturers. 
                     Risk scores based on aggregated failure data.
                 </p>
             </div>
@@ -167,7 +164,7 @@ function renderHomePage() {
     `;
 }
 
-// --- RENDER PRODUCT PAGE (Enhanced) ---
+// --- RENDER PRODUCT PAGE ---
 function renderProductPage(modelId) {
     const p = productsDB.find(x => x.id === modelId);
     if (!p) return renderHomePage();
@@ -176,10 +173,10 @@ function renderProductPage(modelId) {
     const score = RiskCalculator.calculate(issues);
     const level = RiskCalculator.getLevel(score);
     
-    // Get Related Models (Part 4)
+    // Related Models
     const related = productsDB
         .filter(x => x.category === p.category && x.id !== p.id)
-        .slice(0, 3); // Just take 3 for simplicity
+        .slice(0, 3);
 
     const app = document.getElementById('app');
     app.innerHTML = `
@@ -199,81 +196,42 @@ function renderProductPage(modelId) {
                         </div>
                     </div>
                     <h1 class="text-3xl font-black text-white mb-4 leading-none">${p.model}</h1>
-                    
                     <div class="space-y-2 mt-4">
-                        <div class="flex items-center text-xs">
-                            <span class="w-24 text-slate-500 font-bold">Severity</span>
-                            <div class="flex-grow h-2 bg-slate-800 rounded-full overflow-hidden">
-                                <div class="h-full bg-red-500" style="width: ${Math.min(score, 100)}%"></div>
-                            </div>
-                        </div>
-                        <div class="flex items-center text-xs">
-                            <span class="w-24 text-slate-500 font-bold">Frequency</span>
-                            <div class="flex-grow h-2 bg-slate-800 rounded-full overflow-hidden">
-                                <div class="h-full bg-orange-500" style="width: ${Math.min(score * 0.8, 100)}%"></div>
-                            </div>
-                        </div>
-                        <div class="flex items-center text-xs">
-                            <span class="w-24 text-slate-500 font-bold">Repair Cost</span>
-                            <div class="flex-grow h-2 bg-slate-800 rounded-full overflow-hidden">
-                                <div class="h-full bg-blue-500" style="width: ${p.risk_data.maintenance_cost === 'High' ? '90%' : (p.risk_data.maintenance_cost === 'Medium' ? '50%' : '20%')}"></div>
-                            </div>
-                        </div>
+                        <div class="flex items-center text-xs"><span class="w-24 text-slate-500 font-bold">Severity</span><div class="flex-grow h-2 bg-slate-800 rounded-full"><div class="h-full bg-red-500" style="width: ${Math.min(score, 100)}%"></div></div></div>
+                        <div class="flex items-center text-xs"><span class="w-24 text-slate-500 font-bold">Frequency</span><div class="flex-grow h-2 bg-slate-800 rounded-full"><div class="h-full bg-orange-500" style="width: ${Math.min(score * 0.8, 100)}%"></div></div></div>
                     </div>
                 </div>
             </div>
 
-            ${p.long_term_analysis ? `
-            <div class="mb-8">
-                <h3 class="text-white font-bold mb-3 flex items-center"><i class="fa-solid fa-microscope text-blue-500 mr-2"></i> Long-Term Analysis</h3>
-                <p class="text-slate-300 text-sm leading-relaxed bg-slate-800/50 p-4 rounded-xl border border-slate-800">${p.long_term_analysis}</p>
-            </div>` : ''}
+            ${p.long_term_analysis ? `<div class="mb-8"><h3 class="text-white font-bold mb-3">Long-Term Analysis</h3><p class="text-slate-300 text-sm bg-slate-800/50 p-4 rounded-xl border border-slate-800">${p.long_term_analysis}</p></div>` : ''}
 
             <div class="bg-slate-900/50 rounded-xl border border-slate-800 p-6 mb-8">
-                <h3 class="text-slate-200 font-bold mb-4">Detailed Failure Points</h3>
+                <h3 class="text-slate-200 font-bold mb-4">Detailed Failures</h3>
                 <div class="space-y-4">
-                    ${issues.map(i => `
-                        <div class="flex gap-4 p-3 bg-slate-900 rounded border border-slate-800">
-                            <div class="mt-1"><div class="w-2 h-2 rounded-full ${i.severity >= 3 ? 'bg-red-500' : 'bg-yellow-500'}"></div></div>
-                            <div>
-                                <h4 class="text-white font-bold text-sm">${i.name}</h4>
-                                <p class="text-slate-400 text-xs mt-1 leading-relaxed">${i.desc}</p>
-                            </div>
-                        </div>
-                    `).join('')}
+                    ${issues.map(i => `<div class="flex gap-4 p-3 bg-slate-900 rounded border border-slate-800"><div class="mt-1 w-2 h-2 rounded-full ${i.severity >= 3 ? 'bg-red-500' : 'bg-yellow-500'}"></div><div><h4 class="text-white font-bold text-sm">${i.name}</h4><p class="text-slate-400 text-xs mt-1">${i.desc}</p></div></div>`).join('')}
                 </div>
             </div>
 
             <div class="grid md:grid-cols-2 gap-6 mb-8">
                 <div class="bg-emerald-900/10 border border-emerald-500/30 p-5 rounded-xl">
-                    <div class="text-emerald-400 text-xs font-bold uppercase mb-2">Alternative Choice</div>
+                    <div class="text-emerald-400 text-xs font-bold uppercase mb-2">Alternative</div>
                     <h4 class="text-white font-bold mb-2">${p.recommendations.primary.name}</h4>
-                    <a href="${p.links.solver}" target="_blank" class="text-xs text-white bg-emerald-600 px-3 py-2 rounded hover:bg-emerald-500 transition">Check Price</a>
+                    <a href="${p.links.solver}" target="_blank" class="text-xs text-white bg-emerald-600 px-3 py-2 rounded hover:bg-emerald-500">Check Price</a>
                 </div>
-                ${p.accessories && p.accessories.length > 0 ? `
-                <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl">
-                    <div class="text-blue-400 text-xs font-bold uppercase mb-2">Essential Fix</div>
-                    <h4 class="text-white font-bold mb-2">${p.accessories[0].name}</h4>
-                    <a href="${p.accessories[0].link}" target="_blank" class="text-xs text-white bg-blue-600 px-3 py-2 rounded hover:bg-blue-500 transition">View Part</a>
-                </div>` : ''}
+                ${p.accessories && p.accessories.length > 0 ? `<div class="bg-slate-900 border border-slate-800 p-5 rounded-xl"><div class="text-blue-400 text-xs font-bold uppercase mb-2">Fix</div><h4 class="text-white font-bold mb-2">${p.accessories[0].name}</h4><a href="${p.accessories[0].link}" target="_blank" class="text-xs text-white bg-blue-600 px-3 py-2 rounded hover:bg-blue-500">View Part</a></div>` : ''}
             </div>
 
             <div class="mb-12 border-t border-slate-800 pt-8">
-                <h3 class="text-slate-400 font-bold text-sm uppercase mb-4">Compare with Similar Models</h3>
+                <h3 class="text-slate-400 font-bold text-sm uppercase mb-4">Similar Models</h3>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    ${related.map(r => `
-                        <div onclick="window.location.hash='product/${r.id}'" class="bg-slate-900 p-3 rounded-lg border border-slate-800 cursor-pointer hover:border-slate-600 transition">
-                            <div class="text-[10px] text-slate-500 uppercase">${r.brand}</div>
-                            <div class="text-white font-bold text-xs">${r.model}</div>
-                        </div>
-                    `).join('')}
+                    ${related.map(r => `<div onclick="window.location.hash='product/${r.id}'" class="bg-slate-900 p-3 rounded-lg border border-slate-800 cursor-pointer hover:border-slate-600"><div class="text-[10px] text-slate-500 uppercase">${r.brand}</div><div class="text-white font-bold text-xs">${r.model}</div></div>`).join('')}
                 </div>
             </div>
         </div>
     `;
 }
 
-// --- CORE: Create Card ---
+// --- CARD COMPONENT ---
 function createCard(p) {
     const issues = (p.risk_data && p.risk_data.issues) ? p.risk_data.issues : [];
     const score = RiskCalculator.calculate(issues);
@@ -285,7 +243,7 @@ function createCard(p) {
             <div class="h-40 bg-slate-950 relative overflow-hidden">
                 <img src="${p.image}" onerror="imgError(this)" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500">
                 <div class="absolute top-2 right-2 px-2 py-1 ${level.bg} ${level.color} text-[10px] font-black uppercase rounded border ${level.border} backdrop-blur-md">
-                    ${score}
+                    Risk: ${score}
                 </div>
             </div>
             <div class="p-5 flex-grow flex flex-col">
@@ -302,27 +260,12 @@ function createCard(p) {
     `;
 }
 
-// --- Function to handle sorting changes ---
-function changeSort(val) {
-    currentSort = val;
-    handleSearch(document.querySelector('input[type="text"]').value || '');
-}
-
+function changeSort(val) { currentSort = val; handleSearch(document.querySelector('input[type="text"]').value || ''); }
 function handleSearch(val) {
     const term = val.toLowerCase();
     const grid = document.getElementById('product-grid');
     if (!grid) return; 
-    
-    // 1. Filter
-    const filtered = productsDB.filter(p => 
-        p.model.toLowerCase().includes(term) || 
-        p.brand.toLowerCase().includes(term) ||
-        (p.category && p.category.toLowerCase().includes(term))
-    );
-
-    // 2. Sort (Using Helper)
-    const sortedAndFiltered = getSortedProducts(filtered);
-    
-    // 3. Render
-    grid.innerHTML = sortedAndFiltered.length ? sortedAndFiltered.map(p => createCard(p)).join('') : '<p class="text-slate-500 col-span-3 text-center">No results found.</p>';
+    const filtered = productsDB.filter(p => p.model.toLowerCase().includes(term) || p.brand.toLowerCase().includes(term) || (p.category && p.category.toLowerCase().includes(term)));
+    const sorted = getSortedProducts(filtered);
+    grid.innerHTML = sorted.length ? sorted.map(p => createCard(p)).join('') : '<p class="text-slate-500 col-span-3 text-center">No results found.</p>';
 }
