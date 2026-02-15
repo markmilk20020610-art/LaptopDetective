@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechDetective | Hardware Risk Scores & Reliability Database</title>
-    <meta name="description" content="Don't buy electronic waste. Check the Hardware Risk Score for Laptops and 3D Printers. We analyze long-term failure rates, repair costs, and community evidence so you don't have to.">
+    <title>Hardware Repair vs Replace Calculator | TechDetective</title>
+    <meta name="description" content="Should you fix your laptop or buy a new one? Use our Repair vs Replace Calculator to track failure rates, estimated repair costs, and reliability scores for popular hardware.">
     <link rel="canonical" href="https://markmilk20020610-art.github.io/LaptopDetective/" />
     
     <script src="https://cdn.tailwindcss.com"></script>
@@ -14,41 +14,23 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "ItemList",
-      "name": "Hardware Risk Database",
-      "description": "Community-driven reliability scores for laptops and 3D printers.",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "url": "https://markmilk20020610-art.github.io/LaptopDetective/#product/dell-xps-13-plus",
-          "name": "Dell XPS 13 Plus Risk Analysis"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "url": "https://markmilk20020610-art.github.io/LaptopDetective/#product/lenovo-loq-15",
-          "name": "Lenovo LOQ 15 Motherboard Failure Data"
-        },
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "url": "https://markmilk20020610-art.github.io/LaptopDetective/#product/ender-3-v3-se",
-          "name": "Ender 3 V3 SE Long Term Reliability"
-        }
-      ]
+      "@type": "SoftwareApplication",
+      "name": "TechDetective Repair Calculator",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
     }
     </script>
 
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #f1f5f9; }
         .mono { font-family: 'JetBrains Mono', monospace; }
-        
-        /* Smooth Fade In Animation */
         .fade-in { animation: fadeIn 0.4s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #0f172a; }
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
@@ -74,34 +56,8 @@
         </div>
     </footer>
 
-    <div id="evidence-modal" class="fixed inset-0 bg-black/90 hidden flex items-center justify-center z-50 p-4 backdrop-blur-sm fade-in">
-        <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-md w-full p-6 relative shadow-2xl">
-            <button onclick="closeModal('evidence-modal')" class="absolute top-4 right-4 text-gray-400 hover:text-white transition"><i class="fa-solid fa-xmark fa-xl"></i></button>
-            <h2 class="text-xl font-black text-white mb-4 flex items-center"><i class="fa-solid fa-file-circle-plus text-blue-500 mr-2"></i> Submit Evidence</h2>
-            
-            <form onsubmit="handleEvidenceSubmit(event)" class="space-y-4">
-                <input type="hidden" name="model" value="">
-                
-                <div>
-                    <label class="text-xs font-bold text-gray-400 uppercase">Issue Type</label>
-                    <select class="w-full bg-slate-800 border border-slate-600 rounded p-3 text-white text-sm outline-none focus:border-blue-500 transition">
-                        <option>Total Failure (Dead)</option>
-                        <option>Safety Hazard (Fire/Shock)</option>
-                        <option>Quality Control (Defects)</option>
-                        <option>Design Flaw</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="text-xs font-bold text-gray-400 uppercase">Description & Source</label>
-                    <textarea rows="3" class="w-full bg-slate-800 border border-slate-600 rounded p-3 text-white text-sm focus:border-blue-500 outline-none" placeholder="What broke? Include Reddit link if possible." required></textarea>
-                </div>
-                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-lg transition-all shadow-lg shadow-blue-900/50">Submit Report</button>
-            </form>
-        </div>
-    </div>
-
-    <script src="data.js?v=37.0"></script>
-    <script src="risk.js?v=37.0"></script>
-    <script src="app.js?v=37.0"></script>
+    <script src="data.js?v=41.0"></script>
+    <script src="risk.js?v=41.0"></script>
+    <script src="app.js?v=41.0"></script>
 </body>
 </html>
