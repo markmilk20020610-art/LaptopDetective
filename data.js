@@ -1,4 +1,4 @@
-// data.js - v36.0 FULL CONTENT (16 Products Fully Expanded)
+// data.js - v38.0 LOCAL IMAGES & FULL CONTENT
 const productsDB = [
     // ================= LAPTOPS (10 Models) =================
     {
@@ -9,7 +9,7 @@ const productsDB = [
         price: "$1,399",
         release_year: 2023,
         evidence_count: 420,
-        image: "https://images.unsplash.com/photo-1593642632823-8f7856677741?auto=format&fit=crop&w=800&q=80",
+        image: "images/dell-xps-13-plus.jpg", // 👈 本地路径
         links: {
             solver: "https://amzn.to/4ax1iM6",
             value: "https://amzn.to/4aLNfUh",
@@ -30,15 +30,14 @@ const productsDB = [
                 { name: "Dongle Hell", severity: 2, frequency: 3, desc: "Constant plugging/unplugging wears out the mainboard USB-C ports. If the charging port loosens, the device becomes e-waste." }
             ]
         },
-        long_term_analysis: "Our analysis indicates a high failure rate for the XPS 13 Plus after 6–12 months. The primary culprit is the aggressive thermal profile combined with the experimental glass deck design. 'Thermal cycling' weakens solder joints and degrades the battery adhesive.",
+        long_term_analysis: "Our analysis indicates a high failure rate for the XPS 13 Plus after 6–12 months. The primary culprit is the aggressive thermal profile combined with the experimental glass deck design. 'Thermal cycling' weakens solder joints and degrades the battery adhesive. Unlike modular laptops, the material aging here accelerates component failure.",
         maintenance_cost_analysis: "High ($400 – $700). The RAM and SSD are soldered. If the touch bar fails, the entire top deck assembly must be replaced.",
         who_should_avoid: "Software Developers (missing physical Esc key), Music Producers (latency), and users in hot climates.",
         faq_section: [
-            { q: "What are the long term problems?", a: "Touch bar unresponsiveness and rapid battery degradation." },
-            { q: "Is it worth buying?", a: "No. Thermal throttling makes it a poor value compared to the MacBook Air M2." },
-            { q: "Does it overheat?", a: "Yes. The chassis often exceeds comfortable touch temperatures." }
+            { q: "What are the long term problems with XPS 13 Plus?", a: "Touch bar unresponsiveness and rapid battery health degradation due to heat." },
+            { q: "Is the Dell XPS 13 Plus worth buying in 2025?", a: "No. The thermal throttling makes it a poor value compared to the MacBook Air M2." },
+            { q: "Does it have overheating issues?", a: "Yes. The chassis often exceeds comfortable touch temperatures." }
         ],
-        seo_keywords: ["Dell XPS 13 Plus problems", "XPS 9320 reliability", "Dell touch bar failure", "XPS overheating", "Dell repair cost"],
         evidence_links: [ { source: "Reddit", title: "Touchbar freezing thread", url: "#" } ],
         accessories: [
             { name: "USB-C Hub", link: "https://amzn.to/4kD8XgK", desc: "Required for usability." },
@@ -53,7 +52,7 @@ const productsDB = [
         price: "$899",
         release_year: 2024,
         evidence_count: 850,
-        image: "https://images.unsplash.com/photo-1603302576837-37561b2e2302?auto=format&fit=crop&w=800&q=80",
+        image: "images/lenovo-loq-15.jpg",
         links: {
             solver: "https://amzn.to/4bS0yDI",
             value: "https://amzn.to/4qymUhm",
@@ -78,11 +77,9 @@ const productsDB = [
         maintenance_cost_analysis: "Total Loss ($600+). VRM failure kills the mainboard. Out-of-warranty repair exceeds device value.",
         who_should_avoid: "Budget gamers looking for a 3-year investment, and students who cannot afford downtime.",
         faq_section: [
-            { q: "What is the main issue?", a: "Sudden motherboard death on Intel HX models." },
-            { q: "Is it worth buying?", a: "Only the AMD Ryzen version. Avoid Intel HX models." },
-            { q: "Does it overheat?", a: "Yes, VRMs frequently exceed safe operating limits." }
+            { q: "What is the main issue with Lenovo LOQ?", a: "Sudden motherboard death on Intel HX models." },
+            { q: "Is it worth buying?", a: "Only the AMD Ryzen version. Avoid Intel HX models." }
         ],
-        seo_keywords: ["Lenovo LOQ 15 motherboard failure", "Lenovo LOQ reliability", "LOQ 15 dead motherboard", "Lenovo LOQ overheating", "Lenovo repair cost"],
         evidence_links: [ { source: "Reddit", title: "LOQ Motherboard dead", url: "#" } ],
         accessories: [
             { name: "Laptop Stand", link: "https://amzn.to/3OaX19O", desc: "Airflow is mandatory." },
@@ -97,7 +94,7 @@ const productsDB = [
         price: "$2,499",
         release_year: 2024,
         evidence_count: 610,
-        image: "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?auto=format&fit=crop&w=800&q=80",
+        image: "images/razer-blade-15.jpg",
         links: {
             solver: "https://amzn.to/4aoclHy",
             value: "https://amzn.to/3OCX12o",
@@ -113,20 +110,18 @@ const productsDB = [
             long_term_risk: "Battery swelling (Spicy Pillow) is guaranteed due to heat.",
             maintenance_cost: "Very High",
             issues: [
-                { name: "Battery Bloat", desc: "Chassis heat cooks battery causing dangerous swelling. Can bend the trackpad.", severity: 3, frequency: 3 },
-                { name: "Surface Lava", desc: "Keyboard area becomes too hot to touch during gaming.", severity: 2, frequency: 3 },
+                { name: "Battery Bloat", desc: "Chassis heat cooks battery causing dangerous swelling.", severity: 3, frequency: 3 },
+                { name: "Surface Lava", desc: "Keyboard area becomes too hot to touch.", severity: 2, frequency: 3 },
                 { name: "Bad RMA", desc: "Support takes weeks to respond to failures.", severity: 2, frequency: 2 }
             ]
         },
         long_term_analysis: "The unibody aluminum chassis acts as a giant heatsink, dissipating heat directly into the battery compartment. Long term usage creates a thermal environment that degrades the battery electrolyte, causing swelling within 12-18 months.",
-        maintenance_cost_analysis: "Very High ($200+). Razer support is expensive. DIY battery replacement is possible but voids warranty.",
+        maintenance_cost_analysis: "Very High ($200+). Razer support is expensive. DIY battery replacement is possible but risky.",
         who_should_avoid: "Users in hot climates and anyone unwilling to open their laptop annually to check for battery danger.",
         faq_section: [
             { q: "What is the spicy pillow issue?", a: "It's when the battery swells up due to heat, potentially bending the chassis." },
-            { q: "Is Razer Blade reliable?", a: "No, thermal management is poor for the components used." },
-            { q: "Does it run hot?", a: "Severe. It is often too hot to keep on your lap." }
+            { q: "Is Razer Blade reliable?", a: "No, thermal management is poor for the components used." }
         ],
-        seo_keywords: ["Razer Blade 15 battery bloat", "Razer spicy pillow", "Razer Blade overheating", "Razer reliability", "Razer repair cost"],
         evidence_links: [ { source: "Reddit", title: "Spicy Pillow megathread", url: "#" } ],
         accessories: [
             { name: "IETS GT600", link: "https://amzn.to/46IyRJZ", desc: "Prevent bloat." },
@@ -141,7 +136,7 @@ const productsDB = [
         price: "$1,599",
         release_year: 2023,
         evidence_count: 230,
-        image: "https://images.unsplash.com/photo-1544731612-de7f96afe55f?auto=format&fit=crop&w=800&q=80",
+        image: "images/hp-spectre-x360.jpg",
         links: {
             solver: "https://amzn.to/4kRtsXf",
             value: "https://amzn.to/3M6LAPV",
@@ -157,9 +152,9 @@ const productsDB = [
             long_term_risk: "Hinge mechanism loosens causing screen wobble.",
             maintenance_cost: "Medium",
             issues: [
-                { name: "Hinge Snap", desc: "One hinge becomes loose after 1 year of flipping. Causes screen to wobble.", severity: 2, frequency: 2 },
+                { name: "Hinge Snap", desc: "One hinge becomes loose after 1 year of flipping.", severity: 2, frequency: 2 },
                 { name: "Bloatware", desc: "System slowed by 15+ pre-installed junk apps.", severity: 1, frequency: 3 },
-                { name: "Tablet Heat", desc: "Uncomfortable to hold in tablet mode due to exhaust placement.", severity: 2, frequency: 2 }
+                { name: "Tablet Heat", desc: "Uncomfortable to hold in tablet mode.", severity: 2, frequency: 2 }
             ]
         },
         long_term_analysis: "Long term usage analysis shows that the 360-degree hinges loosen significantly. Additionally, the motherboard layout is highly condensed, leading to thermal stress on the SSD and Wi-Fi card.",
@@ -167,10 +162,8 @@ const productsDB = [
         who_should_avoid: "Users who don't actually need a tablet mode, and field workers who need a rugged device.",
         faq_section: [
             { q: "Do the hinges break?", a: "They loosen over time, causing screen wobble." },
-            { q: "Is it durable?", a: "Gem-cut design is prone to cosmetic damage." },
-            { q: "Does it overheat?", a: "Yes, especially in tablet mode where airflow is restricted." }
+            { q: "Is it durable?", a: "Gem-cut design is prone to cosmetic damage." }
         ],
-        seo_keywords: ["HP Spectre x360 hinge problem", "HP Spectre reliability", "HP Spectre overheating", "HP bloatware issues", "Spectre x360 repair"],
         evidence_links: [],
         accessories: [
             { name: "Care Pack", link: "https://amzn.to/4aN0WCk", desc: "Extend warranty." },
@@ -185,7 +178,7 @@ const productsDB = [
         price: "$999",
         release_year: 2023,
         evidence_count: 1100,
-        image: "https://images.unsplash.com/photo-1592910147690-37965706222b?auto=format&fit=crop&w=800&q=80",
+        image: "images/asus-tuf-a15.jpg",
         links: {
             solver: "https://amzn.to/46wZnWM",
             value: "https://amzn.to/4rP6vGj",
@@ -211,10 +204,8 @@ const productsDB = [
         who_should_avoid: "Students who need a quiet laptop, and competitive gamers who need a fast-response screen.",
         faq_section: [
             { q: "Is it loud?", a: "Yes, fans are very loud under load." },
-            { q: "Is the screen good?", a: "No, significant ghosting makes it bad for shooters." },
-            { q: "Is it durable?", a: "It feels cheap and flexes, despite 'Military Grade' marketing." }
+            { q: "Is the screen good?", a: "No, significant ghosting makes it bad for shooters." }
         ],
-        seo_keywords: ["ASUS TUF A15 fan noise", "ASUS TUF reliability", "TUF A15 ghosting", "ASUS TUF overheating", "ASUS TUF repair cost"],
         evidence_links: [],
         accessories: [
             { name: "Headset", link: "https://amzn.to/4ttHnGR", desc: "Block fan noise." },
@@ -229,7 +220,7 @@ const productsDB = [
         price: "$1,299",
         release_year: 2022,
         evidence_count: 180,
-        image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca4?auto=format&fit=crop&w=800&q=80",
+        image: "images/surface-laptop-5.jpg",
         links: {
             solver: "https://amzn.to/4qx0a16",
             value: "https://amzn.to/3MBbFXr",
@@ -246,19 +237,17 @@ const productsDB = [
             maintenance_cost: "Impossible (Glue)",
             issues: [
                 { name: "Glue Trap", desc: "Zero repairability. Battery glued down.", severity: 2, frequency: 3 },
-                { name: "Alcantara Stain", desc: "Fabric absorbs sweat and turns gross. Cannot be cleaned.", severity: 2, frequency: 3 },
+                { name: "Alcantara Stain", desc: "Fabric absorbs sweat and turns gross.", severity: 2, frequency: 3 },
                 { name: "Thick Bezels", desc: "Design looks outdated compared to competition.", severity: 1, frequency: 3 }
             ]
         },
         long_term_analysis: "Long term reliability is marred by zero repairability. The Alcantara fabric on the keyboard deck absorbs oils and sweat, turning visibly stained and gross after 6-9 months—this cannot be cleaned or replaced.",
-        maintenance_cost_analysis: "Impossible. Microsoft stores typically swap the unit for a high fee rather than repair. Third-party repair is extremely difficult.",
+        maintenance_cost_analysis: "Impossible. Microsoft stores typically swap the unit for a high fee rather than repair.",
         who_should_avoid: "Right-to-repair advocates, heavy users who wear out batteries quickly, and anyone with sweaty hands.",
         faq_section: [
             { q: "Can you clean the Alcantara?", a: "Not really. Once oils soak in, it's permanent." },
-            { q: "Can I change the battery?", a: "No, it is glued shut." },
-            { q: "Is it worth it?", a: "No, the design is dated and unrepairable." }
+            { q: "Can I change the battery?", a: "No, it is glued shut." }
         ],
-        seo_keywords: ["Surface Laptop 5 alcantara stain", "Surface Laptop 5 repairability", "Surface Laptop 5 battery replacement", "Microsoft Surface reliability", "Surface Laptop 5 problems"],
         evidence_links: [],
         accessories: [
             { name: "Sleeve", link: "https://amzn.to/3Zu16Zb", desc: "Protect fabric." },
@@ -273,7 +262,7 @@ const productsDB = [
         price: "$799",
         release_year: 2023,
         evidence_count: 450,
-        image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=800&q=80",
+        image: "images/acer-swift-go-14.jpg",
         links: {
             solver: "https://amzn.to/4rejrp5",
             value: "https://amzn.to/4kAUrGn",
@@ -290,7 +279,7 @@ const productsDB = [
             maintenance_cost: "Low",
             issues: [
                 { name: "WiFi Dropouts", desc: "MediaTek cards struggle to maintain connection.", severity: 2, frequency: 3 },
-                { name: "Sticky Trackpad", desc: "Plastic trackpad feels cheap and wears down to a shine.", severity: 2, frequency: 3 },
+                { name: "Sticky Trackpad", desc: "Plastic trackpad feels cheap and wears down.", severity: 2, frequency: 3 },
                 { name: "Bloatware", desc: "Popups and ads out of the box.", severity: 1, frequency: 3 }
             ]
         },
@@ -299,10 +288,8 @@ const productsDB = [
         who_should_avoid: "Remote workers who need 100% stable internet, and users who value premium build quality.",
         faq_section: [
             { q: "Is the WiFi bad?", a: "Yes, the MediaTek card is unreliable." },
-            { q: "Is the build quality good?", a: "It's average plastic/aluminum mix." },
-            { q: "Can I fix the WiFi?", a: "Yes, swap the card for an Intel one." }
+            { q: "Is the build quality good?", a: "It's average plastic/aluminum mix." }
         ],
-        seo_keywords: ["Acer Swift Go 14 wifi problems", "Acer Swift reliability", "Acer Swift Go 14 trackpad issues", "Acer bloatware", "Acer Swift repair cost"],
         evidence_links: [],
         accessories: [
             { name: "USB WiFi", link: "https://amzn.to/462RKXU", desc: "Stable internet." },
@@ -317,7 +304,7 @@ const productsDB = [
         price: "$1,099",
         release_year: 2023,
         evidence_count: 310,
-        image: "https://images.unsplash.com/photo-1531297461136-82lwDe43q568?auto=format&fit=crop&w=800&q=80",
+        image: "images/samsung-galaxy-book3.jpg",
         links: {
             solver: "https://amzn.to/4cq58t4",
             value: "https://amzn.to/466tbt7",
@@ -343,10 +330,8 @@ const productsDB = [
         who_should_avoid: "Frequent travelers, students with crowded backpacks, and anyone clumsy.",
         faq_section: [
             { q: "Does the screen crack easily?", a: "Yes, reports of spontaneous cracking are common." },
-            { q: "Is it durable?", a: "No, it is extremely fragile." },
-            { q: "Is the screen expensive?", a: "Yes, repair costs are very high." }
+            { q: "Is it durable?", a: "No, it is extremely fragile." }
         ],
-        seo_keywords: ["Samsung Galaxy Book 3 screen crack", "Galaxy Book 3 reliability", "Samsung crack gate", "Galaxy Book 3 hinge wobble", "Samsung screen repair cost"],
         evidence_links: [],
         accessories: [
             { name: "Hard Case", link: "https://amzn.to/46ORImL", desc: "Prevent cracks." },
@@ -361,7 +346,7 @@ const productsDB = [
         price: "$1,199",
         release_year: 2023,
         evidence_count: 980,
-        image: "https://images.unsplash.com/photo-1616588589676-60b30c3c53fc?auto=format&fit=crop&w=800&q=80",
+        image: "images/lenovo-legion-5.jpg",
         links: {
             solver: "https://amzn.to/463YrsV",
             value: "https://amzn.to/3OpuxsR",
@@ -387,10 +372,8 @@ const productsDB = [
         who_should_avoid: "Competitive gamers (unless upgrading Wi-Fi) and commuters who need light weight.",
         faq_section: [
             { q: "Is the WiFi bad?", a: "It depends on if you get the Realtek card." },
-            { q: "Is it heavy?", a: "Yes, the charger alone is massive." },
-            { q: "Is it reliable?", a: "Generally yes, aside from the WiFi card." }
+            { q: "Is it heavy?", a: "Yes, the charger alone is massive." }
         ],
-        seo_keywords: ["Lenovo Legion 5 wifi problem", "Legion 5 reliability", "Lenovo Legion 5 wifi upgrade", "Legion 5 paint chipping", "Lenovo repair cost"],
         evidence_links: [],
         accessories: [
             { name: "Intel WiFi", link: "https://amzn.to/4kuLdLw", desc: "Fix lag spikes." },
@@ -401,11 +384,11 @@ const productsDB = [
         id: "macbook-pro-13-m2",
         category: "laptop",
         brand: "Apple",
-        model: "MacBook Pro 13",
+        model: "MacBook Pro 13 (M2)",
         price: "$1,299",
         release_year: 2022,
         evidence_count: 720,
-        image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca4?auto=format&fit=crop&w=800&q=80",
+        image: "images/macbook-pro-13-m2.jpg",
         links: {
             solver: "https://amzn.to/3ZyvtO1",
             value: "https://amzn.to/3MsXTG7",
@@ -431,10 +414,8 @@ const productsDB = [
         who_should_avoid: "Video editors (need better screen), developers (need physical Escape key), and anyone who wants their laptop to look modern in 2 years.",
         faq_section: [
             { q: "Is the Touch Bar useful?", a: "No, Apple has discontinued it." },
-            { q: "Is it better than the Air?", a: "No, the Air has a better screen and webcam." },
-            { q: "Is it reliable?", a: "Yes, but it is obsolete." }
+            { q: "Is it better than the Air?", a: "No, the Air has a better screen and webcam." }
         ],
-        seo_keywords: ["MacBook Pro 13 M2 touch bar", "MacBook Pro 13 reliability", "Apple M2 touch bar problems", "MacBook Pro 13 obsolete", "Apple repair cost"],
         evidence_links: [],
         accessories: [
             { name: "4K Webcam", link: "https://amzn.to/4adenvg", desc: "Look better." },
@@ -451,7 +432,7 @@ const productsDB = [
         price: "$199",
         release_year: 2023,
         evidence_count: 2400,
-        image: "https://images.unsplash.com/photo-1631541909061-71e349d1f203?auto=format&fit=crop&w=800&q=80",
+        image: "images/ender-3-v3-se.jpg",
         links: {
             solver: "https://amzn.to/4rO30zE",
             value: "https://amzn.to/4bV0DGS",
@@ -477,10 +458,8 @@ const productsDB = [
         who_should_avoid: "Print farms and schools needing reliability.",
         faq_section: [
             { q: "What is gantry sag?", a: "The print arm droops on one side, making prints crooked." },
-            { q: "Is it reliable?", a: "Only if you tinker with it constantly." },
-            { q: "Is it good for beginners?", a: "Yes, but expect to learn maintenance." }
+            { q: "Is it reliable?", a: "Only if you tinker with it constantly." }
         ],
-        seo_keywords: ["Ender 3 V3 SE gantry sag", "Ender 3 reliability", "Creality V3 SE problems", "Ender 3 gear wear", "Ender 3 repair cost"],
         evidence_links: [ { source: "Reddit", title: "Gantry sag issues", url: "#" } ],
         accessories: [
             { name: "CR Touch", link: "https://amzn.to/4avRTV1", desc: "Fix leveling." },
@@ -495,7 +474,7 @@ const productsDB = [
         price: "$299",
         release_year: 2023,
         evidence_count: 920,
-        image: "https://images.unsplash.com/photo-1599354607485-697669ae5073?auto=format&fit=crop&w=800&q=80",
+        image: "images/bambu-a1-mini.jpg",
         links: {
             solver: "https://amzn.to/3MIGFVp",
             value: "https://amzn.to/4agB7KS",
@@ -521,10 +500,8 @@ const productsDB = [
         who_should_avoid: "Privacy-conscious users and cosplay makers who need larger parts.",
         faq_section: [
             { q: "Is it too small?", a: "Yes, for helmets or large props." },
-            { q: "Can I use generic nozzles?", a: "No, you need Bambu hotends." },
-            { q: "Is it fast?", a: "Yes, it is extremely fast." }
+            { q: "Can I use generic nozzles?", a: "No, you need Bambu hotends." }
         ],
-        seo_keywords: ["Bambu Lab A1 Mini problems", "A1 Mini reliability", "Bambu Lab cloud privacy", "A1 Mini build volume", "Bambu Lab repair cost"],
         evidence_links: [],
         accessories: [
             { name: "PEI Plate", link: "https://amzn.to/4kyuwPk", desc: "Better adhesion." },
@@ -539,7 +516,7 @@ const productsDB = [
         price: "$180",
         release_year: 2023,
         evidence_count: 310,
-        image: "https://images.unsplash.com/photo-1595804368594-e8f000302196?auto=format&fit=crop&w=800&q=80",
+        image: "images/anycubic-photon-mono.jpg",
         links: {
             solver: "https://amzn.to/4tCngpS",
             value: "https://amzn.to/469PUEF",
@@ -565,10 +542,8 @@ const productsDB = [
         who_should_avoid: "Apartment dwellers without dedicated ventilation, families with pets/kids, and anyone unwilling to handle toxic chemicals.",
         faq_section: [
             { q: "Is it safe?", a: "No, resin fumes are toxic without ventilation." },
-            { q: "Does the screen last?", a: "No, it burns out eventually." },
-            { q: "Is it messy?", a: "Yes, requires alcohol washing." }
+            { q: "Does the screen last?", a: "No, it burns out eventually." }
         ],
-        seo_keywords: ["Anycubic Photon Mono 2 toxic", "Resin printer fumes", "Photon Mono 2 reliability", "Anycubic FEP leak", "Resin printer repair cost"],
         evidence_links: [],
         accessories: [
             { name: "Wash & Cure", link: "https://amzn.to/4tCG87Y", desc: "Safety essential." },
@@ -583,7 +558,7 @@ const productsDB = [
         price: "$280",
         release_year: 2023,
         evidence_count: 580,
-        image: "https://images.unsplash.com/photo-1628133287823-34e45e993309?auto=format&fit=crop&w=800&q=80",
+        image: "images/elegoo-neptune-4.jpg",
         links: {
             solver: "https://amzn.to/4rhuAFL",
             value: "https://amzn.to/4rhu1M9",
@@ -609,10 +584,8 @@ const productsDB = [
         who_should_avoid: "Beginners who don't know how to edit config files, and anyone who values a quiet working environment.",
         faq_section: [
             { q: "Is it buggy?", a: "Yes, firmware loses settings often." },
-            { q: "Is it quiet?", a: "No, it is extremely loud." },
-            { q: "Does it print fast?", a: "Yes, but stability suffers." }
+            { q: "Is it quiet?", a: "No, it is extremely loud." }
         ],
-        seo_keywords: ["Elegoo Neptune 4 Pro firmware", "Neptune 4 Pro Z-offset bug", "Elegoo reliability", "Neptune 4 Pro noise", "Elegoo repair cost"],
         evidence_links: [],
         accessories: [
             { name: "PEI Plate", link: "https://amzn.to/4ctaUtW", desc: "Spare plate." },
@@ -627,7 +600,7 @@ const productsDB = [
         price: "$429",
         release_year: 2019,
         evidence_count: 1200,
-        image: "https://images.unsplash.com/photo-1616627547584-bf28cee9629e?auto=format&fit=crop&w=800&q=80",
+        image: "images/prusa-mini.jpg",
         links: {
             solver: "https://amzn.to/3MEIa77",
             value: "https://amzn.to/3OcjO5b",
@@ -653,10 +626,8 @@ const productsDB = [
         who_should_avoid: "Value seekers (it's overpriced) and speed demons (it's slow).",
         faq_section: [
             { q: "Is it fast?", a: "No, it is very slow by modern standards." },
-            { q: "Is it reliable?", a: "Yes, extremely reliable." },
-            { q: "Is it worth $429?", a: "No, better printers exist for $299." }
+            { q: "Is it reliable?", a: "Yes, extremely reliable." }
         ],
-        seo_keywords: ["Prusa Mini slow speed", "Prusa Mini reliability", "Prusa Mini vs Bambu A1", "Prusa Mini obsolete", "Prusa repair cost"],
         evidence_links: [],
         accessories: [
             { name: "Raspberry Pi", link: "https://amzn.to/4awdywx", desc: "OctoPrint" },
@@ -671,7 +642,7 @@ const productsDB = [
         price: "$399",
         release_year: 2023,
         evidence_count: 750,
-        image: "https://images.unsplash.com/photo-1581092921461-eab6245b0262?auto=format&fit=crop&w=800&q=80",
+        image: "images/creality-k1.jpg",
         links: {
             solver: "https://amzn.to/3Of1sjT",
             value: "https://amzn.to/3ZF3Oen",
@@ -697,10 +668,8 @@ const productsDB = [
         who_should_avoid: "Users who want a 'unboxing and print' experience. This machine requires upgrades to be stable.",
         faq_section: [
             { q: "Does it jam?", a: "Yes, Gen 1 extruders jam often." },
-            { q: "Is the print quality good?", a: "No, VFA ripples are visible." },
-            { q: "Can I fix it?", a: "Yes, by buying the Gen 2 extruder kit." }
+            { q: "Is the print quality good?", a: "No, VFA ripples are visible." }
         ],
-        seo_keywords: ["Creality K1 extruder jam", "Creality K1 VFA ripples", "Creality K1 reliability", "K1 Gen 1 problems", "Creality K1 repair"],
         evidence_links: [ { source: "Reddit", title: "K1 Gen 1 extruder fix", url: "#" } ],
         accessories: [
             { name: "Extruder Kit", link: "https://amzn.to/4kyx6F0", desc: "Essential fix." },
