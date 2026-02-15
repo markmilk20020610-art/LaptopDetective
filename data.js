@@ -1,4 +1,4 @@
-// data.js - v45.0 ULTIMATE EDITION (30 Products: 16 Old + 8 New Laptops + 6 New Printers)
+// data.js - v45.1 ULTIMATE EDITION (30 Products: 16 Old + 8 New Laptops + 6 New Printers)
 const productsDB = [
     // ================= [EXISTING] LAPTOPS (10 Models) =================
     {
@@ -998,7 +998,7 @@ const productsDB = [
         ]
     },
 
-    // ================= [NEW] 3D PRINTERS (6 Models - Placeholder Links) =================
+    // ================= [NEW] 3D PRINTERS (6 Models - Synced with Google Sheets) =================
     {
         id: "bambu-lab-x1-carbon",
         category: "3d_printer",
@@ -1009,13 +1009,13 @@ const productsDB = [
         evidence_count: 5200,
         image: "images/bambu-lab-x1-carbon.jpg",
         links: {
-            solver: "https://amzn.to/placeholder_x1c",
-            value: "https://amzn.to/placeholder_p1s",
-            antidote_1: "https://amzn.to/placeholder_ams",
-            antidote_2: "https://amzn.to/placeholder_plate"
+            solver: "https://amzn.to/placeholder_flashforge",
+            value: "https://amzn.to/placeholder_k1c",
+            antidote_1: "https://amzn.to/placeholder_plate",
+            antidote_2: "https://amzn.to/placeholder_nozzle"
         },
         recommendations: {
-            primary: { name: "Prusa MK4", link: "https://amzn.to/placeholder_mk4", benefits: ["Open Source", "Repairable", "Quiet"] },
+            primary: { name: "Flashforge 5M Pro", link: "https://amzn.to/placeholder_flashforge", benefits: ["Amazon Available", "Enclosed CoreXY", "Fast"] },
             secondary: { name: "Creality K1C", link: "https://amzn.to/placeholder_k1c", reason: "Cheaper CoreXY alternative." }
         },
         description_summary: "The Bambu Lab X1-Carbon is the current 'iPhone of 3D printing,' offering incredible speed and AI features, but it comes with a significant 'Walled Garden' trade-off. Long-term analysis indicates a maintenance peak around months 3-6.",
@@ -1037,7 +1037,7 @@ const productsDB = [
             { q: "Does the AMS jam?", a: "Frequently, especially with cardboard spools." }
         ],
         accessories: [
-            { name: "AMS Hub", link: "https://amzn.to/placeholder_hub", desc: "Multi-color buffer." },
+            { name: "Textured PEI Plate", link: "https://amzn.to/placeholder_plate", desc: "Essential upgrade." },
             { name: "Hardened Nozzle", link: "https://amzn.to/placeholder_nozzle", desc: "For abrasive materials." }
         ]
     },
@@ -1051,13 +1051,13 @@ const productsDB = [
         evidence_count: 2100,
         image: "images/prusa-mk4.jpg",
         links: {
-            solver: "https://amzn.to/placeholder_mk4",
+            solver: "https://amzn.to/placeholder_kobra3",
             value: "https://amzn.to/placeholder_sv06",
             antidote_1: "https://amzn.to/placeholder_enclosure",
             antidote_2: "https://amzn.to/placeholder_sheet"
         },
         recommendations: {
-            primary: { name: "Bambu A1", link: "https://amzn.to/placeholder_a1", benefits: ["Faster", "Cheaper", "Multi-color"] },
+            primary: { name: "Anycubic Kobra 3", link: "https://amzn.to/placeholder_kobra3", benefits: ["Multi-Color", "Much Cheaper", "Faster"] },
             secondary: { name: "Sovol SV06", link: "https://amzn.to/placeholder_sv06", reason: "Budget clone with similar kinematics." }
         },
         description_summary: "The Prusa MK4 is the reliable workhorse of the industry, but it struggles to justify its price against modern CoreXY competitors. Reliability analysis shows it is incredibly stable, but printed PETG parts in the frame structure can suffer from 'creep'.",
@@ -1070,7 +1070,7 @@ const productsDB = [
                 { name: "Price", severity: 2, frequency: 3, desc: "Expensive for a bedslinger design." }
             ]
         },
-        long_term_analysis: "Extremely reliable, but technology is aging. The structure relies on 3D printed parts which can crack or warp after years of heat cycling. Value proposition is low compared to Bambu Lab A1 or P1P.",
+        long_term_analysis: "Extremely reliable, but technology is aging. The structure relies on 3D printed parts which can crack or warp after years of heat cycling. Value proposition is low compared to modern multi-color printers.",
         maintenance_cost_analysis: "Low ($20). Most parts are standard and open source. Support is legendary.",
         who_should_avoid: "Speed demons, budget buyers, and those wanting an enclosed printer.",
         faq_section: [
@@ -1093,13 +1093,13 @@ const productsDB = [
         evidence_count: 3000,
         image: "images/creality-ender-3-v3-ke.jpg",
         links: {
-            solver: "https://amzn.to/placeholder_ke",
-            value: "https://amzn.to/placeholder_kobra",
+            solver: "https://amzn.to/placeholder_m5c",
+            value: "https://amzn.to/placeholder_kobra2",
             antidote_1: "https://amzn.to/placeholder_hotend",
-            antidote_2: "https://amzn.to/placeholder_nebula"
+            antidote_2: "https://amzn.to/placeholder_rail"
         },
         recommendations: {
-            primary: { name: "Bambu A1 Mini", link: "https://amzn.to/placeholder_a1m", benefits: ["Less Tinkering", "Better App"] },
+            primary: { name: "AnkerMake M5C", link: "https://amzn.to/placeholder_m5c", benefits: ["Sturdier Frame", "Better App", "Reliable"] },
             secondary: { name: "Anycubic Kobra 2", link: "https://amzn.to/placeholder_kobra2", reason: "Sturdier frame construction." }
         },
         description_summary: "A high-speed bedslinger that pushes cheap components to their limit. The Ender 3 V3 KE offers immense value but suffers from a 'Quality Control Lottery'. The most critical issue is the 'Blob of Death', where the hotend leaks.",
@@ -1135,14 +1135,14 @@ const productsDB = [
         evidence_count: 850,
         image: "images/anycubic-kobra-2-max.jpg",
         links: {
-            solver: "https://amzn.to/placeholder_max",
-            value: "https://amzn.to/placeholder_neptune",
+            solver: "https://amzn.to/placeholder_neptune",
+            value: "https://amzn.to/placeholder_artisan",
             antidote_1: "https://amzn.to/placeholder_sensor",
-            antidote_2: "https://amzn.to/placeholder_nozzle"
+            antidote_2: "https://amzn.to/placeholder_belt"
         },
         recommendations: {
-            primary: { name: "Elegoo Neptune 4 Max", link: "https://amzn.to/placeholder_nep4max", benefits: ["Klipper Native", "Better Fans"] },
-            secondary: { name: "Prusa XL", link: "https://amzn.to/placeholder_xl", reason: "Reliable large scale (expensive)." }
+            primary: { name: "Elegoo Neptune 4 Max", link: "https://amzn.to/placeholder_neptune", benefits: ["Klipper Native", "Better Fans"] },
+            secondary: { name: "Snapmaker Artisan", link: "https://amzn.to/placeholder_artisan", reason: "Reliable large scale (expensive)." }
         },
         description_summary: "Massive build volume meets basic physics. The Kobra 2 Max suffers from severe 'Bed Inertia' issues. Moving a 420x420mm heated bed at high speeds causes layer shifts and rapid belt wear.",
         risk_data: {
@@ -1177,14 +1177,14 @@ const productsDB = [
         evidence_count: 900,
         image: "images/ankermake-m5.jpg",
         links: {
-            solver: "https://amzn.to/placeholder_m5",
+            solver: "https://amzn.to/placeholder_k1",
             value: "https://amzn.to/placeholder_prusa",
             antidote_1: "https://amzn.to/placeholder_hardened",
-            antidote_2: "https://amzn.to/placeholder_wheels"
+            antidote_2: "https://amzn.to/placeholder_mod"
         },
         recommendations: {
-            primary: { name: "Bambu A1", link: "https://amzn.to/placeholder_a1", benefits: ["Multi-color", "Better Slicer", "Faster"] },
-            secondary: { name: "Prusa Mini", link: "https://amzn.to/placeholder_mini", reason: "Standard parts & Reliability." }
+            primary: { name: "Creality K1", link: "https://amzn.to/placeholder_k1", benefits: ["Enclosed", "Faster", "CoreXY"] },
+            secondary: { name: "Prusa Mini Clone", link: "https://amzn.to/placeholder_prusa", reason: "Standard parts & Reliability." }
         },
         description_summary: "Premium build quality marred by proprietary lock-in and failing AI promises. The 'AI spaghetti detection' is often a gimmick, providing false positives or missing failures entirely.",
         risk_data: {
@@ -1219,14 +1219,14 @@ const productsDB = [
         evidence_count: 120,
         image: "images/formlabs-form-4.jpg",
         links: {
-            solver: "https://amzn.to/placeholder_form4",
-            value: "https://amzn.to/placeholder_gktwo",
+            solver: "https://amzn.to/placeholder_gktwo",
+            value: "https://amzn.to/placeholder_phenom",
             antidote_1: "https://amzn.to/placeholder_wash",
             antidote_2: "https://amzn.to/placeholder_tank"
         },
         recommendations: {
             primary: { name: "Uniformation GKtwo", link: "https://amzn.to/placeholder_gktwo", benefits: ["Open Resin System", "Much Cheaper"] },
-            secondary: { name: "Peopoly Phenom", link: "https://amzn.to/placeholder_peopoly", reason: "Larger volume for less." }
+            secondary: { name: "Peopoly Phenom", link: "https://amzn.to/placeholder_phenom", reason: "Larger volume for less." }
         },
         description_summary: "The industry standard for SLA, but it operates on a 'Printer is cheap, ink is expensive' model. The new print engine is fast, but the 'Chip DRM' on resin cartridges and tanks forces users to pay premium prices for consumables.",
         risk_data: {
