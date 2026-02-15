@@ -1,6 +1,7 @@
-// app.js - v35.0 Trust & SEO Module Enhanced
+// app.js - v35.2 FINAL FIX (SEO + Accessories + Value Links)
 
 document.addEventListener('DOMContentLoaded', () => {
+    // 安全检查
     if (typeof productsDB === 'undefined' || !Array.isArray(productsDB)) {
         document.body.innerHTML = '<div style="color:white;text-align:center;padding:50px;">❌ Error: data.js not loaded.</div>';
         return;
@@ -26,7 +27,40 @@ function imgError(image) {
     return true;
 }
 
-// --- Render Home Page (With Transparency Statement) ---
+// --- SEO Schema Injection ---
+function injectSchema(product, score) {
+    if (!product) return;
+    const scriptId = 'json-ld-schema';
+    let script = document.getElementById(scriptId);
+    if (script) script.remove();
+
+    script = document.createElement('script');
+    script.id = scriptId;
+    script.type = 'application/ld+json';
+    
+    const topIssue = (product.risk_data && product.risk_data.issues && product.risk_data.issues.length > 0)
+        ? product.risk_data.issues[0].name 
+        : "General Risk";
+
+    const schema = {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": product.model,
+        "brand": { "@type": "Brand", "name": product.brand },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": (100 - score) / 20,
+            "reviewCount": product.evidence_count || 50
+        },
+        "description": `Risk Score: ${score}/100. Top Issue: ${topIssue}`
+    };
+
+    script.text = JSON.stringify(schema);
+    document.head.appendChild(script);
+    document.title = `${product.model} Risk Analysis | TechDetective`;
+}
+
+// --- Render Home Page ---
 function renderHomePage() {
     const app = document.getElementById('app');
     if (!app) return;
@@ -65,10 +99,10 @@ function renderHomePage() {
                 <p class="text-xs text-slate-500 uppercase tracking-widest mb-4 font-bold">Transparency Statement</p>
                 <p class="text-sm text-slate-400 leading-relaxed">
                     TechDetective is a <strong>community-driven reliability database</strong>. 
-                    We do not accept free review units from manufacturers. 
+                    We do not accept free review units. 
                     Our <strong>Risk Algorithm</strong> calculates scores based on the 
                     <span class="text-white">Frequency</span> and <span class="text-white">Severity</span> 
-                    of hardware failures reported by real users on Reddit, YouTube, and independent forums.
+                    of hardware failures reported by real users.
                 </p>
                 <p class="mt-4 text-xs text-slate-600">
                     <i class="fa-solid fa-check-circle text-emerald-500 mr-1"></i> Data Last Updated: <strong>February 2026</strong>
@@ -78,7 +112,7 @@ function renderHomePage() {
     `;
 }
 
-// --- Render Product Page (With SEO Content & Evidence Block) ---
+// --- Render Product Page (Fixed Missing Parts) ---
 function renderProductPage(modelId) {
     const p = productsDB.find(x => x.id === modelId);
     if (!p) return renderHomePage();
@@ -86,6 +120,8 @@ function renderProductPage(modelId) {
     const issues = (p.risk_data && p.risk_data.issues) ? p.risk_data.issues : [];
     const score = RiskCalculator.calculate(issues);
     const level = RiskCalculator.getLevel(score);
+    
+    injectSchema(p, score);
 
     const app = document.getElementById('app');
     app.innerHTML = `
@@ -105,20 +141,20 @@ function renderProductPage(modelId) {
                         </div>
                     </div>
                     <h1 class="text-3xl font-black text-white mb-4 leading-none">${p.model}</h1>
-                    <p class="text-sm text-slate-400 mb-4">${p.description_summary || 'Analysis of long-term hardware risks.'}</p>
+                    <p class="text-sm text-slate-400 mb-4">${p.description_summary || 'Long-term reliability analysis.'}</p>
                 </div>
             </div>
 
             ${p.long_term_analysis ? `
             <div class="mb-8">
-                <h3 class="text-white font-bold mb-3 flex items-center"><i class="fa-solid fa-microscope text-blue-500 mr-2"></i> Long-Term Reliability Analysis</h3>
+                <h3 class="text-white font-bold mb-3 flex items-center"><i class="fa-solid fa-microscope text-blue-500 mr-2"></i> Long-Term Analysis</h3>
                 <p class="text-slate-300 text-sm leading-relaxed bg-slate-800/50 p-4 rounded-xl border border-slate-800">${p.long_term_analysis}</p>
             </div>` : ''}
 
             <div class="evidence-summary bg-slate-900 p-4 rounded-lg mb-8 border-l-4 border-blue-500">
                 <h4 class="text-gray-300 font-bold text-xs uppercase mb-1">🛡️ Community Evidence</h4>
                 <p class="text-gray-400 text-xs">
-                    This risk assessment is based on aggregated community discussions, long-term user feedback from Reddit/Discord, and post-warranty repair data. We prioritize <strong>structural durability</strong> over initial performance benchmarks.
+                    Risk assessment based on aggregated feedback from Reddit/Discord and post-warranty data. We prioritize structural durability.
                 </p>
             </div>
 
@@ -143,7 +179,6 @@ function renderProductPage(modelId) {
                     <h4 class="text-slate-400 text-xs font-bold uppercase mb-2">Est. Repair Cost</h4>
                     <p class="text-white text-sm font-bold">${p.maintenance_cost_analysis}</p>
                 </div>` : ''}
-                
                 ${p.who_should_avoid ? `
                 <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
                     <h4 class="text-slate-400 text-xs font-bold uppercase mb-2">Who Should Avoid?</h4>
@@ -151,14 +186,43 @@ function renderProductPage(modelId) {
                 </div>` : ''}
             </div>
 
-            <div class="bg-gradient-to-br from-emerald-900/30 to-slate-900 border border-emerald-500/50 rounded-2xl p-6 mb-8 relative shadow-lg">
-                <div class="absolute -top-3 left-6 bg-emerald-500 text-white text-[10px] font-black px-3 py-1 rounded shadow-lg uppercase tracking-wider">The Stable Choice</div>
-                <h3 class="text-xl font-bold text-white text-center mb-1 mt-2">Better Alternative</h3>
-                <h2 class="text-2xl font-black text-emerald-400 text-center mb-6">${p.recommendations.primary.name}</h2>
-                <a href="${p.links.solver}" target="_blank" class="block w-full py-4 bg-emerald-500 hover:bg-emerald-400 text-white font-black text-center rounded-xl uppercase tracking-widest text-sm shadow-lg transition-all">
-                    Check Price on Amazon <i class="fa-solid fa-arrow-right ml-2"></i>
-                </a>
+            <div class="mb-12">
+                <h3 class="text-xl font-bold text-white mb-4 text-center">Recommended Alternatives</h3>
+                
+                <div class="bg-gradient-to-br from-emerald-900/30 to-slate-900 border border-emerald-500/50 rounded-2xl p-6 mb-4 relative shadow-lg">
+                    <div class="absolute -top-3 left-6 bg-emerald-500 text-white text-[10px] font-black px-3 py-1 rounded shadow-lg uppercase tracking-wider">Top Choice</div>
+                    <h2 class="text-2xl font-black text-white text-center mb-2 mt-2">${p.recommendations.primary.name}</h2>
+                    <a href="${p.links.solver}" target="_blank" class="block w-full py-4 bg-emerald-500 hover:bg-emerald-400 text-white font-black text-center rounded-xl uppercase tracking-widest text-sm shadow-lg transition-all mt-6">
+                        Check Price on Amazon <i class="fa-solid fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+
+                <div class="bg-slate-800 border border-slate-700 rounded-xl p-4 flex items-center justify-between gap-4">
+                    <div>
+                        <div class="text-blue-400 text-[10px] font-bold uppercase mb-1">Best Value Alternative</div>
+                        <h4 class="text-white font-bold text-sm">${p.recommendations.secondary.name}</h4>
+                        <p class="text-slate-400 text-xs mt-0.5">${p.recommendations.secondary.reason}</p>
+                    </div>
+                    <a href="${p.links.value}" target="_blank" class="px-4 py-2 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white font-bold rounded-lg text-xs whitespace-nowrap transition-all">Check Deal</a>
+                </div>
             </div>
+
+            ${p.accessories ? `
+            <div class="mb-12 border-t border-slate-800 pt-8">
+                <h3 class="text-slate-400 font-bold text-sm mb-4 uppercase flex items-center"><i class="fa-solid fa-toolbox mr-2"></i> Required Fixes / Accessories</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    ${p.accessories.map(acc => `
+                    <a href="${acc.link}" target="_blank" class="flex items-center gap-4 p-4 bg-slate-900 border border-slate-800 rounded-xl hover:border-yellow-500 transition-all group">
+                        <div class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center text-yellow-500"><i class="fa-solid fa-plug"></i></div>
+                        <div class="flex-grow">
+                            <div class="text-white font-bold text-sm">${acc.name}</div>
+                            <div class="text-slate-500 text-xs">${acc.desc}</div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-slate-600 group-hover:text-white"></i>
+                    </a>
+                    `).join('')}
+                </div>
+            </div>` : ''}
 
             ${p.faq_section ? `
             <div class="mb-12 border-t border-slate-800 pt-8">
@@ -189,14 +253,14 @@ function createCard(p) {
     return `
         <div onclick="window.location.hash='product/${p.id}'" class="risk-card bg-slate-800 rounded-xl border border-slate-700 overflow-hidden cursor-pointer flex flex-col h-full group hover:border-blue-500 transition-all">
             <div class="h-40 bg-slate-950 relative overflow-hidden">
-                <img src="${p.image}" onerror="imgError(this)" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all">
+                <img src="${p.image}" onerror="imgError(this)" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500">
                 <div class="absolute top-2 right-2 px-2 py-1 ${level.bg} ${level.color} text-[10px] font-black uppercase rounded border ${level.border} backdrop-blur-md">
                     Risk: ${score}
                 </div>
             </div>
             <div class="p-5 flex-grow flex flex-col">
                 <div class="text-[10px] font-bold text-slate-500 uppercase mb-1 tracking-wider">${p.brand}</div>
-                <h3 class="text-lg font-bold text-white mb-2">${p.model}</h3>
+                <h3 class="text-lg font-bold text-white mb-2 leading-tight">${p.model}</h3>
                 <div class="mt-auto pt-4 border-t border-slate-700/50 flex justify-between items-center">
                     <span class="text-[10px] text-red-400 font-bold truncate pr-2"><i class="fa-solid fa-triangle-exclamation mr-1"></i> ${topIssue}</span>
                     <i class="fa-solid fa-arrow-right text-slate-600 group-hover:text-white transition-colors text-xs"></i>
@@ -216,6 +280,7 @@ function handleSearch(val) {
         p.brand.toLowerCase().includes(term) ||
         (p.category && p.category.toLowerCase().includes(term))
     );
+    
     grid.innerHTML = filtered.length ? filtered.map(p => createCard(p)).join('') : '<p class="text-slate-500 col-span-3 text-center">No results found.</p>';
 }
 
