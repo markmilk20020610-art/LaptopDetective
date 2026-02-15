@@ -1,4 +1,4 @@
-// data.js - v35.1 FULL DATABASE (16 Products, Fully Expanded)
+// data.js - v36.0 FULL CONTENT (16 Products Fully Expanded)
 const productsDB = [
     // ================= LAPTOPS (10 Models) =================
     {
@@ -30,14 +30,15 @@ const productsDB = [
                 { name: "Dongle Hell", severity: 2, frequency: 3, desc: "Constant plugging/unplugging wears out the mainboard USB-C ports. If the charging port loosens, the device becomes e-waste." }
             ]
         },
-        long_term_analysis: "Our analysis indicates a high failure rate for the XPS 13 Plus after 6–12 months. The primary culprit is the aggressive thermal profile combined with the experimental glass deck design. 'Thermal cycling' weakens solder joints and degrades the battery adhesive. Unlike modular laptops, the material aging here accelerates component failure.",
+        long_term_analysis: "Our analysis indicates a high failure rate for the XPS 13 Plus after 6–12 months. The primary culprit is the aggressive thermal profile combined with the experimental glass deck design. 'Thermal cycling' weakens solder joints and degrades the battery adhesive.",
         maintenance_cost_analysis: "High ($400 – $700). The RAM and SSD are soldered. If the touch bar fails, the entire top deck assembly must be replaced.",
         who_should_avoid: "Software Developers (missing physical Esc key), Music Producers (latency), and users in hot climates.",
         faq_section: [
-            { q: "What are the long term problems with XPS 13 Plus?", a: "Touch bar unresponsiveness and rapid battery health degradation due to heat." },
-            { q: "Is the Dell XPS 13 Plus worth buying in 2025?", a: "No. The thermal throttling makes it a poor value compared to the MacBook Air M2." },
-            { q: "Does it have overheating issues?", a: "Yes. The chassis often exceeds comfortable touch temperatures." }
+            { q: "What are the long term problems?", a: "Touch bar unresponsiveness and rapid battery degradation." },
+            { q: "Is it worth buying?", a: "No. Thermal throttling makes it a poor value compared to the MacBook Air M2." },
+            { q: "Does it overheat?", a: "Yes. The chassis often exceeds comfortable touch temperatures." }
         ],
+        seo_keywords: ["Dell XPS 13 Plus problems", "XPS 9320 reliability", "Dell touch bar failure", "XPS overheating", "Dell repair cost"],
         evidence_links: [ { source: "Reddit", title: "Touchbar freezing thread", url: "#" } ],
         accessories: [
             { name: "USB-C Hub", link: "https://amzn.to/4kD8XgK", desc: "Required for usability." },
@@ -77,9 +78,11 @@ const productsDB = [
         maintenance_cost_analysis: "Total Loss ($600+). VRM failure kills the mainboard. Out-of-warranty repair exceeds device value.",
         who_should_avoid: "Budget gamers looking for a 3-year investment, and students who cannot afford downtime.",
         faq_section: [
-            { q: "What is the main issue with Lenovo LOQ?", a: "Sudden motherboard death on Intel HX models." },
-            { q: "Is it worth buying?", a: "Only the AMD Ryzen version. Avoid Intel HX models." }
+            { q: "What is the main issue?", a: "Sudden motherboard death on Intel HX models." },
+            { q: "Is it worth buying?", a: "Only the AMD Ryzen version. Avoid Intel HX models." },
+            { q: "Does it overheat?", a: "Yes, VRMs frequently exceed safe operating limits." }
         ],
+        seo_keywords: ["Lenovo LOQ 15 motherboard failure", "Lenovo LOQ reliability", "LOQ 15 dead motherboard", "Lenovo LOQ overheating", "Lenovo repair cost"],
         evidence_links: [ { source: "Reddit", title: "LOQ Motherboard dead", url: "#" } ],
         accessories: [
             { name: "Laptop Stand", link: "https://amzn.to/3OaX19O", desc: "Airflow is mandatory." },
@@ -110,19 +113,21 @@ const productsDB = [
             long_term_risk: "Battery swelling (Spicy Pillow) is guaranteed due to heat.",
             maintenance_cost: "Very High",
             issues: [
-                { name: "Battery Bloat", desc: "Chassis heat cooks battery causing dangerous swelling.", severity: 3, frequency: 3 },
-                { name: "Surface Lava", desc: "Keyboard area becomes too hot to touch.", severity: 2, frequency: 3 },
+                { name: "Battery Bloat", desc: "Chassis heat cooks battery causing dangerous swelling. Can bend the trackpad.", severity: 3, frequency: 3 },
+                { name: "Surface Lava", desc: "Keyboard area becomes too hot to touch during gaming.", severity: 2, frequency: 3 },
                 { name: "Bad RMA", desc: "Support takes weeks to respond to failures.", severity: 2, frequency: 2 }
             ]
         },
         long_term_analysis: "The unibody aluminum chassis acts as a giant heatsink, dissipating heat directly into the battery compartment. Long term usage creates a thermal environment that degrades the battery electrolyte, causing swelling within 12-18 months.",
-        maintenance_cost_analysis: "Very High ($200+). Razer support is expensive. DIY battery replacement is possible but risky.",
+        maintenance_cost_analysis: "Very High ($200+). Razer support is expensive. DIY battery replacement is possible but voids warranty.",
         who_should_avoid: "Users in hot climates and anyone unwilling to open their laptop annually to check for battery danger.",
         faq_section: [
             { q: "What is the spicy pillow issue?", a: "It's when the battery swells up due to heat, potentially bending the chassis." },
-            { q: "Is Razer Blade reliable?", a: "No, thermal management is poor for the components used." }
+            { q: "Is Razer Blade reliable?", a: "No, thermal management is poor for the components used." },
+            { q: "Does it run hot?", a: "Severe. It is often too hot to keep on your lap." }
         ],
-        evidence_links: [],
+        seo_keywords: ["Razer Blade 15 battery bloat", "Razer spicy pillow", "Razer Blade overheating", "Razer reliability", "Razer repair cost"],
+        evidence_links: [ { source: "Reddit", title: "Spicy Pillow megathread", url: "#" } ],
         accessories: [
             { name: "IETS GT600", link: "https://amzn.to/46IyRJZ", desc: "Prevent bloat." },
             { name: "Mini Keyboard", link: "https://amzn.to/4aszZTn", desc: "Don't burn hands." }
@@ -152,18 +157,20 @@ const productsDB = [
             long_term_risk: "Hinge mechanism loosens causing screen wobble.",
             maintenance_cost: "Medium",
             issues: [
-                { name: "Hinge Snap", desc: "One hinge becomes loose after 1 year of flipping.", severity: 2, frequency: 2 },
+                { name: "Hinge Snap", desc: "One hinge becomes loose after 1 year of flipping. Causes screen to wobble.", severity: 2, frequency: 2 },
                 { name: "Bloatware", desc: "System slowed by 15+ pre-installed junk apps.", severity: 1, frequency: 3 },
-                { name: "Tablet Heat", desc: "Uncomfortable to hold in tablet mode.", severity: 2, frequency: 2 }
+                { name: "Tablet Heat", desc: "Uncomfortable to hold in tablet mode due to exhaust placement.", severity: 2, frequency: 2 }
             ]
         },
-        long_term_analysis: "Long term usage analysis shows that the hinges loosen significantly. Additionally, the motherboard layout is highly condensed, leading to thermal stress on the SSD and Wi-Fi card.",
-        maintenance_cost_analysis: "Medium ($300+). Hinge repair often requires replacing the entire screen assembly.",
+        long_term_analysis: "Long term usage analysis shows that the 360-degree hinges loosen significantly. Additionally, the motherboard layout is highly condensed, leading to thermal stress on the SSD and Wi-Fi card.",
+        maintenance_cost_analysis: "Medium ($300+). Hinge repair often requires replacing the entire screen assembly or bottom chassis.",
         who_should_avoid: "Users who don't actually need a tablet mode, and field workers who need a rugged device.",
         faq_section: [
             { q: "Do the hinges break?", a: "They loosen over time, causing screen wobble." },
-            { q: "Is it durable?", a: "Gem-cut design is prone to cosmetic damage." }
+            { q: "Is it durable?", a: "Gem-cut design is prone to cosmetic damage." },
+            { q: "Does it overheat?", a: "Yes, especially in tablet mode where airflow is restricted." }
         ],
+        seo_keywords: ["HP Spectre x360 hinge problem", "HP Spectre reliability", "HP Spectre overheating", "HP bloatware issues", "Spectre x360 repair"],
         evidence_links: [],
         accessories: [
             { name: "Care Pack", link: "https://amzn.to/4aN0WCk", desc: "Extend warranty." },
@@ -200,12 +207,14 @@ const productsDB = [
             ]
         },
         long_term_analysis: "Long term usage reveals that the cooling fans are the weak link. The display panel often develops ghosting issues or backlight bleed as the plastic bezel exerts uneven pressure over time.",
-        maintenance_cost_analysis: "Low ($50). Fans are cheap to replace, but annoyingly frequent.",
-        who_should_avoid: "Students who need a quiet laptop, and competitive gamers.",
+        maintenance_cost_analysis: "Low ($50). Fans are cheap to replace, but the frequency of failure is annoying.",
+        who_should_avoid: "Students who need a quiet laptop, and competitive gamers who need a fast-response screen.",
         faq_section: [
             { q: "Is it loud?", a: "Yes, fans are very loud under load." },
-            { q: "Is the screen good?", a: "No, significant ghosting makes it bad for shooters." }
+            { q: "Is the screen good?", a: "No, significant ghosting makes it bad for shooters." },
+            { q: "Is it durable?", a: "It feels cheap and flexes, despite 'Military Grade' marketing." }
         ],
+        seo_keywords: ["ASUS TUF A15 fan noise", "ASUS TUF reliability", "TUF A15 ghosting", "ASUS TUF overheating", "ASUS TUF repair cost"],
         evidence_links: [],
         accessories: [
             { name: "Headset", link: "https://amzn.to/4ttHnGR", desc: "Block fan noise." },
@@ -237,17 +246,19 @@ const productsDB = [
             maintenance_cost: "Impossible (Glue)",
             issues: [
                 { name: "Glue Trap", desc: "Zero repairability. Battery glued down.", severity: 2, frequency: 3 },
-                { name: "Alcantara Stain", desc: "Fabric absorbs sweat and turns gross.", severity: 2, frequency: 3 },
+                { name: "Alcantara Stain", desc: "Fabric absorbs sweat and turns gross. Cannot be cleaned.", severity: 2, frequency: 3 },
                 { name: "Thick Bezels", desc: "Design looks outdated compared to competition.", severity: 1, frequency: 3 }
             ]
         },
-        long_term_analysis: "Long term reliability is marred by zero repairability. The Alcantara fabric on the keyboard deck absorbs oils and sweat, turning visibly stained and gross after 6-9 months.",
-        maintenance_cost_analysis: "Impossible. Microsoft stores typically swap the unit for a high fee rather than repair.",
-        who_should_avoid: "Right-to-repair advocates and anyone with sweaty hands.",
+        long_term_analysis: "Long term reliability is marred by zero repairability. The Alcantara fabric on the keyboard deck absorbs oils and sweat, turning visibly stained and gross after 6-9 months—this cannot be cleaned or replaced.",
+        maintenance_cost_analysis: "Impossible. Microsoft stores typically swap the unit for a high fee rather than repair. Third-party repair is extremely difficult.",
+        who_should_avoid: "Right-to-repair advocates, heavy users who wear out batteries quickly, and anyone with sweaty hands.",
         faq_section: [
             { q: "Can you clean the Alcantara?", a: "Not really. Once oils soak in, it's permanent." },
-            { q: "Can I change the battery?", a: "No, it is glued shut." }
+            { q: "Can I change the battery?", a: "No, it is glued shut." },
+            { q: "Is it worth it?", a: "No, the design is dated and unrepairable." }
         ],
+        seo_keywords: ["Surface Laptop 5 alcantara stain", "Surface Laptop 5 repairability", "Surface Laptop 5 battery replacement", "Microsoft Surface reliability", "Surface Laptop 5 problems"],
         evidence_links: [],
         accessories: [
             { name: "Sleeve", link: "https://amzn.to/3Zu16Zb", desc: "Protect fabric." },
@@ -279,17 +290,19 @@ const productsDB = [
             maintenance_cost: "Low",
             issues: [
                 { name: "WiFi Dropouts", desc: "MediaTek cards struggle to maintain connection.", severity: 2, frequency: 3 },
-                { name: "Sticky Trackpad", desc: "Plastic trackpad feels cheap and wears down.", severity: 2, frequency: 3 },
+                { name: "Sticky Trackpad", desc: "Plastic trackpad feels cheap and wears down to a shine.", severity: 2, frequency: 3 },
                 { name: "Bloatware", desc: "Popups and ads out of the box.", severity: 1, frequency: 3 }
             ]
         },
-        long_term_analysis: "Chronic issues with the MediaTek Wi-Fi cards lead to persistent connection drops. The plastic trackpad surface wears down to a glossy shine and can become 'sticky'.",
-        maintenance_cost_analysis: "Low ($20). Replacing the Wi-Fi card with an Intel AX210 fixes the main issue.",
-        who_should_avoid: "Remote workers who need 100% stable internet.",
+        long_term_analysis: "Chronic issues with the MediaTek Wi-Fi cards lead to persistent connection drops. The plastic trackpad surface wears down to a glossy shine and can become 'sticky' or unresponsive.",
+        maintenance_cost_analysis: "Low ($20). Replacing the Wi-Fi card with an Intel AX210 fixes the main issue. Trackpad wear is permanent.",
+        who_should_avoid: "Remote workers who need 100% stable internet, and users who value premium build quality.",
         faq_section: [
             { q: "Is the WiFi bad?", a: "Yes, the MediaTek card is unreliable." },
-            { q: "Is the build quality good?", a: "It's average plastic/aluminum mix." }
+            { q: "Is the build quality good?", a: "It's average plastic/aluminum mix." },
+            { q: "Can I fix the WiFi?", a: "Yes, swap the card for an Intel one." }
         ],
+        seo_keywords: ["Acer Swift Go 14 wifi problems", "Acer Swift reliability", "Acer Swift Go 14 trackpad issues", "Acer bloatware", "Acer Swift repair cost"],
         evidence_links: [],
         accessories: [
             { name: "USB WiFi", link: "https://amzn.to/462RKXU", desc: "Stable internet." },
@@ -326,12 +339,14 @@ const productsDB = [
             ]
         },
         long_term_analysis: "The AMOLED screen is covered by ultra-thin glass that is prone to cracking under the chassis' own internal tension or minor flex. Long term durability is low for travelers.",
-        maintenance_cost_analysis: "High ($400+). AMOLED screens are expensive to replace.",
-        who_should_avoid: "Frequent travelers and students with crowded backpacks.",
+        maintenance_cost_analysis: "High ($400+). AMOLED screens are expensive to replace. Samsung support often classifies spontaneous cracks as 'user damage'.",
+        who_should_avoid: "Frequent travelers, students with crowded backpacks, and anyone clumsy.",
         faq_section: [
             { q: "Does the screen crack easily?", a: "Yes, reports of spontaneous cracking are common." },
-            { q: "Is it durable?", a: "No, it is extremely fragile." }
+            { q: "Is it durable?", a: "No, it is extremely fragile." },
+            { q: "Is the screen expensive?", a: "Yes, repair costs are very high." }
         ],
+        seo_keywords: ["Samsung Galaxy Book 3 screen crack", "Galaxy Book 3 reliability", "Samsung crack gate", "Galaxy Book 3 hinge wobble", "Samsung screen repair cost"],
         evidence_links: [],
         accessories: [
             { name: "Hard Case", link: "https://amzn.to/46ORImL", desc: "Prevent cracks." },
@@ -368,12 +383,14 @@ const productsDB = [
             ]
         },
         long_term_analysis: "Lenovo sources Wi-Fi cards from multiple vendors; units with Realtek cards experience high latency. The charging port can become loose if the heavy power brick is allowed to dangle.",
-        maintenance_cost_analysis: "Low ($20). Swapping the Wi-Fi card is easy and cheap.",
-        who_should_avoid: "Competitive gamers (unless upgrading Wi-Fi) and commuters.",
+        maintenance_cost_analysis: "Low ($20). Swapping the Wi-Fi card is easy and cheap. Paint wear is cosmetic.",
+        who_should_avoid: "Competitive gamers (unless upgrading Wi-Fi) and commuters who need light weight.",
         faq_section: [
             { q: "Is the WiFi bad?", a: "It depends on if you get the Realtek card." },
-            { q: "Is it heavy?", a: "Yes, the charger alone is massive." }
+            { q: "Is it heavy?", a: "Yes, the charger alone is massive." },
+            { q: "Is it reliable?", a: "Generally yes, aside from the WiFi card." }
         ],
+        seo_keywords: ["Lenovo Legion 5 wifi problem", "Legion 5 reliability", "Lenovo Legion 5 wifi upgrade", "Legion 5 paint chipping", "Lenovo repair cost"],
         evidence_links: [],
         accessories: [
             { name: "Intel WiFi", link: "https://amzn.to/4kuLdLw", desc: "Fix lag spikes." },
@@ -384,7 +401,7 @@ const productsDB = [
         id: "macbook-pro-13-m2",
         category: "laptop",
         brand: "Apple",
-        model: "MacBook Pro 13 (M2)",
+        model: "MacBook Pro 13",
         price: "$1,299",
         release_year: 2022,
         evidence_count: 720,
@@ -409,13 +426,15 @@ const productsDB = [
                 { name: "720p Webcam", desc: "Grainy video quality.", severity: 1, frequency: 3 }
             ]
         },
-        long_term_analysis: "The long-term risk isn't hardware failure, but obsolescence. The Touch Bar is a dead feature with no OS support improvements. Value retention will plummet.",
-        maintenance_cost_analysis: "High ($400+). Touch Bar replacement is costly.",
-        who_should_avoid: "Developers (need Esc key) and video editors.",
+        long_term_analysis: "The long-term risk isn't hardware failure, but obsolescence. The Touch Bar is a dead feature with no OS support improvements. Value retention will plummet faster than the M2 Air or Pro 14.",
+        maintenance_cost_analysis: "High ($400+). Touch Bar replacement is costly. It's rarely worth fixing on an outdated model.",
+        who_should_avoid: "Video editors (need better screen), developers (need physical Escape key), and anyone who wants their laptop to look modern in 2 years.",
         faq_section: [
             { q: "Is the Touch Bar useful?", a: "No, Apple has discontinued it." },
-            { q: "Is it better than the Air?", a: "No, the Air has a better screen and webcam." }
+            { q: "Is it better than the Air?", a: "No, the Air has a better screen and webcam." },
+            { q: "Is it reliable?", a: "Yes, but it is obsolete." }
         ],
+        seo_keywords: ["MacBook Pro 13 M2 touch bar", "MacBook Pro 13 reliability", "Apple M2 touch bar problems", "MacBook Pro 13 obsolete", "Apple repair cost"],
         evidence_links: [],
         accessories: [
             { name: "4K Webcam", link: "https://amzn.to/4adenvg", desc: "Look better." },
@@ -454,12 +473,14 @@ const productsDB = [
             ]
         },
         long_term_analysis: "Plastic frame mounts and soft aluminum extrusions loosen from vibration. High-speed printing accelerates wear on the V-wheels, creating 'slop' in the motion system.",
-        maintenance_cost_analysis: "Low ($20–$50). Parts are cheap, but calibration takes time.",
+        maintenance_cost_analysis: "Low ($20–$50). Parts are cheap, but the 'time cost' is high. You will spend hours recalibrating.",
         who_should_avoid: "Print farms and schools needing reliability.",
         faq_section: [
             { q: "What is gantry sag?", a: "The print arm droops on one side, making prints crooked." },
-            { q: "Is it reliable?", a: "Only if you tinker with it constantly." }
+            { q: "Is it reliable?", a: "Only if you tinker with it constantly." },
+            { q: "Is it good for beginners?", a: "Yes, but expect to learn maintenance." }
         ],
+        seo_keywords: ["Ender 3 V3 SE gantry sag", "Ender 3 reliability", "Creality V3 SE problems", "Ender 3 gear wear", "Ender 3 repair cost"],
         evidence_links: [ { source: "Reddit", title: "Gantry sag issues", url: "#" } ],
         accessories: [
             { name: "CR Touch", link: "https://amzn.to/4avRTV1", desc: "Fix leveling." },
@@ -482,7 +503,7 @@ const productsDB = [
             antidote_2: "https://amzn.to/4ataRvx"
         },
         recommendations: {
-            primary: { name: "Prusa Mini+", link: "https://amzn.to/3MIGFVp", benefits: ["Open Source", "Offline Privacy"] },
+            primary: { name: "Prusa Mini+", link: "https://amzn.to/3MIGFVp", benefits: ["Open Source", "Offline Privacy", "Moddable"] },
             secondary: { name: "AnkerMake M5C", link: "https://amzn.to/4agB7KS", reason: "Faster & Metal." }
         },
         description_summary: "Mechanically excellent but 'Walled Garden'. You rely 100% on Bambu for parts, and the 180mm volume is limiting.",
@@ -495,13 +516,15 @@ const productsDB = [
                 { name: "Proprietary", desc: "Cannot use generic cheap parts.", severity: 1, frequency: 3 }
             ]
         },
-        long_term_analysis: "If Bambu Lab changes their parts catalog, the printer loses functionality. The 180mm build volume often causes buyer's remorse.",
-        maintenance_cost_analysis: "Medium. Parts cost 3x more than generic Ender parts.",
-        who_should_avoid: "Privacy-conscious users and cosplay makers.",
+        long_term_analysis: "Mechanically reliable, but if Bambu Lab changes their parts catalog, the printer loses functionality. The 180mm build volume often causes buyer's remorse after 6 months.",
+        maintenance_cost_analysis: "Medium. Proprietary parts cost 3x more than generic Ender parts. You are locked into their ecosystem.",
+        who_should_avoid: "Privacy-conscious users and cosplay makers who need larger parts.",
         faq_section: [
             { q: "Is it too small?", a: "Yes, for helmets or large props." },
-            { q: "Can I use generic nozzles?", a: "No, you need Bambu hotends." }
+            { q: "Can I use generic nozzles?", a: "No, you need Bambu hotends." },
+            { q: "Is it fast?", a: "Yes, it is extremely fast." }
         ],
+        seo_keywords: ["Bambu Lab A1 Mini problems", "A1 Mini reliability", "Bambu Lab cloud privacy", "A1 Mini build volume", "Bambu Lab repair cost"],
         evidence_links: [],
         accessories: [
             { name: "PEI Plate", link: "https://amzn.to/4kyuwPk", desc: "Better adhesion." },
@@ -537,13 +560,15 @@ const productsDB = [
                 { name: "Messy Cleanup", desc: "Requires isopropyl alcohol washing.", severity: 2, frequency: 3 }
             ]
         },
-        long_term_analysis: "The LCD screen is a 'consumable' component that burns out after ~2000 hours. FEP film leaks are a catastrophic failure mode.",
-        maintenance_cost_analysis: "High ($50+). Screen replacement is expensive.",
-        who_should_avoid: "Apartment dwellers and families with pets.",
+        long_term_analysis: "The LCD screen is a 'consumable' component that burns out after ~2000 hours of UV exposure. FEP film leaks are a catastrophic failure mode that can ruin the screen and motor.",
+        maintenance_cost_analysis: "High ($50+). Screen replacement is expensive. A spill can total the machine.",
+        who_should_avoid: "Apartment dwellers without dedicated ventilation, families with pets/kids, and anyone unwilling to handle toxic chemicals.",
         faq_section: [
             { q: "Is it safe?", a: "No, resin fumes are toxic without ventilation." },
-            { q: "Does the screen last?", a: "No, it burns out eventually." }
+            { q: "Does the screen last?", a: "No, it burns out eventually." },
+            { q: "Is it messy?", a: "Yes, requires alcohol washing." }
         ],
+        seo_keywords: ["Anycubic Photon Mono 2 toxic", "Resin printer fumes", "Photon Mono 2 reliability", "Anycubic FEP leak", "Resin printer repair cost"],
         evidence_links: [],
         accessories: [
             { name: "Wash & Cure", link: "https://amzn.to/4tCG87Y", desc: "Safety essential." },
@@ -579,13 +604,15 @@ const productsDB = [
                 { name: "Wheel Dust", desc: "POM wheels wear out at high speeds.", severity: 2, frequency: 2 }
             ]
         },
-        long_term_analysis: "Long term stability is poor; the 'Z-Offset' bug often causes the nozzle to crash into the print bed, destroying the PEI sheet.",
-        maintenance_cost_analysis: "Medium ($30+). Bed sheets need replacement often.",
-        who_should_avoid: "Beginners who can't debug firmware code.",
+        long_term_analysis: "Long term stability is poor; the 'Z-Offset' bug often causes the nozzle to crash into the print bed, destroying the PEI sheet. The proprietary POM wheels wear down faster than standard V-wheels.",
+        maintenance_cost_analysis: "Medium ($30+). Bed sheets need replacement often due to crashes.",
+        who_should_avoid: "Beginners who don't know how to edit config files, and anyone who values a quiet working environment.",
         faq_section: [
             { q: "Is it buggy?", a: "Yes, firmware loses settings often." },
-            { q: "Is it quiet?", a: "No, it is extremely loud." }
+            { q: "Is it quiet?", a: "No, it is extremely loud." },
+            { q: "Does it print fast?", a: "Yes, but stability suffers." }
         ],
+        seo_keywords: ["Elegoo Neptune 4 Pro firmware", "Neptune 4 Pro Z-offset bug", "Elegoo reliability", "Neptune 4 Pro noise", "Elegoo repair cost"],
         evidence_links: [],
         accessories: [
             { name: "PEI Plate", link: "https://amzn.to/4ctaUtW", desc: "Spare plate." },
@@ -621,13 +648,15 @@ const productsDB = [
                 { name: "Overpriced", desc: "Paying premium for 2019 tech.", severity: 1, frequency: 3 }
             ]
         },
-        long_term_analysis: "The long-term risk isn't hardware failure, but obsolescence. You are paying a premium price for speeds that are 4x slower than modern competitors.",
-        maintenance_cost_analysis: "Low. Parts are standard and cheap.",
-        who_should_avoid: "Value seekers and speed demons.",
+        long_term_analysis: "The long-term risk isn't hardware failure, but obsolescence. You are paying a premium price for speeds that are 4x slower than modern competitors. Reliability is excellent, but 'Value Risk' is extreme.",
+        maintenance_cost_analysis: "Low. Parts are standard and open source. Support is legendary.",
+        who_should_avoid: "Value seekers (it's overpriced) and speed demons (it's slow).",
         faq_section: [
             { q: "Is it fast?", a: "No, it is very slow by modern standards." },
-            { q: "Is it reliable?", a: "Yes, extremely reliable." }
+            { q: "Is it reliable?", a: "Yes, extremely reliable." },
+            { q: "Is it worth $429?", a: "No, better printers exist for $299." }
         ],
+        seo_keywords: ["Prusa Mini slow speed", "Prusa Mini reliability", "Prusa Mini vs Bambu A1", "Prusa Mini obsolete", "Prusa repair cost"],
         evidence_links: [],
         accessories: [
             { name: "Raspberry Pi", link: "https://amzn.to/4awdywx", desc: "OctoPrint" },
@@ -663,13 +692,15 @@ const productsDB = [
                 { name: "Tube Melt", desc: "PTFE tube melts inside the hotend.", severity: 2, frequency: 2 }
             ]
         },
-        long_term_analysis: "Long term analysis shows high failure rates in the extruder (filament slipping) and the hotend (error codes). Vertical Fine Artifacts (VFA) on walls are common.",
-        maintenance_cost_analysis: "High ($40+). You need to buy the upgraded Extruder Kit to fix it.",
-        who_should_avoid: "Users who want a hassle-free experience.",
+        long_term_analysis: "Long term analysis shows high failure rates in the extruder (filament slipping) and the hotend (error codes). Vertical Fine Artifacts (VFA) on walls are common due to pulley issues.",
+        maintenance_cost_analysis: "High ($40+). You need to buy the upgraded Extruder Kit and Unicorn Nozzle to make it reliable.",
+        who_should_avoid: "Users who want a 'unboxing and print' experience. This machine requires upgrades to be stable.",
         faq_section: [
             { q: "Does it jam?", a: "Yes, Gen 1 extruders jam often." },
-            { q: "Is the print quality good?", a: "No, VFA ripples are visible." }
+            { q: "Is the print quality good?", a: "No, VFA ripples are visible." },
+            { q: "Can I fix it?", a: "Yes, by buying the Gen 2 extruder kit." }
         ],
+        seo_keywords: ["Creality K1 extruder jam", "Creality K1 VFA ripples", "Creality K1 reliability", "K1 Gen 1 problems", "Creality K1 repair"],
         evidence_links: [ { source: "Reddit", title: "K1 Gen 1 extruder fix", url: "#" } ],
         accessories: [
             { name: "Extruder Kit", link: "https://amzn.to/4kyx6F0", desc: "Essential fix." },
