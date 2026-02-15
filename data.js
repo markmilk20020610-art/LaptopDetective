@@ -1,4 +1,4 @@
-// data.js - v44.0 MERGED EDITION (24 Products: 16 Old + 8 New)
+// data.js - v45.0 ULTIMATE EDITION (30 Products: 16 Old + 8 New Laptops + 6 New Printers)
 const productsDB = [
     // ================= [EXISTING] LAPTOPS (10 Models) =================
     {
@@ -412,7 +412,7 @@ const productsDB = [
         ]
     },
 
-    // ================= [NEW] LAPTOPS (8 Models - Placeholder Links) =================
+    // ================= [NEW] LAPTOPS (8 Models) =================
     {
         id: "macbook-air-15-m3",
         category: "laptop",
@@ -995,6 +995,260 @@ const productsDB = [
         accessories: [
             { name: "Extruder Kit", link: "https://amzn.to/4kyx6F0", desc: "Essential fix." },
             { name: "Hyper PLA", link: "https://amzn.to/3ZCCYU7", desc: "High speed." }
+        ]
+    },
+
+    // ================= [NEW] 3D PRINTERS (6 Models - Placeholder Links) =================
+    {
+        id: "bambu-lab-x1-carbon",
+        category: "3d_printer",
+        brand: "Bambu Lab",
+        model: "X1-Carbon",
+        price: "$1,199",
+        release_year: 2024,
+        evidence_count: 5200,
+        image: "images/bambu-lab-x1-carbon.jpg",
+        links: {
+            solver: "https://amzn.to/placeholder_x1c",
+            value: "https://amzn.to/placeholder_p1s",
+            antidote_1: "https://amzn.to/placeholder_ams",
+            antidote_2: "https://amzn.to/placeholder_plate"
+        },
+        recommendations: {
+            primary: { name: "Prusa MK4", link: "https://amzn.to/placeholder_mk4", benefits: ["Open Source", "Repairable", "Quiet"] },
+            secondary: { name: "Creality K1C", link: "https://amzn.to/placeholder_k1c", reason: "Cheaper CoreXY alternative." }
+        },
+        description_summary: "The Bambu Lab X1-Carbon is the current 'iPhone of 3D printing,' offering incredible speed and AI features, but it comes with a significant 'Walled Garden' trade-off. Long-term analysis indicates a maintenance peak around months 3-6.",
+        risk_data: {
+            long_term_risk: "Proprietary ecosystem lock-in. Carbon rods wear out.",
+            maintenance_cost: "High",
+            issues: [
+                { name: "AMS Jam", severity: 2, frequency: 3, desc: "Filament retraction fails often causing downtime." },
+                { name: "Carbon Wear", severity: 2, frequency: 1, desc: "Rods wear out, hard to replace, conductive dust." },
+                { name: "Noise", severity: 1, frequency: 3, desc: "Very loud movement and fan noise." }
+            ]
+        },
+        long_term_analysis: "If Bambu Lab changes their parts catalog, this printer loses functionality. The carbon rods are consumable and expensive ($100+) to replace. AMS units require frequent disassembly to clear jams.",
+        maintenance_cost_analysis: "High ($150+). Parts are proprietary and pricey. Shipping times for spares can be long.",
+        who_should_avoid: "Open-source advocates, quiet offices, and users who want to use cheap generic spare parts.",
+        faq_section: [
+            { q: "Can I repair it myself?", a: "Yes, but parts are exclusive to Bambu Lab." },
+            { q: "Is it loud?", a: "Yes, extremely loud at high speeds." },
+            { q: "Does the AMS jam?", a: "Frequently, especially with cardboard spools." }
+        ],
+        accessories: [
+            { name: "AMS Hub", link: "https://amzn.to/placeholder_hub", desc: "Multi-color buffer." },
+            { name: "Hardened Nozzle", link: "https://amzn.to/placeholder_nozzle", desc: "For abrasive materials." }
+        ]
+    },
+    {
+        id: "prusa-mk4",
+        category: "3d_printer",
+        brand: "Prusa",
+        model: "MK4",
+        price: "$799",
+        release_year: 2024,
+        evidence_count: 2100,
+        image: "images/prusa-mk4.jpg",
+        links: {
+            solver: "https://amzn.to/placeholder_mk4",
+            value: "https://amzn.to/placeholder_sv06",
+            antidote_1: "https://amzn.to/placeholder_enclosure",
+            antidote_2: "https://amzn.to/placeholder_sheet"
+        },
+        recommendations: {
+            primary: { name: "Bambu A1", link: "https://amzn.to/placeholder_a1", benefits: ["Faster", "Cheaper", "Multi-color"] },
+            secondary: { name: "Sovol SV06", link: "https://amzn.to/placeholder_sv06", reason: "Budget clone with similar kinematics." }
+        },
+        description_summary: "The Prusa MK4 is the reliable workhorse of the industry, but it struggles to justify its price against modern CoreXY competitors. Reliability analysis shows it is incredibly stable, but printed PETG parts in the frame structure can suffer from 'creep'.",
+        risk_data: {
+            long_term_risk: "PETG printed parts creep/warp over years. Slow ROI.",
+            maintenance_cost: "Low",
+            issues: [
+                { name: "Slow Speed", severity: 2, frequency: 3, desc: "Slower than CoreXY rivals by 50%." },
+                { name: "Part Creep", severity: 1, frequency: 2, desc: "Printed frame parts sag over years." },
+                { name: "Price", severity: 2, frequency: 3, desc: "Expensive for a bedslinger design." }
+            ]
+        },
+        long_term_analysis: "Extremely reliable, but technology is aging. The structure relies on 3D printed parts which can crack or warp after years of heat cycling. Value proposition is low compared to Bambu Lab A1 or P1P.",
+        maintenance_cost_analysis: "Low ($20). Most parts are standard and open source. Support is legendary.",
+        who_should_avoid: "Speed demons, budget buyers, and those wanting an enclosed printer.",
+        faq_section: [
+            { q: "Is it fast?", a: "Decent, but not top tier like CoreXY." },
+            { q: "Is it reliable?", a: "Yes, it is the gold standard for uptime." },
+            { q: "Why is it expensive?", a: "You pay for 24/7 support and quality control." }
+        ],
+        accessories: [
+            { name: "Enclosure", link: "https://amzn.to/placeholder_enc", desc: "For ABS/ASA printing." },
+            { name: "Satin Sheet", link: "https://amzn.to/placeholder_satin", desc: "Best surface for PLA/PETG." }
+        ]
+    },
+    {
+        id: "creality-ender-3-v3-ke",
+        category: "3d_printer",
+        brand: "Creality",
+        model: "Ender 3 V3 KE",
+        price: "$279",
+        release_year: 2025,
+        evidence_count: 3000,
+        image: "images/creality-ender-3-v3-ke.jpg",
+        links: {
+            solver: "https://amzn.to/placeholder_ke",
+            value: "https://amzn.to/placeholder_kobra",
+            antidote_1: "https://amzn.to/placeholder_hotend",
+            antidote_2: "https://amzn.to/placeholder_nebula"
+        },
+        recommendations: {
+            primary: { name: "Bambu A1 Mini", link: "https://amzn.to/placeholder_a1m", benefits: ["Less Tinkering", "Better App"] },
+            secondary: { name: "Anycubic Kobra 2", link: "https://amzn.to/placeholder_kobra2", reason: "Sturdier frame construction." }
+        },
+        description_summary: "A high-speed bedslinger that pushes cheap components to their limit. The Ender 3 V3 KE offers immense value but suffers from a 'Quality Control Lottery'. The most critical issue is the 'Blob of Death', where the hotend leaks.",
+        risk_data: {
+            long_term_risk: "Hotend leakage destroys wiring. Gantry sag.",
+            maintenance_cost: "Low",
+            issues: [
+                { name: "Blob of Death", severity: 3, frequency: 2, desc: "Hotend leaks, encasing head in plastic." },
+                { name: "Gantry Sag", severity: 2, frequency: 3, desc: "Right side droops, causing bed level issues." },
+                { name: "Software", severity: 1, frequency: 3, desc: "Nebula pad is buggy and loses WiFi." }
+            ]
+        },
+        long_term_analysis: "This machine shakes itself apart. Screws loosen, V-wheels wear out rapidly at 500mm/s, and the hotend design is prone to catastrophic leaks if the nozzle isn't hot-tightened by the user.",
+        maintenance_cost_analysis: "Low ($20-$40). Parts are cheap and widely available on Amazon/AliExpress.",
+        who_should_avoid: "People who hate using a screwdriver and troubleshooting wiring.",
+        faq_section: [
+            { q: "Is it beginner friendly?", a: "No, requires mechanical setup and tuning." },
+            { q: "Does it leak?", a: "Yes, watch the nozzle for leaks weekly." },
+            { q: "Is the software stable?", a: "Klipper pad is often buggy." }
+        ],
+        accessories: [
+            { name: "Micro Swiss Hotend", link: "https://amzn.to/placeholder_swiss", desc: "Prevent leaks permanently." },
+            { name: "Linear Rail Kit", link: "https://amzn.to/placeholder_rail", desc: "Fix gantry sag." }
+        ]
+    },
+    {
+        id: "anycubic-kobra-2-max",
+        category: "3d_printer",
+        brand: "Anycubic",
+        model: "Kobra 2 Max",
+        price: "$499",
+        release_year: 2025,
+        evidence_count: 850,
+        image: "images/anycubic-kobra-2-max.jpg",
+        links: {
+            solver: "https://amzn.to/placeholder_max",
+            value: "https://amzn.to/placeholder_neptune",
+            antidote_1: "https://amzn.to/placeholder_sensor",
+            antidote_2: "https://amzn.to/placeholder_nozzle"
+        },
+        recommendations: {
+            primary: { name: "Elegoo Neptune 4 Max", link: "https://amzn.to/placeholder_nep4max", benefits: ["Klipper Native", "Better Fans"] },
+            secondary: { name: "Prusa XL", link: "https://amzn.to/placeholder_xl", reason: "Reliable large scale (expensive)." }
+        },
+        description_summary: "Massive build volume meets basic physics. The Kobra 2 Max suffers from severe 'Bed Inertia' issues. Moving a 420x420mm heated bed at high speeds causes layer shifts and rapid belt wear.",
+        risk_data: {
+            long_term_risk: "Bed heavy inertia causes layer shifts. Proprietary nozzle.",
+            maintenance_cost: "Medium",
+            issues: [
+                { name: "Layer Shift", severity: 3, frequency: 2, desc: "Y-axis motor skips steps due to weight." },
+                { name: "Proprietary Nozzle", severity: 2, frequency: 3, desc: "Cannot use generic cheap nozzles." },
+                { name: "Bed Warping", severity: 2, frequency: 2, desc: "Large bed is rarely perfectly flat." }
+            ]
+        },
+        long_term_analysis: "Physics works against this printer. Moving a massive heated bed at high speeds wears out belts, pulleys, and stepper motors quickly. Finding a replacement proprietary nozzle can be hard if Anycubic supply dries up.",
+        maintenance_cost_analysis: "Medium ($50-$80). Large parts cost more shipping. Belts need frequent replacement.",
+        who_should_avoid: "Users printing small detailed items or needing abrasive resistance.",
+        faq_section: [
+            { q: "Is it precise?", a: "No, better for large props and cosplay." },
+            { q: "Is bed flat?", a: "Rarely, relies heavily on mesh leveling." },
+            { q: "Can I upgrade nozzle?", a: "Only with Anycubic proprietary parts." }
+        ],
+        accessories: [
+            { name: "Filament Sensor", link: "https://amzn.to/placeholder_sensor", desc: "For long prints." },
+            { name: "Belt Tensioner", link: "https://amzn.to/placeholder_belt", desc: "Prevent slips." }
+        ]
+    },
+    {
+        id: "ankermake-m5",
+        category: "3d_printer",
+        brand: "AnkerMake",
+        model: "M5",
+        price: "$399",
+        release_year: 2024,
+        evidence_count: 900,
+        image: "images/ankermake-m5.jpg",
+        links: {
+            solver: "https://amzn.to/placeholder_m5",
+            value: "https://amzn.to/placeholder_prusa",
+            antidote_1: "https://amzn.to/placeholder_hardened",
+            antidote_2: "https://amzn.to/placeholder_wheels"
+        },
+        recommendations: {
+            primary: { name: "Bambu A1", link: "https://amzn.to/placeholder_a1", benefits: ["Multi-color", "Better Slicer", "Faster"] },
+            secondary: { name: "Prusa Mini", link: "https://amzn.to/placeholder_mini", reason: "Standard parts & Reliability." }
+        },
+        description_summary: "Premium build quality marred by proprietary lock-in and failing AI promises. The 'AI spaghetti detection' is often a gimmick, providing false positives or missing failures entirely.",
+        risk_data: {
+            long_term_risk: "Wheel wear and proprietary hotend. AI failure.",
+            maintenance_cost: "Medium",
+            issues: [
+                { name: "Wheel Dust", severity: 2, frequency: 3, desc: "Wheels shred at 500mm/s speeds." },
+                { name: "AI Gimmick", severity: 1, frequency: 3, desc: "Camera detection gives false positives." },
+                { name: "Hotend Clog", severity: 2, frequency: 2, desc: "PTFE tube gap causes internal jams." }
+            ]
+        },
+        long_term_analysis: "Anker over-engineered the wrong parts. The structure is solid, but the motion system uses rubber wheels that disintegrate at high speeds. The proprietary hotend is a single point of failure that costs 3x a standard Ender hotend.",
+        maintenance_cost_analysis: "Medium ($40-$60). Wheels need constant replacing or upgrading to linear rails.",
+        who_should_avoid: "Users expecting perfect AI monitoring and modders.",
+        faq_section: [
+            { q: "Does AI work?", a: "Barely, it's mostly marketing." },
+            { q: "Is it fast?", a: "Yes, but it wears parts out quickly." },
+            { q: "Can I use Cura?", a: "Yes, but Anker slicer is recommended." }
+        ],
+        accessories: [
+            { name: "Hardened Nozzle", link: "https://amzn.to/placeholder_hardened", desc: "For abrasive filaments." },
+            { name: "Linear Rail Mod", link: "https://amzn.to/placeholder_mod", desc: "Fix wheel wear." }
+        ]
+    },
+    {
+        id: "formlabs-form-4",
+        category: "3d_printer",
+        brand: "Formlabs",
+        model: "Form 4",
+        price: "$4,499",
+        release_year: 2025,
+        evidence_count: 120,
+        image: "images/formlabs-form-4.jpg",
+        links: {
+            solver: "https://amzn.to/placeholder_form4",
+            value: "https://amzn.to/placeholder_gktwo",
+            antidote_1: "https://amzn.to/placeholder_wash",
+            antidote_2: "https://amzn.to/placeholder_tank"
+        },
+        recommendations: {
+            primary: { name: "Uniformation GKtwo", link: "https://amzn.to/placeholder_gktwo", benefits: ["Open Resin System", "Much Cheaper"] },
+            secondary: { name: "Peopoly Phenom", link: "https://amzn.to/placeholder_peopoly", reason: "Larger volume for less." }
+        },
+        description_summary: "The industry standard for SLA, but it operates on a 'Printer is cheap, ink is expensive' model. The new print engine is fast, but the 'Chip DRM' on resin cartridges and tanks forces users to pay premium prices for consumables.",
+        risk_data: {
+            long_term_risk: "Ecosystem lock-in and massive consumable costs.",
+            maintenance_cost: "Very High",
+            issues: [
+                { name: "Resin DRM", severity: 3, frequency: 3, desc: "Cartridges are chipped, blocking 3rd party resin." },
+                { name: "Tank Wear", severity: 2, frequency: 3, desc: "Resin tanks cloud and need replacing often." },
+                { name: "Spill Risk", severity: 3, frequency: 1, desc: "Optics ruin instantly if spill occurs." }
+            ]
+        },
+        long_term_analysis: "Excellent print quality, but you will spend the printer's cost in resin within 2 years. Resin DRM prevents using affordable 3rd party materials. It is a closed ecosystem designed for enterprise budgets, not individuals.",
+        maintenance_cost_analysis: "Very High ($500+). Optics cleaning or replacement is expensive. Consumables are pricey.",
+        who_should_avoid: "Cost-sensitive businesses and hobbyists.",
+        faq_section: [
+            { q: "Can I use other resin?", a: "Difficult, 'Open Mode' voids some support." },
+            { q: "Is it reliable?", a: "Yes, extremely, but costly." },
+            { q: "Is it messy?", a: "Less than others due to automation." }
+        ],
+        accessories: [
+            { name: "Form Wash", link: "https://amzn.to/placeholder_wash", desc: "Automated cleaning." },
+            { name: "Spare Resin Tank", link: "https://amzn.to/placeholder_tank", desc: "Required consumable." }
         ]
     }
 ];
