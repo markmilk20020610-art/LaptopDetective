@@ -1,7 +1,8 @@
-// app.js - v45.2 (SEO Injection + Trust Module + Compliance UI)
+// app.js - v45.3 (Restored Filters + Anti-Flicker + Trust Logic)
 
 // Global State
 let currentProductId = null;
+let currentCategory = 'all'; // State for filter
 
 // --- 1. Initialization & Routing ---
 
@@ -18,10 +19,9 @@ function handleRoute() {
     const hash = window.location.hash;
     
     // SEO Reset for Home
-    if (!hash || hash === '#') {
+    if (!hash || hash === '#' || hash === '') {
         renderHome();
-        updateSEO(null); // Reset SEO to default
-        window.scrollTo(0, 0);
+        updateSEO(null); // Reset SEO
         return;
     }
 
@@ -32,20 +32,26 @@ function handleRoute() {
         if (product) {
             currentProductId = id;
             renderProduct(product);
-            updateSEO(product); // Inject Dynamic SEO
+            updateSEO(product); 
             window.scrollTo(0, 0);
         } else {
-            // Product not found, redirect home
             window.location.hash = '#';
         }
     }
 }
 
-// --- 2. SEO Injection Engine (Pure Frontend) ---
+// --- 2. Logic: Filtering ---
+
+function setCategory(category) {
+    currentCategory = category;
+    renderHome(); // Re-render with new filter
+}
+
+// --- 3. SEO Injection (Stable) ---
 
 function updateSEO(product) {
-    const defaultTitle = "TechDetective | Hardware Failure Database & Risk Analysis";
-    const defaultDesc = "Don't buy new tech until you check the failure timeline. We analyze long-term reliability risks for laptops and 3D printers.";
+    const defaultTitle = "TechDetective | Hardware Failure Database";
+    const defaultDesc = "Don't buy new tech until you check the failure timeline. We analyze long-term reliability risks.";
 
     if (!product) {
         document.title = defaultTitle;
@@ -53,11 +59,8 @@ function updateSEO(product) {
         return;
     }
 
-    // Dynamic Title
-    document.title = `${product.model} Failure Analysis & Risk Score | TechDetective`;
-
-    // Dynamic Description
-    const newDesc = `WARNING: ${product.model} Risk Score: ${product.risk_score}/100. Critical failure identified: ${product.risk_data.long_term_risk}. Check repair costs before buying.`;
+    document.title = `${product.model} - Risk Analysis | TechDetective`;
+    const newDesc = `WARNING: ${product.model} Risk Score: ${product.risk_score}/95. Failure: ${product.risk_data.long_term_risk}.`;
     setMetaDescription(newDesc);
 }
 
@@ -68,16 +71,29 @@ function setMetaDescription(text) {
         meta.name = "description";
         document.head.appendChild(meta);
     }
-    meta.setAttribute("content", text);
+    // Only update if changed to prevent flashing
+    if (meta.getAttribute("content") !== text) {
+        meta.setAttribute("content", text);
+    }
 }
 
-// --- 3. Rendering Logic ---
+// --- 4. Rendering Logic ---
 
 function renderHome() {
     const app = document.getElementById('app');
     
-    // Sort by Risk Score (Highest Risk First)
-    const sortedDB = [...productsDB].sort((a, b) => b.risk_score - a.risk_score);
+    // Filter & Sort
+    let filteredDB = productsDB;
+    if (currentCategory !== 'all') {
+        filteredDB = productsDB.filter(p => p.category === currentCategory);
+    }
+    // Sort by Risk Score (Desc)
+    filteredDB.sort((a, b) => b.risk_score - a.risk_score);
+
+    // Active Button Styles
+    const btnAll = currentCategory === 'all' ? 'btn-primary' : 'btn-secondary';
+    const btnLap = currentCategory === 'laptop' ? 'btn-primary' : 'btn-secondary';
+    const btnPrint = currentCategory === '3d_printer' ? 'btn-primary' : 'btn-secondary';
 
     let html = `
         <header class="hero">
@@ -85,21 +101,35 @@ function renderHome() {
             <h1>Don't Buy A Time Bomb.</h1>
             <p>We analyze long-term failure rates so you don't waste money.</p>
         </header>
-        
+
         <div class="container">
+            <div style="display:flex; justify-content:center; gap:10px; margin-bottom: 2rem;">
+                <button onclick="setCategory('all')" class="btn ${btnAll}" style="width:auto; padding: 8px 20px;">All</button>
+                <button onclick="setCategory('laptop')" class="btn ${btnLap}" style="width:auto; padding: 8px 20px;">Laptops</button>
+                <button onclick="setCategory('3d_printer')" class="btn ${btnPrint}" style="width:auto; padding: 8px 20px;">3D Printers</button>
+            </div>
+
             <div class="grid">
     `;
 
-    sortedDB.forEach(product => {
-        // Color coding for Risk Score card
-        let scoreColor = 'safe'; 
-        if (product.risk_score > 80) scoreColor = 'critical';
-        else if (product.risk_score > 60) scoreColor = 'warning';
+    if (filteredDB.length === 0) {
+        html += `<div style="text-align:center; grid-column: 1/-1; padding: 2rem;">No products found in this category.</div>`;
+    }
 
+    filteredDB.forEach(product => {
+        let scoreColor = 'safe'; 
+        if (product.risk_score >= 80) scoreColor = 'critical';
+        else if (product.risk_score >= 60) scoreColor = 'warning';
+
+        // Fix Flickering: Add background color to img container
         html += `
             <a href="#/product/${product.id}" class="card">
                 <div class="card-badge ${scoreColor}">Risk Score: ${product.risk_score}</div>
-                <img src="${product.image}" alt="${product.model}" onerror="this.src='https://via.placeholder.com/300x200?text=No+Image'">
+                <div style="background:#f1f5f9; height:200px; width:100%;">
+                    <img src="${product.image}" alt="${product.model}" 
+                         style="width:100%; height:100%; object-fit:cover; display:block;"
+                         onerror="this.onerror=null;this.src='https://via.placeholder.com/300x200?text=No+Image';">
+                </div>
                 <div class="card-content">
                     <h3>${product.model}</h3>
                     <p class="price">Price: ${product.price}</p>
@@ -115,7 +145,6 @@ function renderHome() {
         </div>
         <footer>
             <p>&copy; 2026 TechDetective. Unbiased Reliability Analysis.</p>
-            <p style="font-size: 0.8rem; color: #666;">Disclaimer: We may earn affiliate commissions from links. Risk scores are based on aggregated user reports and technical analysis.</p>
         </footer>
     `;
 
@@ -125,12 +154,11 @@ function renderHome() {
 function renderProduct(product) {
     const app = document.getElementById('app');
 
-    // 3.1 Trust Module Logic
+    // UI Logic for Colors
     let scoreColorClass = 'safe-text';
-    if (product.risk_score > 80) scoreColorClass = 'critical-text';
-    else if (product.risk_score > 60) scoreColorClass = 'warning-text';
+    if (product.risk_score >= 80) scoreColorClass = 'critical-text';
+    else if (product.risk_score >= 60) scoreColorClass = 'warning-text';
 
-    // Trend Badge Logic
     let trendHtml = '';
     if (product.risk_score > 60 && product.trend_badge === "Trending Risk") {
         trendHtml = `<span class="trend-badge warning-bg">⚠️ Trending Risk</span>`;
@@ -138,19 +166,18 @@ function renderProduct(product) {
         trendHtml = `<span class="trend-badge safe-bg">🛡️ Verified Stable</span>`;
     }
 
-    // Confidence Level Logic
-    let confColor = '#ccc'; // Low
-    if (product.confidence_level === 'High') confColor = '#10b981'; // Green
-    if (product.confidence_level === 'Medium') confColor = '#3b82f6'; // Blue
+    let confColor = '#ccc'; 
+    if (product.confidence_level === 'High') confColor = '#10b981';
+    if (product.confidence_level === 'Medium') confColor = '#3b82f6';
     
     const confidenceHtml = `
         <div class="confidence-meter">
             <span class="dot" style="background-color: ${confColor}"></span>
-            <span class="conf-text">${product.confidence_level} Confidence</span>
+            <span class="conf-text">${product.confidence_level || 'Low'} Confidence</span>
         </div>
     `;
 
-    // 3.2 HTML Construction
+    // Render HTML
     const html = `
         <div class="nav-bar">
             <a href="#" class="back-btn">&larr; Back to List</a>
@@ -158,7 +185,11 @@ function renderProduct(product) {
 
         <div class="product-detail-container">
             <div class="detail-header">
-                <img src="${product.image}" alt="${product.model}" class="detail-img" onerror="this.src='https://via.placeholder.com/400x300?text=No+Image'">
+                <div style="flex:1; max-width:400px; background:#f1f5f9; border-radius:12px; overflow:hidden;">
+                    <img src="${product.image}" alt="${product.model}" class="detail-img" 
+                         style="display:block; width:100%;"
+                         onerror="this.onerror=null;this.src='https://via.placeholder.com/400x300?text=No+Image'">
+                </div>
                 <div class="header-info">
                     <h1>${product.model}</h1>
                     <div class="meta-tags">
@@ -175,7 +206,7 @@ function renderProduct(product) {
                         <div class="trust-meta">
                             ${trendHtml}
                             ${confidenceHtml}
-                            <div class="source-note">🛡️ Analysis based on aggregated user reports</div>
+                            <div class="source-note">🛡️ Based on aggregated user reports</div>
                         </div>
                     </div>
                 </div>
@@ -189,13 +220,11 @@ function renderProduct(product) {
             </div>
 
             <div class="detail-grid">
-                
                 <div class="col-left">
                     <section class="section warning-section">
-                        <h2>⚠️ Why it Fails (The Time Bomb)</h2>
+                        <h2>⚠️ Why it Fails</h2>
                         <p class="analysis-text">${product.description_summary}</p>
                         <p class="analysis-text"><strong>Technical Analysis:</strong> ${product.long_term_analysis}</p>
-                        
                         <div class="issues-list">
                             ${product.risk_data.issues.map(issue => `
                                 <div class="issue-item">
@@ -220,13 +249,10 @@ function renderProduct(product) {
                 </div>
 
                 <div class="col-right">
-                    
                     <div class="solution-card antidote-card">
                         <h3>💊 The Antidote (Fix It)</h3>
-                        <p>Already own it? Extend its lifespan with these specific fixes:</p>
                         <ul class="link-list">
                             ${product.accessories.map((acc, index) => {
-                                // Dynamic link selection
                                 const link = index === 0 ? product.links.antidote_1 : product.links.antidote_2;
                                 return `<li><a href="${link}" target="_blank" rel="nofollow sponsored">👉 Get ${acc.name}</a><br><small>${acc.desc}</small></li>`;
                             }).join('')}
@@ -235,7 +261,6 @@ function renderProduct(product) {
 
                     <div class="solution-card solver-card">
                         <h3>🏆 The Better Choice</h3>
-                        <p>Don't deal with these headaches. Get this instead:</p>
                         <div class="rec-product">
                             <strong>${product.recommendations.primary.name}</strong>
                             <ul>
@@ -247,14 +272,12 @@ function renderProduct(product) {
 
                     <div class="solution-card value-card">
                         <h3>🏷️ Best Value Alternative</h3>
-                        <p>Save money, lose the risk:</p>
                         <div class="rec-product">
                             <strong>${product.recommendations.secondary.name}</strong>
                             <p>${product.recommendations.secondary.reason}</p>
                             <a href="${product.links.value}" target="_blank" rel="nofollow sponsored" class="btn btn-secondary">Check Price</a>
                         </div>
                     </div>
-
                 </div>
             </div>
 
@@ -266,10 +289,6 @@ function renderProduct(product) {
                         <div class="faq-a">A: ${faq.a}</div>
                     </div>
                 `).join('')}
-            </div>
-            
-            <div style="text-align:center; margin-top: 40px; color: #888; font-size: 0.8rem;">
-                <p>Disclaimer: TechDetective is reader-supported. We may earn commissions if you buy through our links.</p>
             </div>
         </div>
     `;
