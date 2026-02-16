@@ -1,4 +1,4 @@
-// app.js - v45.6 (Final Safe Conversion + Restored Filters + SEO)
+// app.js - v45.7 (Final Conversion Polish: Specific Risks + Community Anchors)
 
 // Global State
 let currentProductId = null;
@@ -58,8 +58,8 @@ function updateSEO(product) {
     }
 
     // Dynamic Title for Product Pages
-    document.title = `${product.model} - Risk Analysis | TechDetective`;
-    const newDesc = `Risk Score: ${product.risk_score}/95. Flagged for: ${product.risk_data.long_term_risk}. Read the full analysis.`;
+    document.title = `${product.model} - Reliability Concern Identified | TechDetective`;
+    const newDesc = `Risk Score: ${product.risk_score}/95. Concern: ${product.risk_data.long_term_risk}. Read the full analysis.`;
     setMetaDescription(newDesc);
 }
 
@@ -87,8 +87,7 @@ function renderHome() {
         filteredDB = productsDB.filter(p => p.category === currentCategory);
     }
 
-    // B. Sorting Logic (The "Ranking" Function)
-    // Sorts from Highest Risk (95) to Lowest Risk (0)
+    // B. Sorting Logic (Highest Risk First)
     filteredDB.sort((a, b) => b.risk_score - a.risk_score);
 
     // C. Button State Styling
@@ -181,10 +180,10 @@ function renderProduct(product) {
         </div>
     `;
 
-    // Estimate Repair Cost (Safe Logic)
+    // Estimate Repair Cost (Community Avg Logic)
     let repairEst = "$150 - $300";
     if (product.risk_data.maintenance_cost === "High") repairEst = "$300 - $600";
-    if (product.risk_data.maintenance_cost === "Total Loss") repairEst = "Unit Replacement";
+    if (product.risk_data.maintenance_cost === "Total Loss") repairEst = "Total Unit Replacement";
     if (product.risk_data.maintenance_cost === "Low") repairEst = "$50 - $100";
     if (product.risk_data.maintenance_cost === "Very High") repairEst = "$500+";
 
@@ -224,7 +223,7 @@ function renderProduct(product) {
 
             <div class="verdict-bar">
                 <div class="verdict-content">
-                    <strong>Primary Risk:</strong> 
+                    <strong>Primary Concern:</strong> 
                     <span>${product.risk_data.long_term_risk}</span>
                 </div>
             </div>
@@ -232,7 +231,7 @@ function renderProduct(product) {
             <div class="detail-grid">
                 <div class="col-left">
                     <section class="section warning-section">
-                        <h2>⚠️ Analysis Report</h2>
+                        <h2>⚠️ Reliability Analysis</h2>
                         <p class="analysis-text">${product.description_summary}</p>
                         <p class="analysis-text"><strong>Technical Detail:</strong> ${product.long_term_analysis}</p>
                         <div class="issues-list">
@@ -263,8 +262,9 @@ function renderProduct(product) {
                     <div class="solution-card solver-card">
                         <h3>🏆 Recommended Alternative</h3>
                         
-                        <div style="margin-bottom:1rem; font-size:0.85rem; color:#b45309; background:#fffbeb; padding:8px; border-radius:4px; border-left:3px solid #f59e0b;">
-                            <strong>Flagged for:</strong> ${product.risk_data.long_term_risk}
+                        <div style="margin-bottom:1rem; font-size:0.85rem; color:#b45309; background:#fffbeb; padding:10px; border-radius:4px; border-left:4px solid #f59e0b;">
+                            <strong>Reliability Concern Identified:</strong><br>
+                            ${product.risk_data.long_term_risk}
                         </div>
 
                         <div class="rec-product">
@@ -276,7 +276,7 @@ function renderProduct(product) {
                             <a href="${product.links.solver}" target="_blank" rel="nofollow sponsored" class="btn btn-primary">View Alternative</a>
                             
                             <div style="text-align:center; margin-top:12px; font-size:0.8rem; color:#64748b; border-top:1px solid #e2e8f0; padding-top:8px;">
-                                Est. Repair Cost of ${product.model}:<br>
+                                Est. Maintenance (Community Avg):<br>
                                 <strong>${repairEst}</strong>
                             </div>
                         </div>
