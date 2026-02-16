@@ -1,4 +1,4 @@
-// app.js - v45.4 (Conversion Optimization: Risk Context + Repair Anchoring)
+// app.js - v45.5 (Final Fusion: Buttons + Anti-Flicker + Conversion Logic)
 
 // Global State
 let currentProductId = null;
@@ -77,12 +77,15 @@ function setMetaDescription(text) {
 function renderHome() {
     const app = document.getElementById('app');
     
+    // Filter
     let filteredDB = productsDB;
     if (currentCategory !== 'all') {
         filteredDB = productsDB.filter(p => p.category === currentCategory);
     }
+    // Sort
     filteredDB.sort((a, b) => b.risk_score - a.risk_score);
 
+    // Button Styles
     const btnAll = currentCategory === 'all' ? 'btn-primary' : 'btn-secondary';
     const btnLap = currentCategory === 'laptop' ? 'btn-primary' : 'btn-secondary';
     const btnPrint = currentCategory === '3d_printer' ? 'btn-primary' : 'btn-secondary';
@@ -136,7 +139,7 @@ function renderHome() {
         </div>
         <footer style="text-align:center; padding: 2rem; color: #64748b; font-size: 0.9rem;">
             <p>&copy; 2026 TechDetective. Unbiased Reliability Analysis.</p>
-            <p style="margin-top:0.5rem; opacity: 0.8;"><strong>Affiliate Disclosure:</strong> We may earn a commission from qualifying purchases made through links on this site. This supports our testing but does not affect our risk scores.</p>
+            <p style="margin-top:0.5rem; opacity: 0.8;"><strong>Affiliate Disclosure:</strong> We may earn a commission from qualifying purchases.</p>
         </footer>
     `;
 
@@ -169,12 +172,12 @@ function renderProduct(product) {
         </div>
     `;
 
-    // --- Dynamic Monetization Text ---
-    // We estimate repair cost based on maintenance_cost string
+    // Estimate Repair Cost (Anchor Logic)
     let repairEst = "$150 - $300";
     if (product.risk_data.maintenance_cost === "High") repairEst = "$300 - $600";
     if (product.risk_data.maintenance_cost === "Total Loss") repairEst = "Total Unit Replacement";
     if (product.risk_data.maintenance_cost === "Low") repairEst = "$50 - $100";
+    if (product.risk_data.maintenance_cost === "Very High") repairEst = "$500+";
 
     const html = `
         <div class="nav-bar">
@@ -300,7 +303,7 @@ function renderProduct(product) {
             </div>
 
             <div style="text-align:center; margin-top: 40px; color: #888; font-size: 0.8rem;">
-                <p><strong>Affiliate Disclosure:</strong> TechDetective is reader-supported. We may earn commissions if you buy through our links. This helps keep our data free.</p>
+                <p><strong>Affiliate Disclosure:</strong> TechDetective is reader-supported. We may earn commissions if you buy through our links. Risk scores are based on aggregated user reports.</p>
             </div>
         </div>
     `;
