@@ -1,4 +1,4 @@
-// app.js - v45.10 (Ultimate Conversion: Economic Driver + Structured Risk)
+// app.js - v45.12 (Trust Anchor: "Ask the Detective" Strategy)
 
 // Global State
 let currentProductId = null;
@@ -46,7 +46,7 @@ function setCategory(category) {
     renderHome();
 }
 
-// --- 3. SEO Injection (Dynamic Meta Tags) ---
+// --- 3. SEO Injection ---
 function updateSEO(product) {
     const defaultTitle = "TechDetective | Hardware Failure Database";
     const defaultDesc = "Don't buy new tech until you check the failure timeline. We analyze long-term reliability risks.";
@@ -57,7 +57,6 @@ function updateSEO(product) {
         return;
     }
 
-    // Dynamic Title for Product Pages
     document.title = `${product.model} - Reliability Concern Identified | TechDetective`;
     const newDesc = `Risk Score: ${product.risk_score}/95. Concern: ${product.risk_data.long_term_risk}. Read the full analysis.`;
     setMetaDescription(newDesc);
@@ -70,7 +69,6 @@ function setMetaDescription(text) {
         meta.name = "description";
         document.head.appendChild(meta);
     }
-    // Update only if different to avoid DOM thrashing
     if (meta.getAttribute("content") !== text) {
         meta.setAttribute("content", text);
     }
@@ -81,16 +79,15 @@ function setMetaDescription(text) {
 function renderHome() {
     const app = document.getElementById('app');
     
-    // A. Filter Logic
+    // Filter
     let filteredDB = productsDB;
     if (currentCategory !== 'all') {
         filteredDB = productsDB.filter(p => p.category === currentCategory);
     }
-
-    // B. Sorting Logic (Highest Risk First)
+    // Sort
     filteredDB.sort((a, b) => b.risk_score - a.risk_score);
 
-    // C. Button State Styling
+    // Button Styles
     const btnAll = currentCategory === 'all' ? 'btn-primary' : 'btn-secondary';
     const btnLap = currentCategory === 'laptop' ? 'btn-primary' : 'btn-secondary';
     const btnPrint = currentCategory === '3d_printer' ? 'btn-primary' : 'btn-secondary';
@@ -117,7 +114,6 @@ function renderHome() {
     }
 
     filteredDB.forEach(product => {
-        // Color Logic for Badges
         let scoreColor = 'safe'; 
         if (product.risk_score >= 80) scoreColor = 'critical';
         else if (product.risk_score >= 60) scoreColor = 'warning';
@@ -145,7 +141,7 @@ function renderHome() {
         </div>
         <footer style="text-align:center; padding: 2rem; color: #64748b; font-size: 0.9rem;">
             <p>&copy; 2026 TechDetective. Unbiased Reliability Analysis.</p>
-            <p style="margin-top:0.5rem; opacity: 0.8;"><strong>Affiliate Disclosure:</strong> TechDetective is reader-supported. We may earn a commission from qualifying purchases via our links.</p>
+            <p style="margin-top:0.5rem; opacity: 0.8;"><strong>Affiliate Disclosure:</strong> TechDetective is reader-supported. We may earn a commission from qualifying purchases.</p>
         </footer>
     `;
 
@@ -155,12 +151,11 @@ function renderHome() {
 function renderProduct(product) {
     const app = document.getElementById('app');
 
-    // UI Color Logic
+    // UI Logic
     let scoreColorClass = 'safe-text';
     if (product.risk_score >= 80) scoreColorClass = 'critical-text';
     else if (product.risk_score >= 60) scoreColorClass = 'warning-text';
 
-    // Trend Badge Logic
     let trendHtml = '';
     if (product.risk_score > 60 && product.trend_badge === "Trending Risk") {
         trendHtml = `<span class="trend-badge warning-bg">⚠️ Trending Risk</span>`;
@@ -168,7 +163,6 @@ function renderProduct(product) {
         trendHtml = `<span class="trend-badge safe-bg">🛡️ Verified Stable</span>`;
     }
 
-    // Confidence Meter Logic
     let confColor = '#ccc'; 
     if (product.confidence_level === 'High') confColor = '#10b981';
     if (product.confidence_level === 'Medium') confColor = '#3b82f6';
@@ -180,18 +174,17 @@ function renderProduct(product) {
         </div>
     `;
 
-    // Estimate Repair Cost (Economic Driver Logic)
+    // Anchor Logic
     let repairEst = "$150 - $300";
     if (product.risk_data.maintenance_cost === "High") repairEst = "$300 - $600";
     if (product.risk_data.maintenance_cost === "Total Loss") repairEst = "May Exceed Resale Value";
     if (product.risk_data.maintenance_cost === "Low") repairEst = "$50 - $100";
     if (product.risk_data.maintenance_cost === "Very High") repairEst = "$500+";
 
-    // Text Formatter for Risk (Bold specific components)
-    // Tries to bold the text before the first " - " or " – "
+    // Text Formatter for Risk
     const riskText = product.risk_data.long_term_risk;
     let formattedRisk = riskText;
-    const splitIndex = riskText.search(/[-–]/); // Search for hyphen or en-dash
+    const splitIndex = riskText.search(/[-–]/); 
     if (splitIndex > 0) {
         const component = riskText.substring(0, splitIndex).trim();
         const details = riskText.substring(splitIndex).trim();
@@ -269,7 +262,6 @@ function renderProduct(product) {
                 </div>
 
                 <div class="col-right">
-                    
                     <div class="solution-card solver-card">
                         <h3>🏆 Recommended Alternative</h3>
                         
@@ -328,8 +320,14 @@ function renderProduct(product) {
                 `).join('')}
             </div>
 
+            <div class="community-action" style="margin-top: 3rem; background: white; padding: 2rem; border-radius: 12px; text-align: center; border: 1px dashed #cbd5e1; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                <h3 style="font-size:1.2rem; color:#334155; margin-bottom:0.5rem;">🕵️‍♂️ Still Undecided?</h3>
+                <p style="color: #64748b; margin-bottom: 1.5rem; font-size:0.95rem;">Don't gamble with your wallet. Get a second opinion from the community.</p>
+                <a href="mailto:?subject=Question about ${product.model}&body=Hi TechDetective, I'm thinking about buying the ${product.model} but I'm worried about..." class="btn btn-secondary" style="max-width: 250px; margin: 0 auto; display:inline-block;">📩 Ask the Detective</a>
+            </div>
+
             <div style="text-align:center; margin-top: 40px; color: #888; font-size: 0.8rem; padding-bottom: 2rem;">
-                <p><strong>Affiliate Disclosure:</strong> TechDetective is reader-supported. We may earn a commission from qualifying purchases made through our links.</p>
+                <p><strong>Affiliate Disclosure:</strong> TechDetective is reader-supported. We may earn a commission from qualifying purchases.</p>
             </div>
         </div>
     `;
