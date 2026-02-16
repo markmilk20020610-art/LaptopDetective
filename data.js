@@ -1,4 +1,4 @@
-// data.js - v45.1 ULTIMATE EDITION (30 Products: 16 Old + 8 New Laptops + 6 New Printers)
+// data.js - v45.2 ULTIMATE EDITION (30 Products with Trust & SEO Fields)
 const productsDB = [
     // ================= [EXISTING] LAPTOPS (10 Models) =================
     {
@@ -8,7 +8,10 @@ const productsDB = [
         model: "XPS 13 Plus (9320)",
         price: "$1,399",
         release_year: 2023,
-        evidence_count: 420,
+        evidence_count: 420, // Legacy field kept for internal weight
+        confidence_level: "High", // NEW: Verified over time
+        trend_badge: null,
+        risk_score: 92, // High Risk
         image: "images/dell-xps-13-plus.jpg",
         links: {
             solver: "https://amzn.to/4ax1iM6",
@@ -50,6 +53,9 @@ const productsDB = [
         price: "$899",
         release_year: 2024,
         evidence_count: 850,
+        confidence_level: "High",
+        trend_badge: "Trending Risk", // Recent reports
+        risk_score: 88,
         image: "images/lenovo-loq-15.jpg",
         links: {
             solver: "https://amzn.to/4bS0yDI",
@@ -91,6 +97,9 @@ const productsDB = [
         price: "$2,499",
         release_year: 2024,
         evidence_count: 610,
+        confidence_level: "High",
+        trend_badge: null,
+        risk_score: 85,
         image: "images/razer-blade-15.jpg",
         links: {
             solver: "https://amzn.to/4aoclHy",
@@ -132,6 +141,9 @@ const productsDB = [
         price: "$1,599",
         release_year: 2023,
         evidence_count: 230,
+        confidence_level: "Medium",
+        trend_badge: null,
+        risk_score: 72,
         image: "images/hp-spectre-x360.jpg",
         links: {
             solver: "https://amzn.to/4kRtsXf",
@@ -173,6 +185,9 @@ const productsDB = [
         price: "$999",
         release_year: 2023,
         evidence_count: 1100,
+        confidence_level: "High",
+        trend_badge: null,
+        risk_score: 60,
         image: "images/asus-tuf-a15.jpg",
         links: {
             solver: "https://amzn.to/46wZnWM",
@@ -214,6 +229,9 @@ const productsDB = [
         price: "$1,299",
         release_year: 2022,
         evidence_count: 180,
+        confidence_level: "Medium",
+        trend_badge: null,
+        risk_score: 68,
         image: "images/surface-laptop-5.jpg",
         links: {
             solver: "https://amzn.to/4qx0a16",
@@ -255,6 +273,9 @@ const productsDB = [
         price: "$799",
         release_year: 2023,
         evidence_count: 450,
+        confidence_level: "Medium",
+        trend_badge: null,
+        risk_score: 55, // Low cost, repairable
         image: "images/acer-swift-go-14.jpg",
         links: {
             solver: "https://amzn.to/4rejrp5",
@@ -296,6 +317,9 @@ const productsDB = [
         price: "$1,099",
         release_year: 2023,
         evidence_count: 310,
+        confidence_level: "High",
+        trend_badge: null,
+        risk_score: 88,
         image: "images/samsung-galaxy-book3.jpg",
         links: {
             solver: "https://amzn.to/4cq58t4",
@@ -337,6 +361,9 @@ const productsDB = [
         price: "$1,199",
         release_year: 2023,
         evidence_count: 980,
+        confidence_level: "High",
+        trend_badge: "Verified Stable",
+        risk_score: 45, // Good product
         image: "images/lenovo-legion-5.jpg",
         links: {
             solver: "https://amzn.to/463YrsV",
@@ -378,6 +405,9 @@ const productsDB = [
         price: "$1,299",
         release_year: 2022,
         evidence_count: 720,
+        confidence_level: "High",
+        trend_badge: null,
+        risk_score: 65,
         image: "images/macbook-pro-13-m2.jpg",
         links: {
             solver: "https://amzn.to/3ZyvtO1",
@@ -421,6 +451,9 @@ const productsDB = [
         price: "$1,299",
         release_year: 2026,
         evidence_count: 3400,
+        confidence_level: "Medium",
+        trend_badge: "Trending Risk",
+        risk_score: 78,
         image: "images/apple-macbook-air-15.jpg",
         links: {
             solver: "https://amzn.to/3IZ1234",
@@ -463,6 +496,9 @@ const productsDB = [
         price: "$1,899",
         release_year: 2025,
         evidence_count: 1250,
+        confidence_level: "Medium",
+        trend_badge: null,
+        risk_score: 65,
         image: "images/lenovo-thinkpad-x1.jpg",
         links: {
             solver: "https://amzn.to/3TPL8u1",
@@ -505,6 +541,9 @@ const productsDB = [
         price: "$1,499",
         release_year: 2026,
         evidence_count: 560,
+        confidence_level: "Low",
+        trend_badge: "Trending Risk",
+        risk_score: 92,
         image: "images/dell-xps-13-plus-2026.jpg",
         links: {
             solver: "https://amzn.to/3xEplaceholder",
@@ -547,6 +586,9 @@ const productsDB = [
         price: "$1,649",
         release_year: 2026,
         evidence_count: 410,
+        confidence_level: "Medium",
+        trend_badge: null,
+        risk_score: 72,
         image: "images/hp-spectre-x360-14.jpg",
         links: {
             solver: "https://amzn.to/3VYplaceholder",
@@ -589,6 +631,9 @@ const productsDB = [
         price: "$1,599",
         release_year: 2025,
         evidence_count: 1500,
+        confidence_level: "Medium",
+        trend_badge: "Trending Risk",
+        risk_score: 85,
         image: "images/asus-rog-zephyrus-g14.jpg",
         links: {
             solver: "https://amzn.to/4cLplaceholder",
@@ -631,6 +676,9 @@ const productsDB = [
         price: "$1,199",
         release_year: 2026,
         evidence_count: 650,
+        confidence_level: "Low",
+        trend_badge: "Trending Risk",
+        risk_score: 95, // Max Cap
         image: "images/microsoft-surface-pro-11.jpg",
         links: {
             solver: "https://amzn.to/3IXplaceholder",
@@ -673,6 +721,9 @@ const productsDB = [
         price: "$899",
         release_year: 2025,
         evidence_count: 980,
+        confidence_level: "Medium",
+        trend_badge: null,
+        risk_score: 55,
         image: "images/acer-swift-go-14.jpg",
         links: {
             solver: "https://amzn.to/3TKplaceholder",
@@ -715,6 +766,9 @@ const productsDB = [
         price: "$1,349",
         release_year: 2026,
         evidence_count: 220,
+        confidence_level: "Low",
+        trend_badge: "Trending Risk",
+        risk_score: 88,
         image: "images/samsung-galaxy-book4.jpg",
         links: {
             solver: "https://amzn.to/49kplaceholder",
@@ -759,6 +813,9 @@ const productsDB = [
         price: "$199",
         release_year: 2023,
         evidence_count: 2400,
+        confidence_level: "High",
+        trend_badge: null,
+        risk_score: 55,
         image: "images/ender-3-v3-se.jpg",
         links: {
             solver: "https://amzn.to/4rO30zE",
@@ -800,6 +857,9 @@ const productsDB = [
         price: "$299",
         release_year: 2023,
         evidence_count: 920,
+        confidence_level: "High",
+        trend_badge: null,
+        risk_score: 40,
         image: "images/bambu-a1-mini.jpg",
         links: {
             solver: "https://amzn.to/3MIGFVp",
@@ -841,6 +901,9 @@ const productsDB = [
         price: "$180",
         release_year: 2023,
         evidence_count: 310,
+        confidence_level: "High",
+        trend_badge: null,
+        risk_score: 60,
         image: "images/anycubic-photon-mono.jpg",
         links: {
             solver: "https://amzn.to/4tCngpS",
@@ -882,6 +945,9 @@ const productsDB = [
         price: "$280",
         release_year: 2023,
         evidence_count: 580,
+        confidence_level: "High",
+        trend_badge: null,
+        risk_score: 70,
         image: "images/elegoo-neptune-4.jpg",
         links: {
             solver: "https://amzn.to/4rhuAFL",
@@ -923,6 +989,9 @@ const productsDB = [
         price: "$429",
         release_year: 2019,
         evidence_count: 1200,
+        confidence_level: "High",
+        trend_badge: "Verified Stable",
+        risk_score: 40,
         image: "images/prusa-mini.jpg",
         links: {
             solver: "https://amzn.to/3MEIa77",
@@ -964,6 +1033,9 @@ const productsDB = [
         price: "$399",
         release_year: 2023,
         evidence_count: 750,
+        confidence_level: "High",
+        trend_badge: null,
+        risk_score: 75,
         image: "images/creality-k1.jpg",
         links: {
             solver: "https://amzn.to/3Of1sjT",
@@ -1007,6 +1079,9 @@ const productsDB = [
         price: "$1,199",
         release_year: 2024,
         evidence_count: 5200,
+        confidence_level: "High",
+        trend_badge: "Trending Risk",
+        risk_score: 65,
         image: "images/bambu-lab-x1-carbon.jpg",
         links: {
             solver: "https://amzn.to/placeholder_flashforge",
@@ -1049,6 +1124,9 @@ const productsDB = [
         price: "$799",
         release_year: 2024,
         evidence_count: 2100,
+        confidence_level: "High",
+        trend_badge: null,
+        risk_score: 45,
         image: "images/prusa-mk4.jpg",
         links: {
             solver: "https://amzn.to/placeholder_kobra3",
@@ -1091,6 +1169,9 @@ const productsDB = [
         price: "$279",
         release_year: 2025,
         evidence_count: 3000,
+        confidence_level: "High",
+        trend_badge: null,
+        risk_score: 75,
         image: "images/creality-ender-3-v3-ke.jpg",
         links: {
             solver: "https://amzn.to/placeholder_m5c",
@@ -1133,6 +1214,9 @@ const productsDB = [
         price: "$499",
         release_year: 2025,
         evidence_count: 850,
+        confidence_level: "Medium",
+        trend_badge: null,
+        risk_score: 70,
         image: "images/anycubic-kobra-2-max.jpg",
         links: {
             solver: "https://amzn.to/placeholder_neptune",
@@ -1175,6 +1259,9 @@ const productsDB = [
         price: "$399",
         release_year: 2024,
         evidence_count: 900,
+        confidence_level: "Medium",
+        trend_badge: null,
+        risk_score: 60,
         image: "images/ankermake-m5.jpg",
         links: {
             solver: "https://amzn.to/placeholder_k1",
@@ -1217,6 +1304,9 @@ const productsDB = [
         price: "$4,499",
         release_year: 2025,
         evidence_count: 120,
+        confidence_level: "High",
+        trend_badge: null,
+        risk_score: 85,
         image: "images/formlabs-form-4.jpg",
         links: {
             solver: "https://amzn.to/placeholder_gktwo",
