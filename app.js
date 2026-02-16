@@ -1,11 +1,10 @@
-// app.js - v45.3 (Restored Filters + Anti-Flicker + Trust Logic)
+// app.js - v45.4 (Conversion Optimization: Risk Context + Repair Anchoring)
 
 // Global State
 let currentProductId = null;
-let currentCategory = 'all'; // State for filter
+let currentCategory = 'all';
 
 // --- 1. Initialization & Routing ---
-
 document.addEventListener('DOMContentLoaded', () => {
     initApp();
     window.addEventListener('hashchange', handleRoute);
@@ -18,10 +17,9 @@ function initApp() {
 function handleRoute() {
     const hash = window.location.hash;
     
-    // SEO Reset for Home
     if (!hash || hash === '#' || hash === '') {
         renderHome();
-        updateSEO(null); // Reset SEO
+        updateSEO(null);
         return;
     }
 
@@ -41,14 +39,12 @@ function handleRoute() {
 }
 
 // --- 2. Logic: Filtering ---
-
 function setCategory(category) {
     currentCategory = category;
-    renderHome(); // Re-render with new filter
+    renderHome();
 }
 
-// --- 3. SEO Injection (Stable) ---
-
+// --- 3. SEO Injection ---
 function updateSEO(product) {
     const defaultTitle = "TechDetective | Hardware Failure Database";
     const defaultDesc = "Don't buy new tech until you check the failure timeline. We analyze long-term reliability risks.";
@@ -71,7 +67,6 @@ function setMetaDescription(text) {
         meta.name = "description";
         document.head.appendChild(meta);
     }
-    // Only update if changed to prevent flashing
     if (meta.getAttribute("content") !== text) {
         meta.setAttribute("content", text);
     }
@@ -82,15 +77,12 @@ function setMetaDescription(text) {
 function renderHome() {
     const app = document.getElementById('app');
     
-    // Filter & Sort
     let filteredDB = productsDB;
     if (currentCategory !== 'all') {
         filteredDB = productsDB.filter(p => p.category === currentCategory);
     }
-    // Sort by Risk Score (Desc)
     filteredDB.sort((a, b) => b.risk_score - a.risk_score);
 
-    // Active Button Styles
     const btnAll = currentCategory === 'all' ? 'btn-primary' : 'btn-secondary';
     const btnLap = currentCategory === 'laptop' ? 'btn-primary' : 'btn-secondary';
     const btnPrint = currentCategory === '3d_printer' ? 'btn-primary' : 'btn-secondary';
@@ -121,7 +113,6 @@ function renderHome() {
         if (product.risk_score >= 80) scoreColor = 'critical';
         else if (product.risk_score >= 60) scoreColor = 'warning';
 
-        // Fix Flickering: Add background color to img container
         html += `
             <a href="#/product/${product.id}" class="card">
                 <div class="card-badge ${scoreColor}">Risk Score: ${product.risk_score}</div>
@@ -143,8 +134,9 @@ function renderHome() {
     html += `
             </div>
         </div>
-        <footer>
+        <footer style="text-align:center; padding: 2rem; color: #64748b; font-size: 0.9rem;">
             <p>&copy; 2026 TechDetective. Unbiased Reliability Analysis.</p>
+            <p style="margin-top:0.5rem; opacity: 0.8;"><strong>Affiliate Disclosure:</strong> We may earn a commission from qualifying purchases made through links on this site. This supports our testing but does not affect our risk scores.</p>
         </footer>
     `;
 
@@ -154,7 +146,7 @@ function renderHome() {
 function renderProduct(product) {
     const app = document.getElementById('app');
 
-    // UI Logic for Colors
+    // UI Logic
     let scoreColorClass = 'safe-text';
     if (product.risk_score >= 80) scoreColorClass = 'critical-text';
     else if (product.risk_score >= 60) scoreColorClass = 'warning-text';
@@ -177,7 +169,13 @@ function renderProduct(product) {
         </div>
     `;
 
-    // Render HTML
+    // --- Dynamic Monetization Text ---
+    // We estimate repair cost based on maintenance_cost string
+    let repairEst = "$150 - $300";
+    if (product.risk_data.maintenance_cost === "High") repairEst = "$300 - $600";
+    if (product.risk_data.maintenance_cost === "Total Loss") repairEst = "Total Unit Replacement";
+    if (product.risk_data.maintenance_cost === "Low") repairEst = "$50 - $100";
+
     const html = `
         <div class="nav-bar">
             <a href="#" class="back-btn">&larr; Back to List</a>
@@ -261,12 +259,22 @@ function renderProduct(product) {
 
                     <div class="solution-card solver-card">
                         <h3>🏆 The Better Choice</h3>
+                        
+                        <div style="margin-bottom:1rem; font-size:0.85rem; color:#ef4444; background:#fef2f2; padding:8px; border-radius:4px; border-left:3px solid #ef4444;">
+                            <strong>Why flagged:</strong> ${product.risk_data.long_term_risk}
+                        </div>
+
                         <div class="rec-product">
                             <strong>${product.recommendations.primary.name}</strong>
                             <ul>
                                 ${product.recommendations.primary.benefits.map(b => `<li>✅ ${b}</li>`).join('')}
                             </ul>
-                            <a href="${product.links.solver}" target="_blank" rel="nofollow sponsored" class="btn btn-primary">View Best Alternative</a>
+                            
+                            <a href="${product.links.solver}" target="_blank" rel="nofollow sponsored" class="btn btn-primary">View Alternative</a>
+                            
+                            <div style="text-align:center; margin-top:8px; font-size:0.8rem; color:#64748b;">
+                                vs. Est. Repair Cost: <strong>${repairEst}</strong>
+                            </div>
                         </div>
                     </div>
 
@@ -289,6 +297,10 @@ function renderProduct(product) {
                         <div class="faq-a">A: ${faq.a}</div>
                     </div>
                 `).join('')}
+            </div>
+
+            <div style="text-align:center; margin-top: 40px; color: #888; font-size: 0.8rem;">
+                <p><strong>Affiliate Disclosure:</strong> TechDetective is reader-supported. We may earn commissions if you buy through our links. This helps keep our data free.</p>
             </div>
         </div>
     `;
