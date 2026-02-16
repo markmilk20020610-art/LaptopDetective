@@ -1,4 +1,4 @@
-/* styles.css - v45.2 (Fixes Broken Layout + Trust Module Support) */
+/* styles.css - v45.5 (Final Stable: Fixed Layout + Trust Module + Filters) */
 
 :root {
     --primary: #2563eb;
@@ -21,6 +21,13 @@ a { text-decoration: none; color: inherit; }
 .hero h1 { font-size: 2.5rem; margin-bottom: 1rem; font-weight: 800; background: linear-gradient(90deg, #ef4444, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 .hero p { font-size: 1.2rem; color: #cbd5e1; max-width: 600px; margin: 0 auto; }
 .logo { font-weight: bold; font-size: 1.5rem; margin-bottom: 1rem; display: block; }
+
+/* --- Buttons (Filters) --- */
+.btn { display: inline-block; padding: 0.75rem 1.5rem; text-align: center; border-radius: 6px; font-weight: 600; text-decoration: none; cursor: pointer; transition: all 0.2s; border: none; font-size: 0.9rem; }
+.btn-primary { background: var(--primary); color: white; }
+.btn-primary:hover { background: #1d4ed8; }
+.btn-secondary { background: white; border: 1px solid #cbd5e1; color: var(--text-main); }
+.btn-secondary:hover { background: #f1f5f9; }
 
 /* --- Grid Layout --- */
 .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
@@ -57,7 +64,7 @@ a { text-decoration: none; color: inherit; }
 .meta-tags { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
 .tag { background: #f1f5f9; padding: 4px 12px; border-radius: 6px; font-size: 0.8rem; color: var(--text-light); font-weight: 500; }
 
-/* NEW: Trust Module Styles */
+/* Trust Module Styles */
 .trust-module { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.5rem; display: flex; align-items: center; gap: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
 .score-block { text-align: center; border-right: 1px solid #e2e8f0; padding-right: 1.5rem; }
 .score-label { display: block; font-size: 0.75rem; text-transform: uppercase; color: var(--text-light); letter-spacing: 0.05em; margin-bottom: 4px; }
@@ -75,8 +82,8 @@ a { text-decoration: none; color: inherit; }
 .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
 .source-note { font-size: 0.75rem; color: #94a3b8; }
 
-/* Sticky Verdict Bar */
-.verdict-bar { background: var(--dark); color: white; padding: 1rem; border-radius: 8px; margin-bottom: 2rem; position: sticky; top: 70px; z-index: 90; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+/* Verdict Bar (Fix: Changed to relative so it doesn't block view) */
+.verdict-bar { background: var(--dark); color: white; padding: 1rem; border-radius: 8px; margin-bottom: 2rem; position: relative; z-index: 1; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
 .verdict-content { display: flex; justify-content: space-between; align-items: center; font-weight: 500; }
 .verdict-content strong { color: var(--warning); margin-right: 0.5rem; }
 
@@ -114,11 +121,8 @@ a { text-decoration: none; color: inherit; }
 .rec-product { background: #f8fafc; padding: 1rem; border-radius: 8px; margin-top: 1rem; }
 .rec-product strong { display: block; margin-bottom: 0.5rem; color: var(--dark); }
 .rec-product ul { margin-left: 1.2rem; margin-bottom: 1rem; font-size: 0.9rem; color: var(--text-light); }
+
 .btn { display: block; width: 100%; padding: 0.75rem; text-align: center; border-radius: 6px; font-weight: 600; text-decoration: none; margin-top: 0.5rem; transition: background 0.2s; }
-.btn-primary { background: var(--primary); color: white; }
-.btn-primary:hover { background: #1d4ed8; }
-.btn-secondary { background: white; border: 1px solid #cbd5e1; color: var(--text-main); }
-.btn-secondary:hover { background: #f1f5f9; }
 
 /* FAQ */
 .faq-container { margin-top: 3rem; background: white; padding: 2rem; border-radius: 12px; }
@@ -130,6 +134,6 @@ a { text-decoration: none; color: inherit; }
 @media (max-width: 768px) {
     .detail-header { flex-direction: column; }
     .detail-grid { grid-template-columns: 1fr; }
-    .verdict-bar { top: 60px; font-size: 0.9rem; }
+    .verdict-bar { position: relative; font-size: 0.9rem; }
     .detail-img { margin: 0 auto; }
 }
