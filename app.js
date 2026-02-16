@@ -1,4 +1,4 @@
-// app.js - v45.7 (Final Conversion Polish: Specific Risks + Community Anchors)
+// app.js - v45.8 (Commercial Safety: Compliance Disclaimers + Range Logic)
 
 // Global State
 let currentProductId = null;
@@ -17,14 +17,12 @@ function initApp() {
 function handleRoute() {
     const hash = window.location.hash;
     
-    // Default to Home if no hash
     if (!hash || hash === '#' || hash === '') {
         renderHome();
         updateSEO(null);
         return;
     }
 
-    // Product Page
     if (hash.startsWith('#/product/')) {
         const id = hash.split('#/product/')[1];
         const product = productsDB.find(p => p.id === id);
@@ -43,10 +41,10 @@ function handleRoute() {
 // --- 2. Logic: Filtering & Sorting ---
 function setCategory(category) {
     currentCategory = category;
-    renderHome(); // Re-render logic will handle the filtering
+    renderHome();
 }
 
-// --- 3. SEO Injection (Dynamic Meta Tags) ---
+// --- 3. SEO Injection ---
 function updateSEO(product) {
     const defaultTitle = "TechDetective | Hardware Failure Database";
     const defaultDesc = "Don't buy new tech until you check the failure timeline. We analyze long-term reliability risks.";
@@ -57,7 +55,6 @@ function updateSEO(product) {
         return;
     }
 
-    // Dynamic Title for Product Pages
     document.title = `${product.model} - Reliability Concern Identified | TechDetective`;
     const newDesc = `Risk Score: ${product.risk_score}/95. Concern: ${product.risk_data.long_term_risk}. Read the full analysis.`;
     setMetaDescription(newDesc);
@@ -70,7 +67,6 @@ function setMetaDescription(text) {
         meta.name = "description";
         document.head.appendChild(meta);
     }
-    // Update only if different to avoid DOM thrashing
     if (meta.getAttribute("content") !== text) {
         meta.setAttribute("content", text);
     }
@@ -81,16 +77,13 @@ function setMetaDescription(text) {
 function renderHome() {
     const app = document.getElementById('app');
     
-    // A. Filter Logic
     let filteredDB = productsDB;
     if (currentCategory !== 'all') {
         filteredDB = productsDB.filter(p => p.category === currentCategory);
     }
-
-    // B. Sorting Logic (Highest Risk First)
+    // Sort Highest Risk First
     filteredDB.sort((a, b) => b.risk_score - a.risk_score);
 
-    // C. Button State Styling
     const btnAll = currentCategory === 'all' ? 'btn-primary' : 'btn-secondary';
     const btnLap = currentCategory === 'laptop' ? 'btn-primary' : 'btn-secondary';
     const btnPrint = currentCategory === '3d_printer' ? 'btn-primary' : 'btn-secondary';
@@ -117,7 +110,6 @@ function renderHome() {
     }
 
     filteredDB.forEach(product => {
-        // Color Logic for Badges
         let scoreColor = 'safe'; 
         if (product.risk_score >= 80) scoreColor = 'critical';
         else if (product.risk_score >= 60) scoreColor = 'warning';
@@ -155,12 +147,10 @@ function renderHome() {
 function renderProduct(product) {
     const app = document.getElementById('app');
 
-    // UI Color Logic
     let scoreColorClass = 'safe-text';
     if (product.risk_score >= 80) scoreColorClass = 'critical-text';
     else if (product.risk_score >= 60) scoreColorClass = 'warning-text';
 
-    // Trend Badge Logic
     let trendHtml = '';
     if (product.risk_score > 60 && product.trend_badge === "Trending Risk") {
         trendHtml = `<span class="trend-badge warning-bg">⚠️ Trending Risk</span>`;
@@ -168,7 +158,6 @@ function renderProduct(product) {
         trendHtml = `<span class="trend-badge safe-bg">🛡️ Verified Stable</span>`;
     }
 
-    // Confidence Meter Logic
     let confColor = '#ccc'; 
     if (product.confidence_level === 'High') confColor = '#10b981';
     if (product.confidence_level === 'Medium') confColor = '#3b82f6';
@@ -180,10 +169,10 @@ function renderProduct(product) {
         </div>
     `;
 
-    // Estimate Repair Cost (Community Avg Logic)
+    // SAFE LOGIC: Maintenance Cost Range (No "Total Loss" text)
     let repairEst = "$150 - $300";
     if (product.risk_data.maintenance_cost === "High") repairEst = "$300 - $600";
-    if (product.risk_data.maintenance_cost === "Total Loss") repairEst = "Total Unit Replacement";
+    if (product.risk_data.maintenance_cost === "Total Loss") repairEst = "May Exceed Resale Value"; // CHANGED
     if (product.risk_data.maintenance_cost === "Low") repairEst = "$50 - $100";
     if (product.risk_data.maintenance_cost === "Very High") repairEst = "$500+";
 
@@ -258,13 +247,15 @@ function renderProduct(product) {
                 </div>
 
                 <div class="col-right">
-                    
                     <div class="solution-card solver-card">
                         <h3>🏆 Recommended Alternative</h3>
                         
                         <div style="margin-bottom:1rem; font-size:0.85rem; color:#b45309; background:#fffbeb; padding:10px; border-radius:4px; border-left:4px solid #f59e0b;">
                             <strong>Reliability Concern Identified:</strong><br>
                             ${product.risk_data.long_term_risk}
+                            <div style="font-size:0.7rem; color:#92400e; margin-top:5px; font-style:italic;">
+                                *Based on aggregated community reports. Individual experience may vary.
+                            </div>
                         </div>
 
                         <div class="rec-product">
@@ -276,7 +267,7 @@ function renderProduct(product) {
                             <a href="${product.links.solver}" target="_blank" rel="nofollow sponsored" class="btn btn-primary">View Alternative</a>
                             
                             <div style="text-align:center; margin-top:12px; font-size:0.8rem; color:#64748b; border-top:1px solid #e2e8f0; padding-top:8px;">
-                                Est. Maintenance (Community Avg):<br>
+                                Est. Range (Public Reports):<br>
                                 <strong>${repairEst}</strong>
                             </div>
                         </div>
