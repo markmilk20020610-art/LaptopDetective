@@ -1,4 +1,4 @@
-// app.js - v45.5 (Final Fusion: Buttons + Anti-Flicker + Conversion Logic)
+// app.js - v45.6 (Final Safe Conversion + Restored Filters + SEO)
 
 // Global State
 let currentProductId = null;
@@ -17,12 +17,14 @@ function initApp() {
 function handleRoute() {
     const hash = window.location.hash;
     
+    // Default to Home if no hash
     if (!hash || hash === '#' || hash === '') {
         renderHome();
         updateSEO(null);
         return;
     }
 
+    // Product Page
     if (hash.startsWith('#/product/')) {
         const id = hash.split('#/product/')[1];
         const product = productsDB.find(p => p.id === id);
@@ -38,13 +40,13 @@ function handleRoute() {
     }
 }
 
-// --- 2. Logic: Filtering ---
+// --- 2. Logic: Filtering & Sorting ---
 function setCategory(category) {
     currentCategory = category;
-    renderHome();
+    renderHome(); // Re-render logic will handle the filtering
 }
 
-// --- 3. SEO Injection ---
+// --- 3. SEO Injection (Dynamic Meta Tags) ---
 function updateSEO(product) {
     const defaultTitle = "TechDetective | Hardware Failure Database";
     const defaultDesc = "Don't buy new tech until you check the failure timeline. We analyze long-term reliability risks.";
@@ -55,8 +57,9 @@ function updateSEO(product) {
         return;
     }
 
+    // Dynamic Title for Product Pages
     document.title = `${product.model} - Risk Analysis | TechDetective`;
-    const newDesc = `WARNING: ${product.model} Risk Score: ${product.risk_score}/95. Failure: ${product.risk_data.long_term_risk}.`;
+    const newDesc = `Risk Score: ${product.risk_score}/95. Flagged for: ${product.risk_data.long_term_risk}. Read the full analysis.`;
     setMetaDescription(newDesc);
 }
 
@@ -67,6 +70,7 @@ function setMetaDescription(text) {
         meta.name = "description";
         document.head.appendChild(meta);
     }
+    // Update only if different to avoid DOM thrashing
     if (meta.getAttribute("content") !== text) {
         meta.setAttribute("content", text);
     }
@@ -77,15 +81,17 @@ function setMetaDescription(text) {
 function renderHome() {
     const app = document.getElementById('app');
     
-    // Filter
+    // A. Filter Logic
     let filteredDB = productsDB;
     if (currentCategory !== 'all') {
         filteredDB = productsDB.filter(p => p.category === currentCategory);
     }
-    // Sort
+
+    // B. Sorting Logic (The "Ranking" Function)
+    // Sorts from Highest Risk (95) to Lowest Risk (0)
     filteredDB.sort((a, b) => b.risk_score - a.risk_score);
 
-    // Button Styles
+    // C. Button State Styling
     const btnAll = currentCategory === 'all' ? 'btn-primary' : 'btn-secondary';
     const btnLap = currentCategory === 'laptop' ? 'btn-primary' : 'btn-secondary';
     const btnPrint = currentCategory === '3d_printer' ? 'btn-primary' : 'btn-secondary';
@@ -108,10 +114,11 @@ function renderHome() {
     `;
 
     if (filteredDB.length === 0) {
-        html += `<div style="text-align:center; grid-column: 1/-1; padding: 2rem;">No products found in this category.</div>`;
+        html += `<div style="text-align:center; grid-column: 1/-1; padding: 2rem; color:#666;">No products found in this category.</div>`;
     }
 
     filteredDB.forEach(product => {
+        // Color Logic for Badges
         let scoreColor = 'safe'; 
         if (product.risk_score >= 80) scoreColor = 'critical';
         else if (product.risk_score >= 60) scoreColor = 'warning';
@@ -139,7 +146,7 @@ function renderHome() {
         </div>
         <footer style="text-align:center; padding: 2rem; color: #64748b; font-size: 0.9rem;">
             <p>&copy; 2026 TechDetective. Unbiased Reliability Analysis.</p>
-            <p style="margin-top:0.5rem; opacity: 0.8;"><strong>Affiliate Disclosure:</strong> We may earn a commission from qualifying purchases.</p>
+            <p style="margin-top:0.5rem; opacity: 0.8;"><strong>Affiliate Disclosure:</strong> TechDetective is reader-supported. We may earn a commission from qualifying purchases via our links.</p>
         </footer>
     `;
 
@@ -149,11 +156,12 @@ function renderHome() {
 function renderProduct(product) {
     const app = document.getElementById('app');
 
-    // UI Logic
+    // UI Color Logic
     let scoreColorClass = 'safe-text';
     if (product.risk_score >= 80) scoreColorClass = 'critical-text';
     else if (product.risk_score >= 60) scoreColorClass = 'warning-text';
 
+    // Trend Badge Logic
     let trendHtml = '';
     if (product.risk_score > 60 && product.trend_badge === "Trending Risk") {
         trendHtml = `<span class="trend-badge warning-bg">⚠️ Trending Risk</span>`;
@@ -161,6 +169,7 @@ function renderProduct(product) {
         trendHtml = `<span class="trend-badge safe-bg">🛡️ Verified Stable</span>`;
     }
 
+    // Confidence Meter Logic
     let confColor = '#ccc'; 
     if (product.confidence_level === 'High') confColor = '#10b981';
     if (product.confidence_level === 'Medium') confColor = '#3b82f6';
@@ -172,10 +181,10 @@ function renderProduct(product) {
         </div>
     `;
 
-    // Estimate Repair Cost (Anchor Logic)
+    // Estimate Repair Cost (Safe Logic)
     let repairEst = "$150 - $300";
     if (product.risk_data.maintenance_cost === "High") repairEst = "$300 - $600";
-    if (product.risk_data.maintenance_cost === "Total Loss") repairEst = "Total Unit Replacement";
+    if (product.risk_data.maintenance_cost === "Total Loss") repairEst = "Unit Replacement";
     if (product.risk_data.maintenance_cost === "Low") repairEst = "$50 - $100";
     if (product.risk_data.maintenance_cost === "Very High") repairEst = "$500+";
 
@@ -215,7 +224,7 @@ function renderProduct(product) {
 
             <div class="verdict-bar">
                 <div class="verdict-content">
-                    <strong>Verdict:</strong> 
+                    <strong>Primary Risk:</strong> 
                     <span>${product.risk_data.long_term_risk}</span>
                 </div>
             </div>
@@ -223,9 +232,9 @@ function renderProduct(product) {
             <div class="detail-grid">
                 <div class="col-left">
                     <section class="section warning-section">
-                        <h2>⚠️ Why it Fails</h2>
+                        <h2>⚠️ Analysis Report</h2>
                         <p class="analysis-text">${product.description_summary}</p>
-                        <p class="analysis-text"><strong>Technical Analysis:</strong> ${product.long_term_analysis}</p>
+                        <p class="analysis-text"><strong>Technical Detail:</strong> ${product.long_term_analysis}</p>
                         <div class="issues-list">
                             ${product.risk_data.issues.map(issue => `
                                 <div class="issue-item">
@@ -240,31 +249,22 @@ function renderProduct(product) {
                     </section>
 
                     <section class="section">
-                        <h2>💰 Maintenance Reality</h2>
+                        <h2>💰 Maintenance Outlook</h2>
                         <div class="cost-box">
                             <p><strong>Repairability:</strong> ${product.risk_data.maintenance_cost}</p>
                             <p>${product.maintenance_cost_analysis}</p>
                         </div>
-                        <p><strong>Avoid if you are:</strong> ${product.who_should_avoid}</p>
+                        <p><strong>Not recommended for:</strong> ${product.who_should_avoid}</p>
                     </section>
                 </div>
 
                 <div class="col-right">
-                    <div class="solution-card antidote-card">
-                        <h3>💊 The Antidote (Fix It)</h3>
-                        <ul class="link-list">
-                            ${product.accessories.map((acc, index) => {
-                                const link = index === 0 ? product.links.antidote_1 : product.links.antidote_2;
-                                return `<li><a href="${link}" target="_blank" rel="nofollow sponsored">👉 Get ${acc.name}</a><br><small>${acc.desc}</small></li>`;
-                            }).join('')}
-                        </ul>
-                    </div>
-
+                    
                     <div class="solution-card solver-card">
-                        <h3>🏆 The Better Choice</h3>
+                        <h3>🏆 Recommended Alternative</h3>
                         
-                        <div style="margin-bottom:1rem; font-size:0.85rem; color:#ef4444; background:#fef2f2; padding:8px; border-radius:4px; border-left:3px solid #ef4444;">
-                            <strong>Why flagged:</strong> ${product.risk_data.long_term_risk}
+                        <div style="margin-bottom:1rem; font-size:0.85rem; color:#b45309; background:#fffbeb; padding:8px; border-radius:4px; border-left:3px solid #f59e0b;">
+                            <strong>Flagged for:</strong> ${product.risk_data.long_term_risk}
                         </div>
 
                         <div class="rec-product">
@@ -275,14 +275,26 @@ function renderProduct(product) {
                             
                             <a href="${product.links.solver}" target="_blank" rel="nofollow sponsored" class="btn btn-primary">View Alternative</a>
                             
-                            <div style="text-align:center; margin-top:8px; font-size:0.8rem; color:#64748b;">
-                                vs. Est. Repair Cost: <strong>${repairEst}</strong>
+                            <div style="text-align:center; margin-top:12px; font-size:0.8rem; color:#64748b; border-top:1px solid #e2e8f0; padding-top:8px;">
+                                Est. Repair Cost of ${product.model}:<br>
+                                <strong>${repairEst}</strong>
                             </div>
                         </div>
                     </div>
 
+                    <div class="solution-card antidote-card">
+                        <h3>💊 Maintenance Parts</h3>
+                        <p style="font-size:0.9rem; margin-bottom:10px; color:#64748b;">Keep your existing unit running:</p>
+                        <ul class="link-list">
+                            ${product.accessories.map((acc, index) => {
+                                const link = index === 0 ? product.links.antidote_1 : product.links.antidote_2;
+                                return `<li><a href="${link}" target="_blank" rel="nofollow sponsored">👉 ${acc.name}</a><br><small>${acc.desc}</small></li>`;
+                            }).join('')}
+                        </ul>
+                    </div>
+
                     <div class="solution-card value-card">
-                        <h3>🏷️ Best Value Alternative</h3>
+                        <h3>🏷️ Value Alternative</h3>
                         <div class="rec-product">
                             <strong>${product.recommendations.secondary.name}</strong>
                             <p>${product.recommendations.secondary.reason}</p>
@@ -302,8 +314,8 @@ function renderProduct(product) {
                 `).join('')}
             </div>
 
-            <div style="text-align:center; margin-top: 40px; color: #888; font-size: 0.8rem;">
-                <p><strong>Affiliate Disclosure:</strong> TechDetective is reader-supported. We may earn commissions if you buy through our links. Risk scores are based on aggregated user reports.</p>
+            <div style="text-align:center; margin-top: 40px; color: #888; font-size: 0.8rem; padding-bottom: 2rem;">
+                <p><strong>Affiliate Disclosure:</strong> TechDetective is reader-supported. We may earn a commission from qualifying purchases made through our links.</p>
             </div>
         </div>
     `;
