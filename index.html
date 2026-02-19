@@ -3,33 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>TechDetective | Hardware Failure Database & Risk Analysis</title>
-    <meta name="description" content="Don't buy new tech until you check the failure timeline. We analyze long-term reliability risks for laptops and 3D printers based on user reports.">
-    
-    <link rel="canonical" href="https://yourdomain.com/">
-    
-    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="styles.css">
-    
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🕵️‍♂️</text></svg>">
+    <title>Tech Reliability DB | Avoid The Traps</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <div id="app">
-        <div style="text-align:center; padding: 50px; color: #666;">
-            <h2>Loading TechDetective Intelligence...</h2>
-            <p>Analyzing failure data...</p>
+    <header class="site-header">
+        <div class="header-content">
+            <h1>🛠️ Tech Reliability & Risk DB</h1>
+            <p>Don't buy a ticking time bomb. Check long-term failure rates before you buy.</p>
         </div>
-    </div>
+    </header>
+
+    <main class="container">
+        <section class="controls">
+            <input type="text" id="searchInput" placeholder="Search for a laptop or printer... (e.g. XPS 13)">
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all">All Devices</button>
+                <button class="filter-btn" data-filter="laptop">Laptops</button>
+                <button class="filter-btn" data-filter="3d_printer">3D Printers</button>
+            </div>
+        </section>
+
+        <section id="product-grid" class="grid-container">
+            </section>
+    </main>
+
+    <footer>
+        <p>© 2026 Tech Reliability DB. We earn a commission if you purchase through our affiliate links.</p>
+    </footer>
 
     <script src="data.js"></script>
     <script src="app.js"></script>
-
 </body>
 </html>
