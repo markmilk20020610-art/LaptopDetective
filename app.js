@@ -1,4 +1,4 @@
-// app.js - v45.17 (Production Ready SPA)
+// app.js - v45.18 (Fixed Flickering + Restored FAQ & Email Module)
 
 // Global State
 let currentCategory = 'all';
@@ -115,17 +115,20 @@ function renderGrid() {
         return;
     }
 
+    // 防死循环 SVG 占位图
+    const fallbackImage = "data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22250%22%3E%3Crect width=%22400%22 height=%22250%22 fill=%22%23e2e8f0%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22sans-serif%22 font-size=%2216%22 fill=%22%2364748b%22%3ENo Image%3C/text%3E%3C/svg%3E";
+
     let cardsHtml = '';
     filtered.forEach(p => {
         const score = Number(p.risk_score) || 0;
         let badgeClass = score >= 80 ? 'critical' : (score >= 60 ? 'warning' : 'safe');
-        const imgUrl = p.image || 'https://via.placeholder.com/400x250?text=No+Image';
+        const imgUrl = p.image || fallbackImage;
         const summary = p.description_summary || 'Click to view full reliability report.';
         
         cardsHtml += `
             <a href="#/product/${p.id}" class="card">
                 <div class="card-img-wrapper">
-                    <img src="${imgUrl}" onerror="this.src='https://via.placeholder.com/400x250?text=Image+Missing'" alt="${p.model}">
+                    <img src="${imgUrl}" onerror="this.onerror=null; this.src='${fallbackImage}';" alt="${p.model}">
                     <span class="badge ${badgeClass}">Risk Score: ${score}/100</span>
                 </div>
                 <div class="card-body">
@@ -168,6 +171,28 @@ function renderProduct(product) {
     `).join('');
     if(!issuesHtml) issuesHtml = '<p style="color:#64748b;">No specific component issues logged yet.</p>';
 
+    // 提取 FAQ (如果有的话)
+    const faqs = product.faq_section || [];
+    let faqHtml = '';
+    if (faqs.length > 0) {
+        faqHtml = `
+            <div class="panel" style="margin-top:1.5rem;">
+                <h2>Frequently Asked Questions</h2>
+                <div style="display:flex; flex-direction:column; gap:1.5rem;">
+                    ${faqs.map(faq => `
+                        <div>
+                            <strong style="display:block; color:#0f172a; margin-bottom:0.4rem; font-size:1.05rem;">Q: ${faq.q}</strong>
+                            <p style="color:#475569; margin:0; line-height:1.6;">A: ${faq.a}</p>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+    }
+
+    // 防死循环 SVG 占位图
+    const fallbackImage = "data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22250%22%3E%3Crect width=%22400%22 height=%22250%22 fill=%22%23e2e8f0%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22sans-serif%22 font-size=%2216%22 fill=%22%2364748b%22%3ENo Image%3C/text%3E%3C/svg%3E";
+
     const linkSolver = links.solver || "#";
     const linkValue = links.value || "#";
     const linkAnti1 = links.antidote_1 || "#";
@@ -181,7 +206,7 @@ function renderProduct(product) {
             
             <div class="detail-layout">
                 <div class="detail-img-box">
-                    <img src="${product.image || 'https://via.placeholder.com/400x300?text=No+Image'}" onerror="this.src='https://via.placeholder.com/400x300?text=Image+Missing'" alt="${product.model}">
+                    <img src="${product.image || fallbackImage}" onerror="this.onerror=null; this.src='${fallbackImage}';" alt="${product.model}">
                 </div>
                 
                 <div class="detail-info">
@@ -208,7 +233,7 @@ function renderProduct(product) {
             </div>
 
             <div class="alert-banner ${alertClass}">
-                <div style="text-transform:uppercase; font-size:0.85rem; font-weight:800; letter-spacing:1px; margin-bottom:8px;">⚠️ Deal Breaker / Primary Concern</div>
+                <div style="text-transform:uppercase; font-size:0.85rem; font-weight:800; letter-spacing:1px; margin-bottom:8px;">⚠️ Primary Concern (Deal Breaker)</div>
                 <div style="font-size:1.4rem; font-weight:bold; line-height:1.4;">${riskData.long_term_risk || product.description_summary || 'Check detailed analysis below.'}</div>
             </div>
 
@@ -219,69 +244,71 @@ function renderProduct(product) {
                         <p style="font-size:1.1rem; line-height:1.7; margin-bottom:1.5rem; color:#334155;">${product.description_summary || ''}</p>
                         
                         ${product.long_term_analysis ? `
-                            <div style="background:#f8fafc; padding:1.5rem; border-left:4px solid var(--accent-color); border-radius:4px; margin-bottom:2rem;">
+                            <div style="background:#f1f5f9; padding:1.2rem; border-left:4px solid var(--accent-color); border-radius:4px; margin-bottom:2rem;">
                                 <strong style="display:block; margin-bottom:5px; color:#0f172a;">🛠️ Technician Notes:</strong>
-                                <span style="color:#475569; line-height:1.6;">${product.long_term_analysis}</span>
+                                <span style="color:#475569;">${product.long_term_analysis}</span>
                             </div>
                         ` : ''}
                         
-                        <h3 style="font-size:1.3rem; margin-bottom:1.2rem; color:#0f172a;">Frequent Failure Points</h3>
+                        <h3 style="font-size:1.2rem; margin-bottom:1rem; color:#0f172a;">Frequent Failure Points</h3>
                         <div>${issuesHtml}</div>
                     </div>
                     
                     <div class="panel">
                         <h2>💸 Maintenance Outlook</h2>
-                        <div style="font-size:1.1rem; margin-bottom:10px;">
-                            <strong>Repairability Rating:</strong> 
-                            <span style="background:#e2e8f0; padding:4px 10px; border-radius:6px; font-weight:bold; margin-left:5px;">${riskData.maintenance_cost || 'Varies'}</span>
-                        </div>
-                        <p style="color:#475569; margin-bottom:1.5rem; line-height:1.6;">${product.maintenance_cost_analysis || 'Out of warranty repairs can be expensive. Consider robust alternatives.'}</p>
-                        ${product.who_should_avoid ? `<div style="background:#fef2f2; border:1px dashed #fca5a5; padding:1rem; border-radius:8px; color:#b91c1c;"><strong>🛑 Avoid If:</strong> ${product.who_should_avoid}</div>` : ''}
+                        <p style="margin-bottom:0.5rem;"><strong>Est. Repairability:</strong> <span style="background:#f1f5f9; padding:2px 8px; border-radius:4px; font-weight:bold;">${riskData.maintenance_cost || 'Varies'}</span></p>
+                        <p style="color:#475569; margin-bottom:1rem;">${product.maintenance_cost_analysis || 'Out of warranty repairs can be expensive. Consider robust alternatives.'}</p>
+                        ${product.who_should_avoid ? `<p style="color:var(--danger-color); font-weight:bold;">🚫 Not recommended for: ${product.who_should_avoid}</p>` : ''}
                     </div>
+
+                    ${faqHtml}
                 </div>
 
                 <div class="right-col">
+                    
                     <div class="affiliate-box">
-                        <div style="font-size:0.9rem; font-weight:900; color:var(--accent-color); text-transform:uppercase; margin-bottom:8px; letter-spacing:1px;">✅ The Smart Choice</div>
-                        <h3 style="color:#0f172a; font-size:1.6rem; margin-bottom:0.5rem; line-height:1.2;">Buy This Instead</h3>
-                        <p style="color:#64748b; font-size:1rem; margin-bottom:1.5rem;">Avoid the headache. This is the community-verified reliable alternative.</p>
+                        <div style="font-size:0.85rem; font-weight:bold; color:var(--accent-color); text-transform:uppercase; margin-bottom:5px;">✅ The Smart Choice</div>
+                        <h3 style="color:#0f172a; font-size:1.4rem; margin-bottom:0.5rem;">Buy This Instead</h3>
+                        <p style="color:#64748b; font-size:0.95rem; margin-bottom:1.5rem;">Avoid the headache. This is the reliable alternative.</p>
                         
-                        <div style="background:#f8fafc; padding:1.2rem; border-radius:8px; text-align:left; border:1px solid #e2e8f0;">
-                            <strong style="color:#1d4ed8; font-size:1.1rem; display:block; margin-bottom:12px; border-bottom:1px solid #cbd5e1; padding-bottom:8px;">🏆 Premium Alternative Pick</strong>
-                            <div style="font-weight:900; font-size:1.3rem; margin-bottom:8px; color:#0f172a;">${recs.primary?.name || 'Better Option'}</div>
+                        <div style="background:#f8fafc; padding:1rem; border-radius:8px; text-align:left; border:1px solid #e2e8f0;">
+                            <strong style="color:#1d4ed8; font-size:1.1rem; display:block; margin-bottom:10px;">🏆 Top Alternative Pick</strong>
+                            <div style="font-weight:800; font-size:1.2rem; margin-bottom:5px;">${recs.primary?.name || 'Premium Alternative'}</div>
                             <ul style="list-style:none; padding:0; margin-bottom:15px;">
-                                ${(recs.primary?.benefits || ['Superior build quality', 'No known thermal issues']).map(b => `<li style="font-size:0.95rem; color:#475569; margin-bottom:6px; display:flex; gap:8px;"><span>✔️</span> <span>${b}</span></li>`).join('')}
+                                ${(recs.primary?.benefits || ['Better thermals', 'Higher reliability']).map(b => `<li style="font-size:0.9rem; color:#475569; margin-bottom:4px;">✔️ ${b}</li>`).join('')}
                             </ul>
                             <a href="${linkSolver}" target="_blank" rel="nofollow sponsored" class="amz-btn" style="margin-top:0;">Check Price on Amazon</a>
                         </div>
                         
                         <div style="text-align:left; margin-top:1.5rem; padding:0 5px;">
-                            <strong style="color:#64748b; font-size:0.9rem; text-transform:uppercase; letter-spacing:1px;">🏷️ Budget Value Pick</strong>
-                            <div style="font-weight:800; font-size:1.1rem; margin-top:5px; color:#0f172a;">${recs.secondary?.name || 'Value Alternative'}</div>
-                            <p style="font-size:0.9rem; color:#64748b; margin-top:4px;">${recs.secondary?.reason || 'Best bang for the buck.'}</p>
-                            <a href="${linkValue}" target="_blank" rel="nofollow sponsored" style="color:var(--accent-color); font-weight:bold; text-decoration:none; display:inline-block; margin-top:8px;">View Details &rarr;</a>
+                            <strong style="color:#475569; font-size:0.9rem; text-transform:uppercase;">🏷️ Budget Value Pick</strong>
+                            <div style="font-weight:bold; margin-top:3px;">${recs.secondary?.name || 'Value Alternative'}</div>
+                            <a href="${linkValue}" target="_blank" rel="nofollow sponsored" style="color:var(--accent-color); font-weight:bold; text-decoration:none; display:inline-block; margin-top:5px;">View Value Pick &rarr;</a>
                         </div>
                     </div>
 
                     <div class="panel" style="padding:1.5rem;">
-                        <h2 style="font-size:1.3rem; margin-bottom:1rem; border:none; padding:0;">💊 The Antidote</h2>
-                        <p style="font-size:0.95rem; color:#64748b; margin-bottom:1.5rem; line-height:1.5;">Already own it? You <strong>MUST</strong> use these accessories to delay hardware failure.</p>
+                        <h2 style="font-size:1.2rem; margin-bottom:1rem; border:none; padding:0;">💊 The Antidote</h2>
+                        <p style="font-size:0.9rem; color:#64748b; margin-bottom:1.5rem;">Already own it? You MUST use these to prevent known failures.</p>
                         
                         <a href="${linkAnti1}" target="_blank" rel="nofollow sponsored" class="acc-btn">
-                            <span style="font-weight:900; font-size:1.1rem; margin-bottom:6px;">🛡️ ${accessories[0]?.name || 'Protective Gear'}</span>
-                            <span style="font-size:0.9rem; color:#64748b; line-height:1.4;">${accessories[0]?.desc || 'Essential to prevent long-term damage.'}</span>
+                            <span style="font-weight:800; margin-bottom:4px;">🛡️ ${accessories[0]?.name || 'Protective Gear'}</span>
+                            <span style="font-size:0.85rem;">${accessories[0]?.desc || 'Essential to extend lifespan.'}</span>
                         </a>
                         
                         <a href="${linkAnti2}" target="_blank" rel="nofollow sponsored" class="acc-btn" style="margin-bottom:0;">
-                            <span style="font-weight:900; font-size:1.1rem; margin-bottom:6px;">🔧 ${accessories[1]?.name || 'Maintenance Fix'}</span>
-                            <span style="font-size:0.9rem; color:#64748b; line-height:1.4;">${accessories[1]?.desc || 'Bypass known hardware design flaws.'}</span>
+                            <span style="font-weight:800; margin-bottom:4px;">🔧 ${accessories[1]?.name || 'Maintenance Fix'}</span>
+                            <span style="font-size:0.85rem;">${accessories[1]?.desc || 'Bypass known hardware flaws.'}</span>
                         </a>
                     </div>
                 </div>
             </div>
+            
+            <div class="community-action" style="background: #fff; padding: 2.5rem 1rem; border-radius: 12px; text-align: center; border: 1px dashed #cbd5e1; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.02);">
+                <h3 style="font-size:1.4rem; color:#0f172a; margin-bottom:0.5rem;">🕵️‍♂️ Still Undecided?</h3>
+                <p style="color: #64748b; margin-bottom: 1.5rem; font-size:1.05rem;">Don't gamble with your wallet. Get a second opinion from the community.</p>
+                <a href="mailto:?subject=Question about ${product.model}&body=Hi TechDetective, I'm thinking about buying the ${product.model} but I'm worried about..." class="btn btn-primary" style="padding: 14px 28px; font-size:1.1rem; box-shadow: 0 4px 6px rgba(37,99,235,0.2);">📩 Ask the Detective</a>
+            </div>
         </main>
-        <footer style="margin-top:0; border-top:none;">
-            <p>&copy; 2026 TechDetective.</p>
-        </footer>
     `;
 }
