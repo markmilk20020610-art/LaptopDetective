@@ -16,13 +16,28 @@
 
     <main class="container">
         <section class="controls">
-            <input type="text" id="searchInput" placeholder="Search for a laptop or printer... (e.g. XPS 13)">
-            <div class="filters">
-                <button class="filter-btn active" data-filter="all">All Devices</button>
-                <button class="filter-btn" data-filter="laptop">Laptops</button>
-                <button class="filter-btn" data-filter="3d_printer">3D Printers</button>
+            <div class="search-bar-container">
+                <input type="text" id="searchInput" placeholder="Search for a laptop or printer... (e.g. XPS 13)">
+            </div>
+            
+            <div class="filter-sort-row">
+                <div class="filters">
+                    <button class="filter-btn active" data-filter="all">All Devices</button>
+                    <button class="filter-btn" data-filter="laptop">Laptops</button>
+                    <button class="filter-btn" data-filter="3d_printer">3D Printers</button>
+                </div>
+                
+                <div class="sort-container">
+                    <select id="sortSelect" class="sort-dropdown">
+                        <option value="default">Sort by: Default</option>
+                        <option value="risk-high">Risk Score: High to Low</option>
+                        <option value="risk-low">Risk Score: Low to High</option>
+                    </select>
+                </div>
             </div>
         </section>
+
+        <div id="results-stats" class="results-stats">Showing all products...</div>
 
         <section id="product-grid" class="grid-container">
             </section>
