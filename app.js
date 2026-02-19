@@ -1,4 +1,4 @@
-// app.js - v45.18 (Fixed Flickering + Restored FAQ & Email Module)
+// app.js - v45.19 (Auto-FAQ Engine + Email Restored + No Flicker)
 
 // Global State
 let currentCategory = 'all';
@@ -7,17 +7,15 @@ let currentSort = 'default';
 
 document.addEventListener('DOMContentLoaded', () => {
     if (typeof productsDB === 'undefined' || !Array.isArray(productsDB)) {
-        document.getElementById('app').innerHTML = '<h2 style="text-align:center; color:red; margin-top:100px;">Error: data.js database file is missing. Please ensure it is in the same folder.</h2>';
+        document.getElementById('app').innerHTML = '<h2 style="text-align:center; color:red; margin-top:100px;">Error: data.js database file is missing.</h2>';
         return;
     }
-    
     window.addEventListener('hashchange', handleRoute);
     handleRoute();
 });
 
 function handleRoute() {
     const hash = window.location.hash;
-    
     if (!hash || hash === '#' || hash === '') {
         renderHome();
         window.scrollTo(0, 0);
@@ -115,7 +113,7 @@ function renderGrid() {
         return;
     }
 
-    // 防死循环 SVG 占位图
+    // 防闪烁机制：本地生成的无网络依赖占位图
     const fallbackImage = "data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22250%22%3E%3Crect width=%22400%22 height=%22250%22 fill=%22%23e2e8f0%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22sans-serif%22 font-size=%2216%22 fill=%22%2364748b%22%3ENo Image%3C/text%3E%3C/svg%3E";
 
     let cardsHtml = '';
@@ -171,26 +169,44 @@ function renderProduct(product) {
     `).join('');
     if(!issuesHtml) issuesHtml = '<p style="color:#64748b;">No specific component issues logged yet.</p>';
 
-    // 提取 FAQ (如果有的话)
-    const faqs = product.faq_section || [];
-    let faqHtml = '';
-    if (faqs.length > 0) {
-        faqHtml = `
-            <div class="panel" style="margin-top:1.5rem;">
-                <h2>Frequently Asked Questions</h2>
-                <div style="display:flex; flex-direction:column; gap:1.5rem;">
-                    ${faqs.map(faq => `
-                        <div>
-                            <strong style="display:block; color:#0f172a; margin-bottom:0.4rem; font-size:1.05rem;">Q: ${faq.q}</strong>
-                            <p style="color:#475569; margin:0; line-height:1.6;">A: ${faq.a}</p>
-                        </div>
-                    `).join('')}
-                </div>
-            </div>
-        `;
+    // --- 🚀 核心黑科技：智能生成 FAQ (如果数据里没写) ---
+    let faqs = product.faq_section || [];
+    if (faqs.length === 0) {
+        const riskName = riskData.long_term_risk || product.description_summary || "hardware failure";
+        const maintCost = riskData.maintenance_cost || "Varies";
+        const altName = recs.primary?.name || "a premium alternative";
+        
+        faqs = [
+            {
+                q: `What is the most common issue with the ${product.model}?`,
+                a: `Based on aggregated repair data, the most critical issue is <strong>${riskName.toLowerCase()}</strong>. Users frequently report failures related to this component after the warranty expires.`
+            },
+            {
+                q: `Is the ${product.model} expensive to repair?`,
+                a: `The estimated maintenance cost is considered <strong>${maintCost}</strong>. ${product.maintenance_cost_analysis || "Out-of-warranty repairs can be costly, so we strongly recommend preventive maintenance or extending your warranty."}`
+            },
+            {
+                q: `What should I buy instead of the ${product.model}?`,
+                a: `To avoid these known hardware risks, we highly recommend the <strong>${altName}</strong>. It offers a much lower failure rate and avoids the specific design flaws found in this model.`
+            }
+        ];
     }
 
-    // 防死循环 SVG 占位图
+    const faqHtml = `
+        <div class="panel" style="margin-top:1.5rem;">
+            <h2>💡 Frequently Asked Questions</h2>
+            <div style="display:flex; flex-direction:column; gap:1rem;">
+                ${faqs.map(faq => `
+                    <div style="background: #f8fafc; padding: 1.2rem; border-radius: 8px; border-left: 4px solid var(--accent-color);">
+                        <strong style="display:block; color:#0f172a; margin-bottom:0.4rem; font-size:1.05rem;">Q: ${faq.q}</strong>
+                        <p style="color:#475569; margin:0; line-height:1.6;">A: ${faq.a}</p>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+    `;
+
+    // 防闪烁本地图
     const fallbackImage = "data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22250%22%3E%3Crect width=%22400%22 height=%22250%22 fill=%22%23e2e8f0%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22sans-serif%22 font-size=%2216%22 fill=%22%2364748b%22%3ENo Image%3C/text%3E%3C/svg%3E";
 
     const linkSolver = links.solver || "#";
@@ -303,11 +319,11 @@ function renderProduct(product) {
                     </div>
                 </div>
             </div>
-            
-            <div class="community-action" style="background: #fff; padding: 2.5rem 1rem; border-radius: 12px; text-align: center; border: 1px dashed #cbd5e1; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.02);">
+
+            <div class="community-action" style="background: #fff; padding: 2.5rem 1rem; border-radius: 12px; text-align: center; border: 1px dashed #cbd5e1; margin-bottom: 3rem; box-shadow: 0 4px 6px rgba(0,0,0,0.02);">
                 <h3 style="font-size:1.4rem; color:#0f172a; margin-bottom:0.5rem;">🕵️‍♂️ Still Undecided?</h3>
                 <p style="color: #64748b; margin-bottom: 1.5rem; font-size:1.05rem;">Don't gamble with your wallet. Get a second opinion from the community.</p>
-                <a href="mailto:?subject=Question about ${product.model}&body=Hi TechDetective, I'm thinking about buying the ${product.model} but I'm worried about..." class="btn btn-primary" style="padding: 14px 28px; font-size:1.1rem; box-shadow: 0 4px 6px rgba(37,99,235,0.2);">📩 Ask the Detective</a>
+                <a href="mailto:contact@yourwebsite.com?subject=Question about ${product.model}&body=Hi TechDetective, I'm thinking about buying the ${product.model} but I'm worried about..." class="btn btn-primary" style="padding: 14px 28px; font-size:1.1rem; box-shadow: 0 4px 6px rgba(37,99,235,0.2);">📩 Ask the Detective</a>
             </div>
         </main>
     `;
