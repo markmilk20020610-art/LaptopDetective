@@ -1,51 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tech Reliability DB | Avoid The Traps</title>
+    <title>技术可靠性与风险数据库 | 避坑指南</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header class="site-header">
-        <div class="header-content">
-            <h1>🛠️ Tech Reliability & Risk DB</h1>
-            <p>Don't buy a ticking time bomb. Check long-term failure rates before you buy.</p>
-        </div>
-    </header>
-
-    <main class="container">
-        <section class="controls">
-            <div class="search-bar-container">
-                <input type="text" id="searchInput" placeholder="Search for a laptop or printer... (e.g. XPS 13)">
-            </div>
-            
-            <div class="filter-sort-row">
-                <div class="filters">
-                    <button class="filter-btn active" data-filter="all">All Devices</button>
-                    <button class="filter-btn" data-filter="laptop">Laptops</button>
-                    <button class="filter-btn" data-filter="3d_printer">3D Printers</button>
-                </div>
-                
-                <div class="sort-container">
-                    <select id="sortSelect" class="sort-dropdown">
-                        <option value="default">Sort by: Default</option>
-                        <option value="risk-high">Risk Score: High to Low</option>
-                        <option value="risk-low">Risk Score: Low to High</option>
-                    </select>
-                </div>
-            </div>
-        </section>
-
-        <div id="results-stats" class="results-stats">Showing all products...</div>
-
-        <section id="product-grid" class="grid-container">
-            </section>
-    </main>
-
-    <footer>
-        <p>© 2026 Tech Reliability DB. We earn a commission if you purchase through our affiliate links.</p>
-    </footer>
+    <div id="app"></div>
 
     <script src="data.js"></script>
     <script src="app.js"></script>
